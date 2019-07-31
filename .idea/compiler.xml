@@ -9,5 +9,8 @@
         <module name="JFunctional" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="JFunctional" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
