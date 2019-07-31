@@ -1,4 +1,4 @@
-package com.github.gg.function;
+package com.github.gg_a.function;
 
 /**
  * Represents a function that accepts 1 argument and produces a result
