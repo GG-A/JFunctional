@@ -19,8 +19,8 @@
     <url>https://github.com/GG-A/JFunctional</url>
     <licenses>
         <license>
-            <name>MIT License</name>
-            <url>https://github.com/GG-A/JFunctional/blob/master/LICENSE</url>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
     <developers>
