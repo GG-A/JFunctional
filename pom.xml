@@ -6,7 +6,7 @@
 
     <groupId>com.github.GG-A</groupId>
     <artifactId>JFunctional</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
