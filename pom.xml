@@ -6,7 +6,13 @@
 
     <groupId>com.github.GG-A</groupId>
     <artifactId>JFunctional</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
+
+    <packaging>jar</packaging>
+    <name>JFunctional</name>
+    <description>Functional Programming in Java</description>
+    <url>https://github.com/GG-A/JFunctional</url>
+
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -14,9 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <name>JFunctional</name>
-    <description>Functional Programming in Java</description>
-    <url>https://github.com/GG-A/JFunctional</url>
+
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -49,6 +53,17 @@
 
     <build>
         <plugins>
+            <!-- compiler -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>        <!--3.8.1 更新于：2019-05-02 -->
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
             <!-- Source -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
