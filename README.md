@@ -74,6 +74,18 @@ Java函数式编程接口
 | **RT8** | 接收8个参数，有返回值且抛出异常 (a function that accepts 8 arguments and produces a result, and will throw exception) | 
 | **RT9** | 接收9个参数，有返回值且抛出异常 (a function that accepts 9 arguments and produces a result, and will throw exception) | 
 
+## IntelliJ IDEA 智能提示
+由于类名过于简单，导致 IntelliJ IDEA 智能提示不是很友好，对于**只有一个字母的类名**，无法智能提示，解决办法：  
+1. 使用智能补全快捷键（设置方法，进入IDEA快捷键设置Keymap：**Main menu > Code > Completion > Basic**），我设置的快捷键是：**alt + /** ，以 **V1** 为例：  
+a. 输入 v1，会发现没有 V1 类的提示  
+![IDEA 智能提示](https://github.com/GG-A/JFunctional/blob/master/images/IDEA%20Smart%20tips%201.png)  
+b. 此时，按下 **alt + /**，就会有 V1 类的提示  
+![IDEA 智能提示](https://github.com/GG-A/JFunctional/blob/master/images/IDEA%20Smart%20tips%202.png)  
+
+2. 手动导入`function`下的所有类（但是对于**只有一个字母的类名**依然无法提示，只是手动输入的时候，避免报错）  
+`import com.github.gg_a.function.*;`
+
+
 ## 集成方式
 ### Maven
 ```
@@ -86,6 +98,9 @@ Java函数式编程接口
 
 ### Gradle
 `implementation 'com.github.GG-A:JFunctional:0.0.4'`
+
+## 点个赞
+如果你喜欢 JFunctional，感觉 JFunctional 帮助到了你，可以点右上角 **Star** 支持一下哦，感谢感谢！
 
 ## Copyright
 
