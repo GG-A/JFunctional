@@ -75,14 +75,14 @@ Java函数式编程接口
 | **RT9** | 接收9个参数，有返回值且抛出异常 (a function that accepts 9 arguments and produces a result, and will throw exception) | 
 
 ## IntelliJ IDEA 智能提示
-由于类名过于简单，导致 IntelliJ IDEA 智能提示不是很友好，对于**只有一个字母的类名**，无法智能提示，解决办法：  
+由于接口名过于简单，导致 IntelliJ IDEA 智能提示不是很友好，对于**只有一个字母的接口名**，可能无法智能提示，解决办法：  
 1. 使用智能补全快捷键（设置方法，进入IDEA快捷键设置Keymap：**Main menu > Code > Completion > Basic**），我设置的快捷键是：**alt + /** ，以 **V1** 为例：  
-a. 输入 v1，会发现没有 V1 类的提示  
+a. 输入 v1，会发现没有 **V1 接口**的提示  
 ![IDEA 智能提示](https://github.com/GG-A/JFunctional/blob/master/images/IDEA%20Smart%20tips%201.png)  
-b. 此时，按下 **alt + /**，就会有 V1 类的提示  
+b. 此时，按下 **alt + /**，就会有 **V1 接口**的提示  
 ![IDEA 智能提示](https://github.com/GG-A/JFunctional/blob/master/images/IDEA%20Smart%20tips%202.png)  
 
-2. 手动导入`function`下的所有类（但是对于**只有一个字母的类名**依然无法提示，只是手动输入的时候，避免报错）  
+2. 手动导入`function`下的所有接口（但是对于**只有一个字母的接口名**依然无法智能提示，只是手动输入的时候，可以避免出现没有导包的错误）  
 `import com.github.gg_a.function.*;`
 
 
