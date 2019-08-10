@@ -82,7 +82,7 @@ a. 输入 v1，会发现没有 **V1 接口**的提示
 b. 此时，按下 **alt + /**，就会有 **V1 接口**的提示  
 ![IDEA 智能提示](https://github.com/GG-A/JFunctional/blob/master/images/IDEA%20Smart%20tips%202.png)  
 
-2. 手动导入`function`下的所有接口（但是对于**只有一个字母的接口名**依然无法智能提示，只是手动输入的时候，可以避免出现没有导包的错误）  
+2. 手动导入`function`下的所有接口（但是对于**只有一个字母的接口名**依然无法智能提示，只是手动输入的时候，可以避免出现**没有导包的错误**）  
 `import com.github.gg_a.function.*;`
 
 
@@ -99,7 +99,7 @@ b. 此时，按下 **alt + /**，就会有 **V1 接口**的提示
 ### Gradle
 `implementation 'com.github.GG-A:JFunctional:0.0.4'`
 
-## 点个赞
+## 点个赞哟
 如果你喜欢 JFunctional，感觉 JFunctional 帮助到了你，可以点右上角 **Star** 支持一下哦，感谢感谢！
 
 ## Copyright
