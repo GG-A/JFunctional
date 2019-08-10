@@ -32,32 +32,32 @@ Java函数式编程接口
 以下是4种类别的接口说明：
 
 | Vn | 含义 |
-| :----:| :----- |
+| :----:| :----: |
 | **V0** | 无参数，无返回值 (a function that accepts 0 argument and returns no result) | 
-| **V1** | 接收1个参数，无返回值 (a function that accepts 1 argument and returns no result) | 
+| **V1** | 1个参数，无返回值 (a function that accepts 1 argument and returns no result) | 
 | **...** | ...... | 
-| **V9** | 接收9个参数，无返回值 (a function that accepts 9 arguments and returns no result) | 
+| **V9** | 9个参数，无返回值 (a function that accepts 9 arguments and returns no result) | 
 
 | Rn | 含义 |
-| :----:| :----- |
+| :----:| :----: |
 | **R0** | 无参数，但有返回值 (a function that accepts 0 argument and produces a result) | 
-| **R1** | 接收1个参数，且有返回值 (a function that accepts 1 argument and produces a result) | 
+| **R1** | 1个参数，且有返回值 (a function that accepts 1 argument and produces a result) | 
 | **...** | ...... | 
-| **R9** | 接收9个参数，且有返回值 (a function that accepts 9 arguments and produces a result) | 
+| **R9** | 9个参数，且有返回值 (a function that accepts 9 arguments and produces a result) | 
 
 | VTn | 含义 |
-| :----:| :----- |
-| **VT0** | 无参数，无返回值且抛出异常 (a function that accepts 0 argument and returns no result, and will throw exception) | 
-| **VT1** | 接收1个参数，无返回值且抛出异常 (a function that accepts 1 argument and returns no result, and will throw exception) | 
+| :----:| :----: |
+| **VT0** | 无参数，无返回值且抛出异常 (accepts 0 argument and returns no result, and will throw exception) | 
+| **VT1** | 1个参数，无返回值且抛出异常 (accepts 1 argument and returns no result, and will throw exception) | 
 | **...** | ...... | 
-| **VT9** | 接收9个参数，无返回值且抛出异常 (a function that accepts 9 arguments and returns no result, and will throw exception) | 
+| **VT9** | 9个参数，无返回值且抛出异常 (accepts 9 arguments and returns no result, and will throw exception) | 
 
 | RTn | 含义 |
-| :----:| :----- |
-| **RT0** | 无参数，但有返回值且抛出异常 (a function that accepts 0 argument and produces a result, and will throw exception) | 
-| **RT1** | 接收1个参数，有返回值且抛出异常 (a function that accepts 1 argument and produces a result, and will throw exception) | 
+| :----:| :----: |
+| **RT0** | 无参数，但有返回值且抛出异常 (accepts 0 argument and produces a result, and will throw exception) | 
+| **RT1** | 1个参数，有返回值且抛出异常 (accepts 1 argument and produces a result, and will throw exception) | 
 | **...** | ...... | 
-| **RT9** | 接收9个参数，有返回值且抛出异常 (a function that accepts 9 arguments and produces a result, and will throw exception) | 
+| **RT9** | 9个参数，有返回值且抛出异常 (accepts 9 arguments and produces a result, and will throw exception) | 
 
 ## IntelliJ IDEA 智能提示
 由于接口名过于简单，导致 IntelliJ IDEA 智能提示不是很友好，对于**只有一个字母的接口名**，可能无法智能提示，解决办法：  
