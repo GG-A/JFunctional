@@ -92,12 +92,12 @@ b. 此时，按下 **alt + /**，就会有 **V1 接口**的提示
 <dependency>
   <groupId>com.github.GG-A</groupId>
   <artifactId>JFunctional</artifactId>
-  <version>0.0.4</version>
+  <version>0.0.5</version>
 </dependency>
 ```
 
 ### Gradle
-`implementation 'com.github.GG-A:JFunctional:0.0.4'`
+`implementation 'com.github.GG-A:JFunctional:0.0.5'`
 
 ## 点个赞哟
 如果你喜欢 JFunctional，感觉 JFunctional 帮助到了你，可以点右上角 **Star** 支持一下哦，感谢感谢！
