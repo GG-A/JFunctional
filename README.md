@@ -29,49 +29,34 @@ Java函数式编程接口
 + **RT** (**R**eturn and **T**hrow exception)系：表示有返回值且抛出异常的函数
 
 采用数字结尾，数字表示的是函数的参数个数，分别提供 **0 ~ 9** 个参数的函数，方便记忆。
-以下是所有40个接口说明：
+以下是4种类别的接口说明：
 
-| 函数接口 | 含义 |
+| Vn | 含义 |
 | :----:| :----- |
 | **V0** | 无参数，无返回值 (a function that accepts 0 argument and returns no result) | 
 | **V1** | 接收1个参数，无返回值 (a function that accepts 1 argument and returns no result) | 
-| **V2** | 接收2个参数，无返回值 (a function that accepts 2 arguments and returns no result) | 
-| **V3** | 接收3个参数，无返回值 (a function that accepts 3 arguments and returns no result) | 
-| **V4** | 接收4个参数，无返回值 (a function that accepts 4 arguments and returns no result) | 
-| **V5** | 接收5个参数，无返回值 (a function that accepts 5 arguments and returns no result) | 
-| **V6** | 接收6个参数，无返回值 (a function that accepts 6 arguments and returns no result) | 
-| **V7** | 接收7个参数，无返回值 (a function that accepts 7 arguments and returns no result) | 
-| **V8** | 接收8个参数，无返回值 (a function that accepts 8 arguments and returns no result) | 
+| **...** | ...... | 
 | **V9** | 接收9个参数，无返回值 (a function that accepts 9 arguments and returns no result) | 
+
+| Rn | 含义 |
+| :----:| :----- |
 | **R0** | 无参数，但有返回值 (a function that accepts 0 argument and produces a result) | 
 | **R1** | 接收1个参数，且有返回值 (a function that accepts 1 argument and produces a result) | 
-| **R2** | 接收2个参数，且有返回值 (a function that accepts 2 arguments and produces a result) | 
-| **R3** | 接收3个参数，且有返回值 (a function that accepts 3 arguments and produces a result) | 
-| **R4** | 接收4个参数，且有返回值 (a function that accepts 4 arguments and produces a result) | 
-| **R5** | 接收5个参数，且有返回值 (a function that accepts 5 arguments and produces a result) | 
-| **R6** | 接收6个参数，且有返回值 (a function that accepts 6 arguments and produces a result) | 
-| **R7** | 接收7个参数，且有返回值 (a function that accepts 7 arguments and produces a result) | 
-| **R8** | 接收8个参数，且有返回值 (a function that accepts 8 arguments and produces a result) | 
+| **...** | ...... | 
 | **R9** | 接收9个参数，且有返回值 (a function that accepts 9 arguments and produces a result) | 
+
+| VTn | 含义 |
+| :----:| :----- |
 | **VT0** | 无参数，无返回值且抛出异常 (a function that accepts 0 argument and returns no result, and will throw exception) | 
 | **VT1** | 接收1个参数，无返回值且抛出异常 (a function that accepts 1 argument and returns no result, and will throw exception) | 
-| **VT2** | 接收2个参数，无返回值且抛出异常 (a function that accepts 2 arguments and returns no result, and will throw exception) | 
-| **VT3** | 接收3个参数，无返回值且抛出异常 (a function that accepts 3 arguments and returns no result, and will throw exception) | 
-| **VT4** | 接收4个参数，无返回值且抛出异常 (a function that accepts 4 arguments and returns no result, and will throw exception) | 
-| **VT5** | 接收5个参数，无返回值且抛出异常 (a function that accepts 5 arguments and returns no result, and will throw exception) | 
-| **VT6** | 接收6个参数，无返回值且抛出异常 (a function that accepts 6 arguments and returns no result, and will throw exception) | 
-| **VT7** | 接收7个参数，无返回值且抛出异常 (a function that accepts 7 arguments and returns no result, and will throw exception) | 
-| **VT8** | 接收8个参数，无返回值且抛出异常 (a function that accepts 8 arguments and returns no result, and will throw exception) | 
+| **...** | ...... | 
 | **VT9** | 接收9个参数，无返回值且抛出异常 (a function that accepts 9 arguments and returns no result, and will throw exception) | 
+
+| RTn | 含义 |
+| :----:| :----- |
 | **RT0** | 无参数，但有返回值且抛出异常 (a function that accepts 0 argument and produces a result, and will throw exception) | 
 | **RT1** | 接收1个参数，有返回值且抛出异常 (a function that accepts 1 argument and produces a result, and will throw exception) | 
-| **RT2** | 接收2个参数，有返回值且抛出异常 (a function that accepts 2 arguments and produces a result, and will throw exception) | 
-| **RT3** | 接收3个参数，有返回值且抛出异常 (a function that accepts 3 arguments and produces a result, and will throw exception) | 
-| **RT4** | 接收4个参数，有返回值且抛出异常 (a function that accepts 4 arguments and produces a result, and will throw exception) | 
-| **RT5** | 接收5个参数，有返回值且抛出异常 (a function that accepts 5 arguments and produces a result, and will throw exception) | 
-| **RT6** | 接收6个参数，有返回值且抛出异常 (a function that accepts 6 arguments and produces a result, and will throw exception) | 
-| **RT7** | 接收7个参数，有返回值且抛出异常 (a function that accepts 7 arguments and produces a result, and will throw exception) | 
-| **RT8** | 接收8个参数，有返回值且抛出异常 (a function that accepts 8 arguments and produces a result, and will throw exception) | 
+| **...** | ...... | 
 | **RT9** | 接收9个参数，有返回值且抛出异常 (a function that accepts 9 arguments and produces a result, and will throw exception) | 
 
 ## IntelliJ IDEA 智能提示
