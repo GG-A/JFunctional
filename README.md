@@ -104,7 +104,7 @@ b. 此时，按下 **alt + /**，就会有 **V1 接口**的提示
 
 ## Copyright
 
-   **Copyright 2019 GG-A**, <2018158885@qq.com>
+   **Copyright 2019 GG-A**, 2018158885@qq.com, https://github.com/GG-A/JFunctional
  
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
