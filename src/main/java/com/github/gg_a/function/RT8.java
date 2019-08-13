@@ -16,7 +16,7 @@
 package com.github.gg_a.function;
 
 /**
- * Represents a function that accepts 8 arguments and produces a result, and will throw exception
+ * Represents a function that accepts 8 arguments and produces a result, and will throw exception<BR/>
  * 表示一个接收 8个参数 并返回结果且抛出异常的函数
  *
  * @param <T1> first param type  第1个参数类型
