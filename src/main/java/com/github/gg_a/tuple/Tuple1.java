@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A tuple of 1 element<BR/>
+ * A tuple of 1 element<br>
  * 1个元素的元组
  */
 public class Tuple1<T> implements Tuple {
@@ -51,7 +51,7 @@ public class Tuple1<T> implements Tuple {
     }
 
     /**
-     * set alias for tuple's elements. <BR/>
+     * set alias for tuple's elements. <br>
      * 为元组的每个元素设置别名
      *
      * @param alias 别名

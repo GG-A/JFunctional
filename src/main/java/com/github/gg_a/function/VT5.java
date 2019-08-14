@@ -16,7 +16,7 @@
 package com.github.gg_a.function;
 
 /**
- * Represents a function that accepts 5 arguments and returns no result, and will throw exception<BR/>
+ * Represents a function that accepts 5 arguments and returns no result, and will throw exception<br>
  * 表示一个接收 5个参数 不返回任何结果且抛出异常的函数
  *
  * @param <T1> first param type  第1个参数类型

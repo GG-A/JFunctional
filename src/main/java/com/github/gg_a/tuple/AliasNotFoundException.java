@@ -16,7 +16,7 @@
 package com.github.gg_a.tuple;
 
 /**
- * Get element by alias in tuple, when the alias is not found, will throw AliasNotFoundException<BR/>
+ * Get element by alias in tuple, when the alias is not found, will throw AliasNotFoundException<br>
  * 通过别名找元组（Tuple）中的元素，别名找不到时将会抛出此异常
  */
 public class AliasNotFoundException extends RuntimeException {

@@ -16,7 +16,7 @@
 package com.github.gg_a.tuple;
 
 /**
- * A tuple of no element<BR/>
+ * A tuple of no element<br>
  * 一个没有元素的元组
  */
 public class Tuple0 implements Tuple {

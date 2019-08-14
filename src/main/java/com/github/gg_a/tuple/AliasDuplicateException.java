@@ -16,7 +16,7 @@
 package com.github.gg_a.tuple;
 
 /**
- * named for properties of tuple, when the alias is duplication, will throw AliasDuplicateException<BR/>
+ * named for properties of tuple, when the alias is duplication, will throw AliasDuplicateException<br>
  * 为元组（tuple）的属性起别名，别名重复时将会抛出此异常
  */
 public class AliasDuplicateException extends RuntimeException {

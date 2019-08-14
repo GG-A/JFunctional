@@ -16,7 +16,7 @@
 package com.github.gg_a.function;
 
 /**
- * Represents a function that accepts 6 arguments and produces a result<BR/>
+ * Represents a function that accepts 6 arguments and produces a result<br>
  * 表示一个接收 6个参数 并返回结果的函数
  *
  * @param <T1> first param type  第1个参数类型

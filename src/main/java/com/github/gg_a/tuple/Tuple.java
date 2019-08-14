@@ -20,15 +20,15 @@ package com.github.gg_a.tuple;
  */
 public interface Tuple {
     /**
-     * The size of this Tuple.<BR/>
+     * The size of this Tuple.<br>
      * 元组的参数数量
      * @return 参数数量
      */
     int arity();
 
     /**
-     * Get tuple element value by alias, it will return `null` when alias not found.<BR/>
-     * 通过别名获取元组元素的值，如果不存在该别名，将抛出异常 AliasNotFoundException。<BR/>
+     * Get tuple element value by alias, it will return `null` when alias not found.<br>
+     * 通过别名获取元组元素的值，如果不存在该别名，将抛出异常 AliasNotFoundException。<br>
      * 注：`_`（下划线） 在 Java 9 中被定义成了关键字，无法单独使用 `_`（下划线） 作为标识符。
      * @param alias tuple element alias 别名
      * @param <R> return type 返回值类型
@@ -38,22 +38,24 @@ public interface Tuple {
     <R> R __(String alias);
 
     /**
-     * The nth element of this tuple<BR/>
+     * The nth element of this tuple<br>
      * 从元组中取第n个元素
      * @param n index 序号
+     * @param <R> return type 返回值类型
      * @return return value of sp
-     * @throws IndexOutOfBoundsException if the `n` is out of range(n < 0 || n >= arity).
-     *              当 n<0 或者 n>arity() 时，抛出异常。
+     * @throws IndexOutOfBoundsException if the `n` is out of range(n &lt; 0 || n &gt;= arity).
+     *              当 n &lt; 0 或者 n &gt;= arity() 时，抛出异常。
      */
     <R> R element(int n);
 
     /**
-     * The nth element with alias of this tuple<BR/>
+     * The nth element with alias of this tuple<br>
      * 从元组中取第n个元素（带别名）
-     * @param n
-     * @return
-     * @throws IndexOutOfBoundsException if the `n` is out of range(n < 0 || n >= arity).
-     *              当 n<0 或者 n>arity() 时，抛出异常。
+     * @param n index 序号
+     * @param <R> return type 返回值类型
+     * @return (alias, element)
+     * @throws IndexOutOfBoundsException if the `n` is out of range(n &lt; 0 || n &gt;= arity).
+     *              当 n &lt; 0 或者 n &gt;= arity() 时，抛出异常。
      */
     <R> Tuple2<String, R> elementWithAlias(int n);
 

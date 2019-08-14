@@ -16,7 +16,7 @@
 package com.github.gg_a.function;
 
 /**
- * Represents a function that accepts 0 argument and produces a result, and will throw exception<BR/>
+ * Represents a function that accepts 0 argument and produces a result, and will throw exception<br>
  * 表示一个不接收任何参数，但返回结果且抛出异常的函数
  *
  * @param <R> return type  返回值类型
