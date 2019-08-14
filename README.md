@@ -1,5 +1,7 @@
 # JFunctional
-Java函数式编程接口
+提供更简单更好用的Java函数式编程接口 (Java Functional Interface that more simpler and easier to use)  
+提供元组（tuple）类型支持
+
 
 ## JFunctional与函数式接口
 关于**函数式接口**，Java 8标准中也有提供，在`java.util.function`下，总共包含43个接口，这些接口是为了让**Lamdba函数表达式**使用的更加简便。总共包含以下几类接口：
@@ -59,6 +61,58 @@ Java函数式编程接口
 | **...** | ...... | 
 | **RT9** | 9个参数，有返回值且抛出异常 (accepts 9 arguments and produces a result, and will throw exception) | 
 
+## Tuple（元组）
+元组（Tuple）是用来表示一组数据的集合。与列表（List）类似，但与列表有着本质的区别：
+1. 元组可以存放不同类型的数据，而列表只能存放相同类型的数据
+2. 元组的值一经初始化，无法修改，只能查看
+
+Java中一直没有提供元组（Tuple）类型的支持，导致有些时候，简单的问题复杂化，特别是当**一个方法需要返回多个值，且这些值的类型不一致**时，采用元组（Tuple）可以提供极大的便利。为此，JFunctional 提供 **Tuple0 ~ Tuple9** 这 10 种 Tuple 类型。
+
+### Tuple（元组）使用
+- 创建元组与取出元组中的元素
+```
+Tuple3<String, Integer, Tuple2<String, String>> t3 = new Tuple3<>("zs", 20, new Tuple2<String, String>("123", "abc"));
+System.out.println(t3._1);    // 输出: zs
+System.out.println(t3._2);    // 输出: 20
+System.out.println(t3._3);    // 输出: ("123", "abc")
+```
+
+- 为元组中的元素起别名以及通过别名取元素
+```
+// 方式一
+Tuple2<String, Integer> t2 = new Tuple2<>("abc", 20).alias("name", "age");
+String name = (String)t2.__("name");    // 不使用泛型参数
+Integer age = t2.<Integer>__("age");    // 使用泛型参数
+System.out.println(name);               // 输出: abc
+System.out.println(age);                // 输出: 20
+
+// 方式二
+Tuple2<Integer, String> t21 = new Tuple2<>(19, "ls");
+t21.alias("id", "name");
+```
+
+- 遍历元组中的元素
+```
+Tuple2<String, Integer> t2 = new Tuple2<>("zs", 20).alias("name", "age");
+for (int i = 0; i < t2.arity(); i++) {
+    Object element = t2.element(i);                                     // 不带别名
+    System.out.println(element);                                        // 输出：zs  和   20
+    Tuple2<String, Object> elementWithAlias = t2.elementWithAlias(i);   // 带别名
+    System.out.println(elementWithAlias);                               // 输出：("name", "zs")   和  ("age", 20)
+}
+```
+
+- 方法中返回多个值
+```
+public Tuple2<String, Integer> returnMultipleValue(){
+    String name = "zs";
+    Integer age = 20;
+    
+    return new Tuple2<>(name, age);   // 把 String 和 Integer 的数据一起返回
+}
+```
+
+
 ## IntelliJ IDEA 智能提示
 由于接口名过于简单，导致 IntelliJ IDEA 智能提示不是很友好，对于**只有一个字母的接口名**，可能无法智能提示，解决办法：  
 1. 使用智能补全快捷键（设置方法，进入IDEA快捷键设置Keymap：**Main menu > Code > Completion > Basic**），我设置的快捷键是：**alt + /** ，以 **V1** 为例：  
@@ -77,19 +131,19 @@ b. 此时，按下 **alt + /**，就会有 **V1 接口**的提示
 <dependency>
   <groupId>com.github.GG-A</groupId>
   <artifactId>JFunctional</artifactId>
-  <version>0.0.5</version>
+  <version>0.1.0</version>
 </dependency>
 ```
 
 ### Gradle
-`implementation 'com.github.GG-A:JFunctional:0.0.5'`
+`implementation 'com.github.GG-A:JFunctional:0.1.0'`
 
 ## 点个赞哟
 如果你喜欢 JFunctional，感觉 JFunctional 帮助到了你，可以点右上角 **Star** 支持一下哦，感谢感谢！
 
 ## Copyright
 
-   **Copyright 2019 GG-A**, 2018158885@qq.com, https://github.com/GG-A/JFunctional
+   **Copyright 2019 GG-A**, 2018158885@qq.com
  
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
