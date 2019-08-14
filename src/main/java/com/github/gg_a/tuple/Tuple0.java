@@ -32,12 +32,12 @@ public class Tuple0 implements Tuple {
 
     @Override
     public <R> R element(int n) {
-        throw new IndexOutOfBoundsException(n);
+        throw new IndexOutOfBoundsException("Index out of range: " + n);
     }
 
     @Override
     public <R> Tuple2<String, R> elementWithAlias(int n) {
-        throw new IndexOutOfBoundsException(n);
+        throw new IndexOutOfBoundsException("Index out of range: " + n);
     }
 
 

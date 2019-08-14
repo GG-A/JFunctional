@@ -25,7 +25,7 @@ import java.util.Map;
 public class Tuple2<T1, T2> implements Tuple {
 
     private Map<String, Integer> alias_index = new HashMap<>();
-    private Map<Integer, String> Index_alias = new HashMap<>();
+    private Map<Integer, String> index_alias = new HashMap<>();
 
     /**
      * The 1st element of this tuple.
@@ -66,7 +66,7 @@ public class Tuple2<T1, T2> implements Tuple {
      */
     public Tuple2<T1, T2> alias(String alias1, String alias2){
         alias_index.clear();
-        Index_alias.clear();
+        index_alias.clear();
         putToMap(alias1, 0);
         putToMap(alias2, 1);
 
@@ -78,7 +78,7 @@ public class Tuple2<T1, T2> implements Tuple {
             throw new AliasDuplicateException("the alias `" + alias + "` is existed. " + "别名 `" + alias + "` 已经存在。 ");
         }else {
             alias_index.put(alias, index);
-            Index_alias.put(index, alias);
+            index_alias.put(index, alias);
         }
     }
 
@@ -90,13 +90,13 @@ public class Tuple2<T1, T2> implements Tuple {
             case 1:
                 return (R) _2;
             default:
-                throw new IndexOutOfBoundsException(n);
+                throw new IndexOutOfBoundsException("Index out of range: " + n);
         }
     }
 
     @Override
     public <R> Tuple2<String, R> elementWithAlias(int n) {
-        String alias = Index_alias.get(n);
+        String alias = index_alias.get(n);
         R element = this.<R>element(n);
 
         return new Tuple2<String, R>(alias, element);
@@ -113,13 +113,13 @@ public class Tuple2<T1, T2> implements Tuple {
         if (alias_index.isEmpty()) {
             return "(" + _1str + ", " + _2str + ")";
         }else {
-            return "(" + Index_alias.get(0) + ": " + _1str + ", "
-                    + Index_alias.get(1) + ": " + _2str + ")";
+            return "(" + index_alias.get(0) + ": " + _1str + ", "
+                    + index_alias.get(1) + ": " + _2str + ")";
         }
     }
 
     private <R> String _nStr(String nstr, R _n) {
-        // 如果 _n == null，那么无论 R 是什么类型，_n instanceof Object 都为 false
+        // 如果 _n == null，那么无论 R 是什么类型，`_n instanceof Object` 都为 false
         if (_n instanceof String){
             nstr = "\"" + nstr + "\"";
         }

@@ -19,10 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A tuple of 3 elements<BR/>
- * 3个元素的元组
+ * A tuple of 6 elements<BR/>
+ * 6个元素的元组
  */
-public class Tuple3<T1, T2, T3> implements Tuple {
+public class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple {
 
     private Map<String, Integer> alias_index = new HashMap<>();
     private Map<Integer, String> index_alias = new HashMap<>();
@@ -39,16 +39,31 @@ public class Tuple3<T1, T2, T3> implements Tuple {
      * The 3rd element of this tuple.
      */
     public final T3 _3;
+    /**
+     * The 4th element of this tuple.
+     */
+    public final T4 _4;
+    /**
+     * The 5th element of this tuple.
+     */
+    public final T5 _5;
+    /**
+     * The 6th element of this tuple.
+     */
+    public final T6 _6;
 
-    public Tuple3(T1 _1, T2 _2, T3 _3){
+    public Tuple6(T1 _1, T2 _2, T3 _3, T4 _4, T5 _5, T6 _6){
         this._1 = _1;
         this._2 = _2;
         this._3 = _3;
+        this._4 = _4;
+        this._5 = _5;
+        this._6 = _6;
     }
 
     @Override
     public int arity() {
-        return 3;
+        return 6;
     }
 
 
@@ -67,15 +82,22 @@ public class Tuple3<T1, T2, T3> implements Tuple {
      * @param alias1 别名1
      * @param alias2 别名2
      * @param alias3 别名3
+     * @param alias4 别名4
+     * @param alias5 别名5
+     * @param alias6 别名6
      * @return return `this`. 返回自身对象
      */
-    public Tuple3<T1, T2, T3> alias(String alias1, String alias2, String alias3){
+    public Tuple6<T1, T2, T3, T4, T5, T6> alias(String alias1, String alias2, String alias3, String alias4,
+                                                String alias5, String alias6){
         alias_index.clear();
         index_alias.clear();
 
         putToMap(alias1, 0);
         putToMap(alias2, 1);
         putToMap(alias3, 2);
+        putToMap(alias4, 3);
+        putToMap(alias5, 4);
+        putToMap(alias6, 5);
 
         return this;
     }
@@ -98,6 +120,12 @@ public class Tuple3<T1, T2, T3> implements Tuple {
                 return (R) _2;
             case 2:
                 return (R) _3;
+            case 3:
+                return (R) _4;
+            case 4:
+                return (R) _5;
+            case 5:
+                return (R) _6;
             default:
                 throw new IndexOutOfBoundsException("Index out of range: " + n);
         }
@@ -116,17 +144,26 @@ public class Tuple3<T1, T2, T3> implements Tuple {
         String _1str = _1 == null ? "null" : _1.toString();
         String _2str = _2 == null ? "null" : _2.toString();
         String _3str = _3 == null ? "null" : _3.toString();
+        String _4str = _4 == null ? "null" : _4.toString();
+        String _5str = _5 == null ? "null" : _5.toString();
+        String _6str = _6 == null ? "null" : _6.toString();
         _1str = this.<T1>_nStr(_1str, _1);
         _2str = this.<T2>_nStr(_2str, _2);
         _3str = this.<T3>_nStr(_3str, _3);
+        _4str = this.<T4>_nStr(_4str, _4);
+        _5str = this.<T5>_nStr(_5str, _5);
+        _6str = this.<T6>_nStr(_6str, _6);
 
 
         if (alias_index.isEmpty()) {
-            return "(" + _1str + ", " + _2str + ", " + _3str + ")";
+            return "(" + _1str + ", " + _2str + ", " + _3str + ", " + _4str + ", " + _5str + ", " + _6str + ")";
         }else {
             return "(" + index_alias.get(0) + ": " + _1str + ", "
                     + index_alias.get(1) + ": " + _2str + ", "
-                    + index_alias.get(2) + ": " + _3str
+                    + index_alias.get(2) + ": " + _3str + ", "
+                    + index_alias.get(3) + ": " + _4str + ", "
+                    + index_alias.get(4) + ": " + _5str + ", "
+                    + index_alias.get(5) + ": " + _6str
                     + ")";
         }
     }

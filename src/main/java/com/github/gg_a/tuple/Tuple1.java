@@ -25,7 +25,7 @@ import java.util.Map;
 public class Tuple1<T> implements Tuple {
 
     private Map<String, Integer> alias_index = new HashMap<>();
-    private Map<Integer, String> Index_alias = new HashMap<>();
+    private Map<Integer, String> index_alias = new HashMap<>();
 
     /**
      * The 1st element of this tuple.
@@ -59,10 +59,10 @@ public class Tuple1<T> implements Tuple {
      */
     public Tuple1<T> alias(String alias) {
         alias_index.clear();
-        Index_alias.clear();
+        index_alias.clear();
 
         alias_index.put(alias, 0);
-        Index_alias.put(0, alias);
+        index_alias.put(0, alias);
 
         return this;
     }
@@ -73,13 +73,13 @@ public class Tuple1<T> implements Tuple {
             case 0:
                 return (R) _1;
             default:
-                throw new IndexOutOfBoundsException(n);
+                throw new IndexOutOfBoundsException("Index out of range: " + n);
         }
     }
 
     @Override
     public <R> Tuple2<String, R> elementWithAlias(int n) {
-        String alias = Index_alias.get(n);
+        String alias = index_alias.get(n);
         R element = this.<R>element(n);
 
         return new Tuple2<String, R>(alias, element);
@@ -93,12 +93,12 @@ public class Tuple1<T> implements Tuple {
         if (alias_index.isEmpty()) {
             return "(" + _1str + ")";
         } else {
-            return "(" + Index_alias.get(0) + ": " + _1str + ")";
+            return "(" + index_alias.get(0) + ": " + _1str + ")";
         }
     }
 
     private <R> String _nStr(String nstr, R _n) {
-        // 如果 _n == null，那么无论 R 是什么类型，_n instanceof Object 都为 false
+        // 如果 _n == null，那么无论 R 是什么类型，`_n instanceof Object` 都为 false
         if (_n instanceof String){
             nstr = "\"" + nstr + "\"";
         }
