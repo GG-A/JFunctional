@@ -112,6 +112,15 @@ public Tuple2<String, Integer> returnMultipleValue(){
 }
 ```
 
+- 配合 Java10 的局部变量自动类型推断(Auto Type Inferring)会更好哦
+```
+// Java 8 语法
+Tuple9<String, Integer, Tuple1<String>, String, Integer, String, Integer, Tuple2<String, String>, String> tuple91 = new Tuple9<>("abcdefg", 20, new Tuple1<>("10000").alias("id"), (String) null, 29, "tupel6", 666, new Tuple2<>("123", "abc"), "tuple9");
+
+// Java 10及以上语法(var)
+var tuple9 = new Tuple9<>("abcdefg", 20, new Tuple1<>("10000").alias("id"), (String)null, 29, "tupel6", 666, new Tuple2<>("123", "abc"), "tuple9");
+```
+
 
 ## IntelliJ IDEA 智能提示
 由于接口名过于简单，导致 IntelliJ IDEA 智能提示不是很友好，对于**只有一个字母的接口名**，可能无法智能提示，解决办法：  
