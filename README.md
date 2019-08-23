@@ -122,7 +122,7 @@ var tuple9 = new Tuple9<>("abcdefg", 20, new Tuple1<>("10000").alias("id"), (Str
 ```
 
 ### EasyTuple 使用
-EasyTuple是简单版的Tuple，在**所有元素都是相同类型**的情境下使用，和**列表（List）**很像，但是使用起来比**列表（List）**方便一些  
+EasyTuple是简单版的Tuple，在**所有元素都是相同类型**的情境下使用，和列表（List）很像，但是使用起来比列表（List）更方便一些  
 
 ```
 EasyTuple8<String> et8 = new EasyTuple8<>("abcdefg", "abc", "bcd", null, "29", "tupel6", "666", "tuple8");
