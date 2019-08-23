@@ -121,6 +121,26 @@ Tuple9<String, Integer, Tuple1<String>, String, Integer, String, Integer, Tuple2
 var tuple9 = new Tuple9<>("abcdefg", 20, new Tuple1<>("10000").alias("id"), (String)null, 29, "tupel6", 666, new Tuple2<>("123", "abc"), "tuple9");
 ```
 
+### EasyTuple 使用
+EasyTuple是简单版的Tuple，在**所有元素都是相同类型**的情境下使用，和**列表（List）**很像，但是使用起来比**列表（List）**方便一些  
+
+```
+EasyTuple8<String> et8 = new EasyTuple8<>("abcdefg", "abc", "bcd", null, "29", "tupel6", "666", "tuple8");
+System.out.println(et8);  // 输出: ("abcdefg", "abc", "bcd", null, "29", "tupel6", "666", "tuple8")
+EasyTuple8<String> alias = et8.alias(null, "", "testTuple", "abc", "5", "第6个", "7", "8");
+System.out.println(alias);  // 输出: (null: "abcdefg", : "abc", testTuple: "bcd", abc: null, 5: "29", 第6个: "tupel6", 7: "666", 8: "tuple8")
+String s = et8.__(null);
+System.out.println(s);
+String s1 = et8.__("");
+System.out.println(s1);
+System.out.println(et8.__("第6个"));
+System.out.println(et8._5);
+for (int i = 0; i < et8.arity(); i++) {
+    Tuple2<String, String> t2 = et8.elementWithAlias(i);
+    System.out.println("t2(" + i + "): " + t2);
+}
+```
+
 
 ## IntelliJ IDEA 智能提示
 由于接口名过于简单，导致 IntelliJ IDEA 智能提示不是很友好，对于**只有一个字母的接口名**，可能无法智能提示，解决办法：  
@@ -140,12 +160,12 @@ b. 此时，按下 **alt + /**，就会有 **V1 接口**的提示
 <dependency>
   <groupId>com.github.GG-A</groupId>
   <artifactId>JFunctional</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
 </dependency>
 ```
 
 ### Gradle
-`implementation 'com.github.GG-A:JFunctional:0.1.0'`
+`implementation 'com.github.GG-A:JFunctional:0.1.1'`
 
 ## 点个赞哟
 如果你喜欢 JFunctional，感觉 JFunctional 帮助到了你，可以点右上角 **Star** 支持一下哦，感谢感谢！
