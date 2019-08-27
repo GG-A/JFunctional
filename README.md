@@ -70,7 +70,7 @@ Java中一直没有提供元组（Tuple）类型的支持，导致有些时候�
 
 ### Tuple（元组）使用
 - 创建元组与取出元组中的元素
-```
+```java
 Tuple3<String, Integer, Tuple2<String, String>> t3 = new Tuple3<>("zs", 20, new Tuple2<String, String>("123", "abc"));
 System.out.println(t3._1);    // 输出: zs
 System.out.println(t3._2);    // 输出: 20
@@ -78,7 +78,7 @@ System.out.println(t3._3);    // 输出: ("123", "abc")
 ```
 
 - 为元组中的元素起别名以及通过别名取元素
-```
+```java
 // 方式一
 Tuple2<String, Integer> t2 = new Tuple2<>("abc", 20).alias("name", "age");
 String name = (String)t2.__("name");    // 不使用泛型参数
@@ -92,7 +92,7 @@ t21.alias("id", "name");
 ```
 
 - 遍历元组中的元素
-```
+```java
 Tuple2<String, Integer> t2 = new Tuple2<>("zs", 20).alias("name", "age");
 for (int i = 0; i < t2.arity(); i++) {
     Object element = t2.element(i);                                     // 不带别名
@@ -103,7 +103,7 @@ for (int i = 0; i < t2.arity(); i++) {
 ```
 
 - 方法中返回多个值
-```
+```java
 public Tuple2<String, Integer> returnMultipleValue(){
     String name = "zs";
     Integer age = 20;
@@ -113,7 +113,7 @@ public Tuple2<String, Integer> returnMultipleValue(){
 ```
 
 - 配合 Java10 的局部变量自动类型推断(Auto Type Inferring)会更好哦
-```
+```java
 // Java 8 语法
 Tuple9<String, Integer, Tuple1<String>, String, Integer, String, Integer, Tuple2<String, String>, String> tuple91 = new Tuple9<>("abcdefg", 20, new Tuple1<>("10000").alias("id"), (String) null, 29, "tupel6", 666, new Tuple2<>("123", "abc"), "tuple9");
 
@@ -124,7 +124,7 @@ var tuple9 = new Tuple9<>("abcdefg", 20, new Tuple1<>("10000").alias("id"), (Str
 ### EasyTuple 使用
 EasyTuple是简单版的Tuple，在**所有元素都是相同类型**的情境下使用，和列表（List）很像，但是使用起来比列表（List）更方便一些  
 
-```
+```java
 EasyTuple8<String> et8 = new EasyTuple8<>("abcdefg", "abc", "bcd", null, "29", "tupel6", "666", "tuple8");
 System.out.println(et8);  // 输出: ("abcdefg", "abc", "bcd", null, "29", "tupel6", "666", "tuple8")
 EasyTuple8<String> alias = et8.alias(null, "", "testTuple", "abc", "5", "第6个", "7", "8");
