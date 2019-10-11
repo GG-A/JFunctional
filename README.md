@@ -61,6 +61,118 @@
 | **...** | ...... | 
 | **RT9** | 9个参数，有返回值且抛出异常 (accepts 9 arguments and produces a result, and will throw exception) | 
 
+
+## JFunctional中函数式接口使用  
+- V2接口示例  
+```java
+public void v2_test(){
+    /*
+     Java 8之前：使用匿名内部类，调用v2AsParams
+     */
+    v2AsParams(new V2<String, String>() {
+        @Override
+        public void $(String s1, String s2) {
+            System.out.println(s1 + " -- " + s2);
+        }
+    });
+
+
+    /*
+     Java 8 及以后：使用 Lambda 表达式，调用v2AsParams
+     */
+    v2AsParams((s1, s2) -> System.out.println(s1 + " -- " + s2));
+
+}
+
+// 当一个函数需要接收一个 `两个参数无返回值的函数接口` 时，可以使用现有的 V2<T1, T2>，而不用重新构造一个接口
+private void v2AsParams(V2<String, String> v2) {
+    v2.$("abcd", "1234");
+}
+```
+
+- R1接口示例  
+```java
+public void r1_test() {
+    List<String> ls = Arrays.asList("1", "2", "3", "4");
+    /*
+     Java 8之前：使用匿名内部类，调用 map
+     */
+    List<Integer> intList = map(ls, new R1<String, Integer>() {
+        @Override
+        public Integer $(String s) {
+            return Integer.valueOf(s) + 10;
+        }
+    });
+    System.out.println(intList);      // 输出：[11, 12, 13, 14]
+
+    /*
+    Java 8 及以后：使用 Lambda 表达式，调用 map
+     */
+    List<Integer> map = map(ls, s -> Integer.valueOf(s) + 20);
+    System.out.println(map);         // 输出：[21, 22, 23, 24]
+
+}
+
+// 当一个函数需要接收一个 `接收一个参数，并返回值的函数接口` 时，可以使用 R1<T, R>，不用重新构造一个接口，
+// 如：java.util.stream.Stream 中的 map 函数
+private <T, R> List<R> map(List<T> ls, R1<T, R> r1) {
+    ArrayList<R> rs = new ArrayList<>();
+    for (T l : ls)
+        rs.add(r1.$(l));
+
+    return rs;
+}
+```
+
+- R2接口（不支持抛出异常） 处理异常示例  
+```java
+public void r2_exception(){
+    // 必须在 lambda 表达式中使用 try-catch 块处理，无法将异常继续向外抛出
+    R2<String, Integer, String> r2 = (s, i) -> {
+        if (i == 5) {
+            try {
+                // 必须使用 try-catch 处理，否则报错
+                throw new IOException("抛出异常");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return s + i;
+    };
+
+    // 由于R2不支持抛出异常，所以调用 $函数没有异常
+    String s = r2.$("abcd", 1);
+}
+```
+
+- RT2接口（支持抛出异常） 处理异常示例  
+```java
+public void rt2_exception() throws IOException { 
+    RT2<String, Integer, String, IOException> rt2 = (s, i) -> {
+        // 使用 RT2 在lambda 表达式中，不用处理异常，等到调用 $ 函数时再处理
+        if (i == 5) throw new IOException("抛出异常");
+        return s + i;
+    };
+    /*
+    第一种方式：使用 try-catch 处理异常
+     */
+    try {
+        String s = rt2.$("abcd", 1);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    /*
+     第二种方式：继续向外抛出异常，在函数上申明异常：  public void rt2_exception() throws IOException
+     */
+    // String s1 = rt2.$("1234", 5);
+    String s2 = rt2.$("1234", 56);
+}
+```
+
+
+
 ## Tuple（元组）
 元组（Tuple）是用来表示一组数据的集合。与列表（List）类似，但与列表有着本质的区别：
 1. 元组可以存放不同类型的数据，而列表只能存放相同类型的数据
