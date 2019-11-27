@@ -270,17 +270,35 @@ b. 此时，按下 **alt + /**，就会有 **V1 接口**的提示
 
 
 ## 集成方式
-### Maven
-```
+### JDK 11+
+#### Maven
+```xml
 <dependency>
   <groupId>com.github.GG-A</groupId>
   <artifactId>JFunctional</artifactId>
-  <version>0.1.1</version>
+  <version>0.2.0</version>
 </dependency>
 ```
 
-### Gradle
-`implementation 'com.github.GG-A:JFunctional:0.1.1'`
+#### Gradle
+```
+implementation 'com.github.GG-A:JFunctional:0.2.0'
+```
+### JDK 8
+#### Maven
+```xml
+<dependency>
+  <groupId>com.github.GG-A</groupId>
+  <artifactId>JFunctional</artifactId>
+  <version>0.2.0-jdk8</version>
+</dependency>
+```
+
+#### Gradle
+```
+implementation 'com.github.GG-A:JFunctional:0.2.0-jdk8'
+```
+
 
 ## 点个赞哟
 如果你喜欢 JFunctional，感觉 JFunctional 帮助到了你，可以点右上角 **Star** 支持一下哦，感谢感谢！
