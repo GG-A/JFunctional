@@ -6,7 +6,7 @@
 
     <groupId>com.github.GG-A</groupId>
     <artifactId>JFunctional</artifactId>
-    <version>0.1.1</version>
+    <version>0.2.0</version>
 
     <packaging>jar</packaging>
     <name>JFunctional</name>
@@ -15,8 +15,8 @@
 
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -59,9 +59,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>        <!--3.8.1 更新于：2019-05-02 -->
                 <configuration>
-                    <encoding>UTF-8</encoding>
-                    <source>8</source>
-                    <target>8</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
             <!-- Source -->
@@ -86,9 +86,9 @@
                 <configuration>
                     <show>private</show>
                     <nohelp>true</nohelp>
-                    <charset>UTF-8</charset>
-                    <encoding>UTF-8</encoding>
-                    <docencoding>UTF-8</docencoding>
+                    <charset>${project.build.sourceEncoding}</charset>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <docencoding>${project.build.sourceEncoding}</docencoding>
                 </configuration>
                 <executions>
                     <execution>
