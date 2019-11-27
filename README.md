@@ -1,7 +1,10 @@
 # JFunctional
-提供更简单更好用的Java函数式编程接口 (Java Functional Interface that more simpler and easier to use)  
+基于 OpenJDK 11 提供更简单更好用的Java函数式编程接口 (Java Functional Interface that more simpler and easier to use)  
 提供元组（tuple）类型支持
 
+## JDK版本
+
+OpenJDK 11
 
 ## JFunctional与函数式接口
 关于**函数式接口**，Java 8标准中也有提供，在`java.util.function`下，总共包含43个接口，这些接口是为了让**Lamdba函数表达式**使用的更加简便。总共包含以下几类接口：
