@@ -15,11 +15,15 @@
  */
 package com.github.gg_a.tuple;
 
+import java.io.Serializable;
+
 /**
  * A tuple of no element<br>
  * 一个没有元素的元组
  */
-public class Tuple0 implements Tuple {
+public class Tuple0 implements Tuple, Serializable {
+    private static final long serialVersionUID = 10065918000L;
+
     @Override
     public int arity() {
         return 0;

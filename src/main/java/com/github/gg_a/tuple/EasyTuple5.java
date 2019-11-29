@@ -20,6 +20,7 @@ package com.github.gg_a.tuple;
  * 具有相同类型的5个元素的元组
  */
 public class EasyTuple5<T> extends Tuple5<T, T, T, T, T> {
+    private static final long serialVersionUID = 10065918015L;
 
     public EasyTuple5(T _1, T _2, T _3, T _4, T _5) {
         super(_1, _2, _3, _4, _5);

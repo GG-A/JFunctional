@@ -20,6 +20,7 @@ package com.github.gg_a.tuple;
  * 具有相同类型的9个元素的元组
  */
 public class EasyTuple9<T> extends Tuple9<T, T, T, T, T, T, T, T, T> {
+    private static final long serialVersionUID = 10065918019L;
 
     public EasyTuple9(T _1, T _2, T _3, T _4, T _5, T _6, T _7, T _8, T _9) {
         super(_1, _2, _3, _4, _5, _6, _7, _8, _9);

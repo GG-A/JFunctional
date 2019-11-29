@@ -15,6 +15,7 @@
  */
 package com.github.gg_a.tuple;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +23,8 @@ import java.util.Map;
  * A tuple of 8 elements<br>
  * 8个元素的元组
  */
-public class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple {
+public class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Serializable {
+    private static final long serialVersionUID = 10065918008L;
 
     private Map<String, Integer> alias_index = new HashMap<>();
     private Map<Integer, String> index_alias = new HashMap<>();

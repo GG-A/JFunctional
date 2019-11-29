@@ -15,6 +15,7 @@
  */
 package com.github.gg_a.tuple;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +23,8 @@ import java.util.Map;
  * A tuple of 5 elements<br>
  * 5个元素的元组
  */
-public class Tuple5<T1, T2, T3, T4, T5> implements Tuple {
+public class Tuple5<T1, T2, T3, T4, T5> implements Tuple, Serializable {
+    private static final long serialVersionUID = 10065918005L;
 
     private Map<String, Integer> alias_index = new HashMap<>();
     private Map<Integer, String> index_alias = new HashMap<>();
