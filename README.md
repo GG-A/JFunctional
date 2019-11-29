@@ -1,10 +1,9 @@
 # JFunctional
-基于 OpenJDK 11 提供更简单更好用的Java函数式编程接口 (Java Functional Interface that more simpler and easier to use)  
-提供元组（tuple）类型支持
+提供更简单更好用的Java函数式编程接口 (Java Functional Interface that more simpler and easier to use)；  
+提供元组（tuple）类型支持；  
+**兼容Java 8及Java 9+模块化系统**；  
 
-## JDK版本
 
-OpenJDK 11
 
 ## JFunctional与函数式接口
 关于**函数式接口**，Java 8标准中也有提供，在`java.util.function`下，总共包含43个接口，这些接口是为了让**Lamdba函数表达式**使用的更加简便。总共包含以下几类接口：
@@ -269,35 +268,21 @@ b. 此时，按下 **alt + /**，就会有 **V1 接口**的提示
 `import com.github.gg_a.function.*;`
 
 
-## 集成方式
-### JDK 11+
-#### Maven
+## 集成方式（兼容Java 8及Java 9+）
+### Maven
 ```xml
 <dependency>
   <groupId>com.github.GG-A</groupId>
   <artifactId>JFunctional</artifactId>
-  <version>0.2.0</version>
+  <version>0.2.1</version>
 </dependency>
 ```
 
-#### Gradle
+### Gradle
 ```
-implementation 'com.github.GG-A:JFunctional:0.2.0'
-```
-### JDK 8
-#### Maven
-```xml
-<dependency>
-  <groupId>com.github.GG-A</groupId>
-  <artifactId>JFunctional</artifactId>
-  <version>0.2.0-jdk8</version>
-</dependency>
+implementation 'com.github.GG-A:JFunctional:0.2.1'
 ```
 
-#### Gradle
-```
-implementation 'com.github.GG-A:JFunctional:0.2.0-jdk8'
-```
 
 
 ## 点个赞哟
