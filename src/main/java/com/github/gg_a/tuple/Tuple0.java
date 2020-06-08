@@ -24,6 +24,17 @@ import java.io.Serializable;
 public class Tuple0 implements Tuple, Serializable {
     private static final long serialVersionUID = 10065918000L;
 
+    private static final Tuple0 INSTANCE = new Tuple0();
+
+    private Tuple0() { }
+
+    /**
+     * Get the instance of Tuple0.
+     */
+    public static Tuple0 instance() {
+        return INSTANCE;
+    }
+
     @Override
     public int arity() {
         return 0;

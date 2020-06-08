@@ -59,5 +59,92 @@ public interface Tuple {
      */
     <R> Tuple2<String, R> elementWithAlias(int n);
 
+    /**
+     * Create empty tuple<br>
+     * 创建一个空元组
+     */
+    static Tuple0 empty() {
+        return Tuple0.instance();
+    }
+
+    /**
+     * Create empty tuple<br>
+     * 创建一个空元组
+     */
+    static Tuple0 of() {
+        return Tuple0.instance();
+    }
+
+    /**
+     * Create a tuple of 1 element<br>
+     * 创建1个元素的元组
+     */
+    static <T1> Tuple1<T1> of(T1 _1) {
+        return new Tuple1<>(_1);
+    }
+
+    /**
+     * Create a tuple of 2 elements<br>
+     * 创建2个元素的元组
+     */
+    static <T1, T2> Tuple2<T1, T2> of(T1 _1, T2 _2) {
+        return new Tuple2<>(_1, _2);
+    }
+
+    /**
+     * Create a tuple of 3 elements<br>
+     * 创建3个元素的元组
+     */
+    static <T1, T2, T3> Tuple3<T1, T2, T3> of(T1 _1, T2 _2, T3 _3) {
+        return new Tuple3<>(_1, _2, _3);
+    }
+
+    /**
+     * Create a tuple of 4 elements<br>
+     * 创建4个元素的元组
+     */
+    static <T1, T2, T3, T4> Tuple4<T1, T2, T3, T4> of(T1 _1, T2 _2, T3 _3, T4 _4) {
+        return new Tuple4<>(_1, _2, _3, _4);
+    }
+
+    /**
+     * Create a tuple of 5 elements<br>
+     * 创建5个元素的元组
+     */
+    static <T1, T2, T3, T4, T5> Tuple5<T1, T2, T3, T4, T5> of(T1 _1, T2 _2, T3 _3, T4 _4, T5 _5) {
+        return new Tuple5<>(_1, _2, _3, _4, _5);
+    }
+
+    /**
+     * Create a tuple of 6 elements<br>
+     * 创建6个元素的元组
+     */
+    static <T1, T2, T3, T4, T5, T6> Tuple6<T1, T2, T3, T4, T5, T6> of(T1 _1, T2 _2, T3 _3, T4 _4, T5 _5, T6 _6) {
+        return new Tuple6<>(_1, _2, _3, _4, _5, _6);
+    }
+
+    /**
+     * Create a tuple of 7 elements<br>
+     * 创建7个元素的元组
+     */
+    static <T1, T2, T3, T4, T5, T6, T7> Tuple7<T1, T2, T3, T4, T5, T6, T7> of(T1 _1, T2 _2, T3 _3, T4 _4, T5 _5, T6 _6, T7 _7) {
+        return new Tuple7<>(_1, _2, _3, _4, _5, _6, _7);
+    }
+
+    /**
+     * Create a tuple of 8 elements<br>
+     * 创建8个元素的元组
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> of(T1 _1, T2 _2, T3 _3, T4 _4, T5 _5, T6 _6, T7 _7, T8 _8) {
+        return new Tuple8<>(_1, _2, _3, _4, _5, _6, _7, _8);
+    }
+
+    /**
+     * Create a tuple of 9 elements<br>
+     * 创建9个元素的元组
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9> of(T1 _1, T2 _2, T3 _3, T4 _4, T5 _5, T6 _6, T7 _7, T8 _8, T9 _9) {
+        return new Tuple9<>(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+    }
 
 }
