@@ -4,6 +4,11 @@
 **兼容Java 8及Java 9+模块化系统**；  
 
 
+## Environment（开发环境）  
++ JDK 9.0.4
++ IntelliJ IDEA 2019.3.4 (Community Edition)
++ Apache maven 3.6.1
+
 
 ## JFunctional与函数式接口
 关于**函数式接口**，Java 8标准中也有提供，在`java.util.function`下，总共包含43个接口，这些接口是为了让**Lamdba函数表达式**使用的更加简便。总共包含以下几类接口：
