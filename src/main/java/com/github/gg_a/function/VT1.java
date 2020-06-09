@@ -19,8 +19,8 @@ package com.github.gg_a.function;
  * Represents a function that accepts 1 argument and returns no result, and will throw exception<br>
  * 表示一个接收 1个参数 不返回任何结果且抛出异常的函数
  *
- * @param <T> first param type  第1个参数类型
- * @param <E> Exception or subclass of Exception  Exception类及其子类
+ * @param <T> type of the 1st param.　第1个参数类型
+ * @param <E> Exception or subclass of Exception.　Exception类及其子类
  */
 @FunctionalInterface
 public interface VT1<T, E extends Exception> {

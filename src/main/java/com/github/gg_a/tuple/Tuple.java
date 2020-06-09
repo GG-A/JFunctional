@@ -21,13 +21,24 @@ package com.github.gg_a.tuple;
 public interface Tuple {
     /**
      * The size of this Tuple.<br>
-     * 元组的参数数量
-     * @return 参数数量
+     * 元组的元素数量
+     * @return 元素数量
      */
     int arity();
 
     /**
-     * Get tuple element value by alias, it will return `null` when alias not found.<br>
+     * Setting tuple's aliases. When the number of aliases is not match for tuple's elements {@link #arity} , will throw {@code NumberOfAliasesException}<br>
+     * 为元组（Tuple）的元素设置别名。当设置的别名数量与元组的元素数量不匹配，将会抛出{@code NumberOfAliasesException}
+     *
+     * @param aliases aliases.　别名
+     * @return tuple.　元组
+     * @throws NumberOfAliasesException if the `alias` not found. 如果元组不存在该别名，抛出异常
+     * @throws UnsupportedOperationException if the {@code alias} method is called by Tuple0 {@link Tuple0#alias}.
+     */
+    Tuple alias(String... aliases);
+
+    /**
+     * Get tuple element value by alias, it will throw {@code AliasNotFoundException} when alias not found.<br>
      * 通过别名获取元组元素的值，如果不存在该别名，将抛出异常 AliasNotFoundException。<br>
      * 注：`_`（下划线） 在 Java 9 中被定义成了关键字，无法单独使用 `_`（下划线） 作为标识符。
      * @param alias tuple element alias 别名
@@ -54,6 +65,8 @@ public interface Tuple {
      * @param n index 序号
      * @param <R> return type 返回值类型
      * @return (alias, element)
+     * @throws AliasNotSetException if call {@link #elementWithAlias} before {@link #alias}.
+     *                              在调用 {@link Tuple#alias} 之前调用 {@link Tuple#elementWithAlias}，将抛出{@code AliasNotSetException}
      * @throws IndexOutOfBoundsException if the `n` is out of range(n &lt; 0 || n &gt;= arity).
      *              当 n &lt; 0 或者 n &gt;= arity() 时，抛出异常。
      */
@@ -78,6 +91,10 @@ public interface Tuple {
     /**
      * Create a tuple of 1 element<br>
      * 创建1个元素的元组
+     *
+     * @param _1 the 1st element.　第1个元素
+     * @param <T1> type of the 1st element.　第1个元素的类型
+     * @return the instance of Tuple1.　返回Tuple1的实例
      */
     static <T1> Tuple1<T1> of(T1 _1) {
         return new Tuple1<>(_1);
@@ -86,6 +103,12 @@ public interface Tuple {
     /**
      * Create a tuple of 2 elements<br>
      * 创建2个元素的元组
+     *
+     * @param _1 the 1st element.　第1个元素
+     * @param _2 the 2nd element.　第2个元素
+     * @param <T1> type of the 1st element.　第1个元素的类型
+     * @param <T2> type of the 2nd element.　第2个元素的类型
+     * @return the instance of Tuple2.　返回Tuple2的实例
      */
     static <T1, T2> Tuple2<T1, T2> of(T1 _1, T2 _2) {
         return new Tuple2<>(_1, _2);
@@ -94,6 +117,14 @@ public interface Tuple {
     /**
      * Create a tuple of 3 elements<br>
      * 创建3个元素的元组
+     *
+     * @param _1 the 1st element.　第1个元素
+     * @param _2 the 2nd element.　第2个元素
+     * @param _3 the 3rd element.　第3个元素
+     * @param <T1> type of the 1st element.　第1个元素的类型
+     * @param <T2> type of the 2nd element.　第2个元素的类型
+     * @param <T3> type of the 3rd element.　第3个元素的类型
+     * @return the instance of Tuple3.　返回Tuple3的实例
      */
     static <T1, T2, T3> Tuple3<T1, T2, T3> of(T1 _1, T2 _2, T3 _3) {
         return new Tuple3<>(_1, _2, _3);
@@ -102,6 +133,16 @@ public interface Tuple {
     /**
      * Create a tuple of 4 elements<br>
      * 创建4个元素的元组
+     *
+     * @param _1 the 1st element.　第1个元素
+     * @param _2 the 2nd element.　第2个元素
+     * @param _3 the 3rd element.　第3个元素
+     * @param _4 the 4th element.　第4个元素
+     * @param <T1> type of the 1st element.　第1个元素的类型
+     * @param <T2> type of the 2nd element.　第2个元素的类型
+     * @param <T3> type of the 3rd element.　第3个元素的类型
+     * @param <T4> type of the 4th element.　第4个元素的类型
+     * @return the instance of Tuple4.　返回Tuple4的实例
      */
     static <T1, T2, T3, T4> Tuple4<T1, T2, T3, T4> of(T1 _1, T2 _2, T3 _3, T4 _4) {
         return new Tuple4<>(_1, _2, _3, _4);
@@ -110,6 +151,18 @@ public interface Tuple {
     /**
      * Create a tuple of 5 elements<br>
      * 创建5个元素的元组
+     *
+     * @param _1 the 1st element.　第1个元素
+     * @param _2 the 2nd element.　第2个元素
+     * @param _3 the 3rd element.　第3个元素
+     * @param _4 the 4th element.　第4个元素
+     * @param _5 the 5th element.　第5个元素
+     * @param <T1> type of the 1st element.　第1个元素的类型
+     * @param <T2> type of the 2nd element.　第2个元素的类型
+     * @param <T3> type of the 3rd element.　第3个元素的类型
+     * @param <T4> type of the 4th element.　第4个元素的类型
+     * @param <T5> type of the 5th element.　第5个元素的类型
+     * @return the instance of Tuple5.　返回Tuple5的实例
      */
     static <T1, T2, T3, T4, T5> Tuple5<T1, T2, T3, T4, T5> of(T1 _1, T2 _2, T3 _3, T4 _4, T5 _5) {
         return new Tuple5<>(_1, _2, _3, _4, _5);
@@ -118,6 +171,20 @@ public interface Tuple {
     /**
      * Create a tuple of 6 elements<br>
      * 创建6个元素的元组
+     *
+     * @param _1 the 1st element.　第1个元素
+     * @param _2 the 2nd element.　第2个元素
+     * @param _3 the 3rd element.　第3个元素
+     * @param _4 the 4th element.　第4个元素
+     * @param _5 the 5th element.　第5个元素
+     * @param _6 the 6th element.　第6个元素
+     * @param <T1> type of the 1st element.　第1个元素的类型
+     * @param <T2> type of the 2nd element.　第2个元素的类型
+     * @param <T3> type of the 3rd element.　第3个元素的类型
+     * @param <T4> type of the 4th element.　第4个元素的类型
+     * @param <T5> type of the 5th element.　第5个元素的类型
+     * @param <T6> type of the 6th element.　第6个元素的类型
+     * @return the instance of Tuple6.　返回Tuple6的实例
      */
     static <T1, T2, T3, T4, T5, T6> Tuple6<T1, T2, T3, T4, T5, T6> of(T1 _1, T2 _2, T3 _3, T4 _4, T5 _5, T6 _6) {
         return new Tuple6<>(_1, _2, _3, _4, _5, _6);
@@ -126,6 +193,22 @@ public interface Tuple {
     /**
      * Create a tuple of 7 elements<br>
      * 创建7个元素的元组
+     *
+     * @param _1 the 1st element.　第1个元素
+     * @param _2 the 2nd element.　第2个元素
+     * @param _3 the 3rd element.　第3个元素
+     * @param _4 the 4th element.　第4个元素
+     * @param _5 the 5th element.　第5个元素
+     * @param _6 the 6th element.　第6个元素
+     * @param _7 the 7th element.　第7个元素
+     * @param <T1> type of the 1st element.　第1个元素的类型
+     * @param <T2> type of the 2nd element.　第2个元素的类型
+     * @param <T3> type of the 3rd element.　第3个元素的类型
+     * @param <T4> type of the 4th element.　第4个元素的类型
+     * @param <T5> type of the 5th element.　第5个元素的类型
+     * @param <T6> type of the 6th element.　第6个元素的类型
+     * @param <T7> type of the 7th element.　第7个元素的类型
+     * @return the instance of Tuple7.　返回Tuple7的实例
      */
     static <T1, T2, T3, T4, T5, T6, T7> Tuple7<T1, T2, T3, T4, T5, T6, T7> of(T1 _1, T2 _2, T3 _3, T4 _4, T5 _5, T6 _6, T7 _7) {
         return new Tuple7<>(_1, _2, _3, _4, _5, _6, _7);
@@ -134,6 +217,24 @@ public interface Tuple {
     /**
      * Create a tuple of 8 elements<br>
      * 创建8个元素的元组
+     *
+     * @param _1 the 1st element.　第1个元素
+     * @param _2 the 2nd element.　第2个元素
+     * @param _3 the 3rd element.　第3个元素
+     * @param _4 the 4th element.　第4个元素
+     * @param _5 the 5th element.　第5个元素
+     * @param _6 the 6th element.　第6个元素
+     * @param _7 the 7th element.　第7个元素
+     * @param _8 the 8th element.　第8个元素
+     * @param <T1> type of the 1st element.　第1个元素的类型
+     * @param <T2> type of the 2nd element.　第2个元素的类型
+     * @param <T3> type of the 3rd element.　第3个元素的类型
+     * @param <T4> type of the 4th element.　第4个元素的类型
+     * @param <T5> type of the 5th element.　第5个元素的类型
+     * @param <T6> type of the 6th element.　第6个元素的类型
+     * @param <T7> type of the 7th element.　第7个元素的类型
+     * @param <T8> type of the 8th element.　第8个元素的类型
+     * @return the instance of Tuple8.　返回Tuple8的实例
      */
     static <T1, T2, T3, T4, T5, T6, T7, T8> Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> of(T1 _1, T2 _2, T3 _3, T4 _4, T5 _5, T6 _6, T7 _7, T8 _8) {
         return new Tuple8<>(_1, _2, _3, _4, _5, _6, _7, _8);
@@ -142,6 +243,26 @@ public interface Tuple {
     /**
      * Create a tuple of 9 elements<br>
      * 创建9个元素的元组
+     *
+     * @param _1 the 1st element.　第1个元素
+     * @param _2 the 2nd element.　第2个元素
+     * @param _3 the 3rd element.　第3个元素
+     * @param _4 the 4th element.　第4个元素
+     * @param _5 the 5th element.　第5个元素
+     * @param _6 the 6th element.　第6个元素
+     * @param _7 the 7th element.　第7个元素
+     * @param _8 the 8th element.　第8个元素
+     * @param _9 the 9th element.　第9个元素
+     * @param <T1> type of the 1st element.　第1个元素的类型
+     * @param <T2> type of the 2nd element.　第2个元素的类型
+     * @param <T3> type of the 3rd element.　第3个元素的类型
+     * @param <T4> type of the 4th element.　第4个元素的类型
+     * @param <T5> type of the 5th element.　第5个元素的类型
+     * @param <T6> type of the 6th element.　第6个元素的类型
+     * @param <T7> type of the 7th element.　第7个元素的类型
+     * @param <T8> type of the 8th element.　第8个元素的类型
+     * @param <T9> type of the 9th element.　第9个元素的类型
+     * @return the instance of Tuple9.　返回Tuple9的实例
      */
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9> of(T1 _1, T2 _2, T3 _3, T4 _4, T5 _5, T6 _6, T7 _7, T8 _8, T9 _9) {
         return new Tuple9<>(_1, _2, _3, _4, _5, _6, _7, _8, _9);

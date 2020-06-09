@@ -19,9 +19,9 @@ package com.github.gg_a.function;
  * Represents a function that accepts 3 arguments and returns no result<br>
  * 表示一个接收 3个参数 不返回任何结果的函数
  *
- * @param <T1> first param type  第1个参数类型
- * @param <T2> second param type  第2个参数类型
- * @param <T3> third param type  第3个参数类型
+ * @param <T1> type of the 1st param.　第1个参数类型
+ * @param <T2> type of the 2nd param.　第2个参数类型
+ * @param <T3> type of the 3rd param.　第3个参数类型
  */
 @FunctionalInterface
 public interface V3<T1, T2, T3> {

@@ -16,19 +16,30 @@
 package com.github.gg_a.tuple;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * A tuple of 2 elements<br>
  * 2个元素的元组
+ *
+ * @param <T1> type of the 1st element.　第1个元素的类型
+ * @param <T2> type of the 2nd element.　第2个元素的类型
  */
 public class Tuple2<T1, T2> implements Tuple, Serializable {
     private static final long serialVersionUID = 10065918002L;
 
+    /**
+     * List of aliases.　别名列表。
+     */
+    private List<String> aliasList = new ArrayList<>();
 
+    /**
+     * Map of aliases.　别名与序号键值对
+     */
     private Map<String, Integer> alias_index = new HashMap<>();
-    private Map<Integer, String> index_alias = new HashMap<>();
 
     /**
      * The 1st element of this tuple.
@@ -39,7 +50,11 @@ public class Tuple2<T1, T2> implements Tuple, Serializable {
      */
     public final T2 _2;
 
-
+    /**
+     * Constructs a {@code Tuple2}.　Tuple2构造器。
+     * @param _1 The value of 1st element
+     * @param _2 The value of 2nd element
+     */
     public Tuple2(T1 _1, T2 _2){
         this._1 = _1;
         this._2 = _2;
@@ -50,30 +65,19 @@ public class Tuple2<T1, T2> implements Tuple, Serializable {
         return 2;
     }
 
-
     @Override
-    public <R> R __(String alias) {
-        if (alias_index.containsKey(alias)) {
-            return element(alias_index.get(alias));
+    public Tuple2<T1, T2> alias(String... aliases) {
+        if (aliases.length != arity()) {
+            throw new NumberOfAliasesException("aliases' length is not equals " + arity() + ". 参数aliases的长度不等于" + arity() + "。");
         }else {
-            throw new AliasNotFoundException("the alias `" + alias + "` not found. "+" 别名`" + alias + "`没有找到。");
+            alias_index.clear();
+            aliasList.clear();
+
+            putToMap(aliases[0], 0);
+            putToMap(aliases[1], 1);
+
+            return this;
         }
-    }
-
-    /**
-     * set alias for tuple's elements. <br>
-     * 为元组的每个元素设置别名
-     * @param alias1 别名1
-     * @param alias2 别名2
-     * @return return `this`. 返回自身对象
-     */
-    public Tuple2<T1, T2> alias(String alias1, String alias2){
-        alias_index.clear();
-        index_alias.clear();
-        putToMap(alias1, 0);
-        putToMap(alias2, 1);
-
-        return this;
     }
 
     private void putToMap(String alias, int index) {
@@ -81,7 +85,16 @@ public class Tuple2<T1, T2> implements Tuple, Serializable {
             throw new AliasDuplicateException("the alias `" + alias + "` is existed. " + "别名 `" + alias + "` 已经存在。 ");
         }else {
             alias_index.put(alias, index);
-            index_alias.put(index, alias);
+            aliasList.add(alias);
+        }
+    }
+
+    @Override
+    public <R> R __(String alias) {
+        if (alias_index.containsKey(alias)) {
+            return element(alias_index.get(alias));
+        }else {
+            throw new AliasNotFoundException("the alias `" + alias + "` not found. "+" 别名`" + alias + "`没有找到。");
         }
     }
 
@@ -99,7 +112,10 @@ public class Tuple2<T1, T2> implements Tuple, Serializable {
 
     @Override
     public <R> Tuple2<String, R> elementWithAlias(int n) {
-        String alias = index_alias.get(n);
+        if (aliasList.isEmpty()) {
+            throw new AliasNotSetException("The aliases not set. Please call `aliases` method first. 别名未设置，请先调用aliases方法设置别名。");
+        }
+        String alias = aliasList.get(n);
         R element = this.<R>element(n);
 
         return new Tuple2<String, R>(alias, element);
@@ -107,21 +123,27 @@ public class Tuple2<T1, T2> implements Tuple, Serializable {
 
     @Override
     public String toString() {
-        String _1str = _1 == null ? "null" : _1.toString();
-        String _2str = _2 == null ? "null" : _2.toString();
-        _1str = this.<T1>_nStr(_1str, _1);
-        _2str = this.<T2>_nStr(_2str, _2);
-
+        String[] strs = {_nStr(_1), _nStr(_2)};
 
         if (alias_index.isEmpty()) {
-            return "(" + _1str + ", " + _2str + ")";
+            return "(" + String.join(", ", strs) + ")";
         }else {
-            return "(" + index_alias.get(0) + ": " + _1str + ", "
-                    + index_alias.get(1) + ": " + _2str + ")";
+            return "(" + concatElement(strs) + ")";
         }
     }
 
-    private <R> String _nStr(String nstr, R _n) {
+    private String concatElement(String[] strArr) {
+        ArrayList<String> strList = new ArrayList<>();
+        for (int i = 0; i < strArr.length; i++) {
+            String alias = aliasList.get(i);
+            alias = (alias == null ? "`null`" : alias);
+            strList.add(alias + ": " + strArr[i]);
+        }
+        return String.join(", ", strList);
+    }
+
+    private <R> String _nStr(R _n) {
+        String nstr = _n == null ? "null" : _n.toString();
         // 如果 _n == null，那么无论 R 是什么类型，`_n instanceof Object` 都为 false
         if (_n instanceof String){
             nstr = "\"" + nstr + "\"";

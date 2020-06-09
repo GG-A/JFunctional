@@ -19,13 +19,13 @@ package com.github.gg_a.function;
  * Represents a function that accepts 6 arguments and returns no result, and will throw exception<br>
  * 表示一个接收 6个参数 不返回任何结果且抛出异常的函数
  *
- * @param <T1> first param type  第1个参数类型
- * @param <T2> second param type  第2个参数类型
- * @param <T3> third param type  第3个参数类型
- * @param <T4> fourth param type  第4个参数类型
- * @param <T5> fifth param type  第5个参数类型
- * @param <T6> sixth param type  第6个参数类型
- * @param <E> Exception or subclass of Exception  Exception类及其子类
+ * @param <T1> type of the 1st param.　第1个参数类型
+ * @param <T2> type of the 2nd param.　第2个参数类型
+ * @param <T3> type of the 3rd param.　第3个参数类型
+ * @param <T4> type of the 4th param.　第4个参数类型
+ * @param <T5> type of the 5th param.　第5个参数类型
+ * @param <T6> type of the 6th param.　第6个参数类型
+ * @param <E> Exception or subclass of Exception.　Exception类及其子类
  */
 @FunctionalInterface
 public interface VT6<T1, T2, T3, T4, T5, T6, E extends Exception> {

@@ -274,13 +274,13 @@ b. 此时，按下 **alt + /**，就会有 **V1 接口**的提示
 <dependency>
   <groupId>com.github.GG-A</groupId>
   <artifactId>JFunctional</artifactId>
-  <version>0.2.2</version>
+  <version>0.3.0</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-implementation 'com.github.GG-A:JFunctional:0.2.2'
+implementation 'com.github.GG-A:JFunctional:0.3.0'
 ```
 
 

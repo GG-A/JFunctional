@@ -26,10 +26,14 @@ public class Tuple0 implements Tuple, Serializable {
 
     private static final Tuple0 INSTANCE = new Tuple0();
 
+    /**
+     * Constructs a {@code Tuple0}.　Tuple0构造器。
+     */
     private Tuple0() { }
 
     /**
-     * Get the instance of Tuple0.
+     * Get the instance of Tuple0.<br>
+     * 获取 Tuple0 的实例
      */
     public static Tuple0 instance() {
         return INSTANCE;
@@ -38,6 +42,11 @@ public class Tuple0 implements Tuple, Serializable {
     @Override
     public int arity() {
         return 0;
+    }
+
+    @Override
+    public Tuple0 alias(String... aliases) {
+        throw new UnsupportedOperationException("`alias` method is unsupported in Tuple0. Because Tuple0 is empty tuple. Tuple0不支持调用alias方法，因为Tuple0是一个空元组。");
     }
 
     @Override

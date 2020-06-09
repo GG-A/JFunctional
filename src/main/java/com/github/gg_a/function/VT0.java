@@ -19,7 +19,7 @@ package com.github.gg_a.function;
  * Represents a function that accepts 0 argument and returns no result, and will throw exception<br>
  * 表示一个不接收参数也不返回任何结果且抛出异常的函数
  *
- * @param <E> Exception or subclass of Exception  Exception类及其子类
+ * @param <E> Exception or subclass of Exception.　Exception类及其子类
  */
 @FunctionalInterface
 public interface VT0<E extends Exception> {

@@ -20,7 +20,7 @@ package com.github.gg_a.function;
  * 表示一个不接收任何参数，但返回结果且抛出异常的函数
  *
  * @param <R> return type  返回值类型
- * @param <E> Exception or subclass of Exception  Exception类及其子类
+ * @param <E> Exception or subclass of Exception.　Exception类及其子类
  */
 @FunctionalInterface
 public interface RT0<R, E extends Exception> {
