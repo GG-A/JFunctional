@@ -34,6 +34,7 @@ public class Tuple0 implements Tuple, Serializable {
     /**
      * Get the instance of Tuple0.<br>
      * 获取 Tuple0 的实例
+     * @return the instance of Tuple0
      */
     public static Tuple0 instance() {
         return INSTANCE;

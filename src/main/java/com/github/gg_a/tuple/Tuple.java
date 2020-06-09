@@ -75,6 +75,8 @@ public interface Tuple {
     /**
      * Create empty tuple<br>
      * 创建一个空元组
+     *
+     * @return the instance of Tuple0.　返回Tuple0的实例
      */
     static Tuple0 empty() {
         return Tuple0.instance();
@@ -83,6 +85,8 @@ public interface Tuple {
     /**
      * Create empty tuple<br>
      * 创建一个空元组
+     *
+     * @return the instance of Tuple0.　返回Tuple0的实例
      */
     static Tuple0 of() {
         return Tuple0.instance();
