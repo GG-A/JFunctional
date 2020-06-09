@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.gg_a.tuple;
+package com.github.gg_a.exception;
 
 /**
  * Get element by alias in tuple, when the alias is not found, will throw AliasNotFoundException<br>

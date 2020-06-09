@@ -13,37 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.gg_a.tuple;
+package com.github.gg_a.exception;
+
+import com.github.gg_a.tuple.Tuple;
 
 /**
- * When setting tuple's aliases and the number of aliases is not match for tuple's elements {@link Tuple#arity} , will throw NumberOfAliasesException<br>
- * 为元组（Tuple）的元素设置别名时，如果设置的别名的数量与元组的元素数量不匹配，将会抛出此异常
+ * Call {@link Tuple#elementWithAlias} before {@link Tuple#alias}, will throw AliasNotSetException.<br>
+ * 在调用 {@link Tuple#alias} 之前调用 {@link Tuple#elementWithAlias}，将抛出此异常
  */
-public class NumberOfAliasesException extends RuntimeException {
-    private static final long serialVersionUID = 656057275L;
-
+public class AliasNotSetException extends RuntimeException {
+    private static final long serialVersionUID = 656057270L;
 
     /**
-     * Constructs an {@code NumberOfAliasesException} with {@code null}
+     * Constructs an {@code AliasNotSetException} with {@code null}
      * as its error detail message.
      */
-    public NumberOfAliasesException() {
+    public AliasNotSetException() {
         super();
     }
 
     /**
-     * Constructs an {@code NumberOfAliasesException} with the specified detail message.
+     * Constructs an {@code AliasNotSetException} with the specified detail message.
      *
      * @param message
      *        The detail message (which is saved for later retrieval
      *        by the {@link #getMessage()} method)
      */
-    public NumberOfAliasesException(String message) {
+    public AliasNotSetException(String message) {
         super(message);
     }
 
     /**
-     * Constructs an {@code NumberOfAliasesException} with the specified detail message
+     * Constructs an {@code AliasNotSetException} with the specified detail message
      * and cause.
      *
      * @param message
@@ -55,12 +56,12 @@ public class NumberOfAliasesException extends RuntimeException {
      *        {@link #getCause()} method).  (A null value is permitted,
      *        and indicates that the cause is nonexistent or unknown.)
      */
-    public NumberOfAliasesException(String message, Throwable cause) {
+    public AliasNotSetException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
-     * Constructs an {@code NumberOfAliasesException} with the specified cause and a
+     * Constructs an {@code AliasNotSetException} with the specified cause and a
      * detail message of {@code (cause==null ? null : cause.toString())}
      * (which typically contains the class and detail message of {@code cause}).
      *
@@ -70,7 +71,7 @@ public class NumberOfAliasesException extends RuntimeException {
      *        and indicates that the cause is nonexistent or unknown.)
      *
      */
-    public NumberOfAliasesException(Throwable cause) {
+    public AliasNotSetException(Throwable cause) {
         super(cause);
     }
 

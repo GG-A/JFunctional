@@ -15,6 +15,10 @@
  */
 package com.github.gg_a.tuple;
 
+import com.github.gg_a.exception.AliasNotFoundException;
+import com.github.gg_a.exception.AliasNotSetException;
+import com.github.gg_a.exception.NumberOfAliasesException;
+
 /**
  * Tuple Interface
  */

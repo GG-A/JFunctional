@@ -15,6 +15,11 @@
  */
 package com.github.gg_a.tuple;
 
+import com.github.gg_a.exception.AliasDuplicateException;
+import com.github.gg_a.exception.AliasNotFoundException;
+import com.github.gg_a.exception.AliasNotSetException;
+import com.github.gg_a.exception.NumberOfAliasesException;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;

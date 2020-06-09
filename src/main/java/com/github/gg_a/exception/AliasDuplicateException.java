@@ -13,36 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.gg_a.tuple;
+package com.github.gg_a.exception;
 
 /**
- * Call {@link Tuple#elementWithAlias} before {@link Tuple#alias}, will throw AliasNotSetException.<br>
- * 在调用 {@link Tuple#alias} 之前调用 {@link Tuple#elementWithAlias}，将抛出此异常
+ * named for properties of tuple, when the alias is duplication, will throw AliasDuplicateException<br>
+ * 为元组（tuple）的属性起别名，别名重复时将会抛出此异常
  */
-public class AliasNotSetException extends RuntimeException {
-    private static final long serialVersionUID = 656057270L;
+public class AliasDuplicateException extends RuntimeException {
+    private static final long serialVersionUID = 656057265L;
+
 
     /**
-     * Constructs an {@code AliasNotSetException} with {@code null}
+     * Constructs an {@code AliasDuplicateException} with {@code null}
      * as its error detail message.
      */
-    public AliasNotSetException() {
+    public AliasDuplicateException() {
         super();
     }
 
     /**
-     * Constructs an {@code AliasNotSetException} with the specified detail message.
+     * Constructs an {@code AliasDuplicateException} with the specified detail message.
      *
      * @param message
      *        The detail message (which is saved for later retrieval
      *        by the {@link #getMessage()} method)
      */
-    public AliasNotSetException(String message) {
+    public AliasDuplicateException(String message) {
         super(message);
     }
 
     /**
-     * Constructs an {@code AliasNotSetException} with the specified detail message
+     * Constructs an {@code AliasDuplicateException} with the specified detail message
      * and cause.
      *
      * @param message
@@ -54,12 +55,12 @@ public class AliasNotSetException extends RuntimeException {
      *        {@link #getCause()} method).  (A null value is permitted,
      *        and indicates that the cause is nonexistent or unknown.)
      */
-    public AliasNotSetException(String message, Throwable cause) {
+    public AliasDuplicateException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
-     * Constructs an {@code AliasNotSetException} with the specified cause and a
+     * Constructs an {@code AliasDuplicateException} with the specified cause and a
      * detail message of {@code (cause==null ? null : cause.toString())}
      * (which typically contains the class and detail message of {@code cause}).
      *
@@ -69,7 +70,7 @@ public class AliasNotSetException extends RuntimeException {
      *        and indicates that the cause is nonexistent or unknown.)
      *
      */
-    public AliasNotSetException(Throwable cause) {
+    public AliasDuplicateException(Throwable cause) {
         super(cause);
     }
 

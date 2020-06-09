@@ -13,37 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.gg_a.tuple;
+package com.github.gg_a.exception;
+
+import com.github.gg_a.tuple.Tuple;
 
 /**
- * named for properties of tuple, when the alias is duplication, will throw AliasDuplicateException<br>
- * 为元组（tuple）的属性起别名，别名重复时将会抛出此异常
+ * When setting tuple's aliases and the number of aliases is not match for tuple's elements {@link Tuple#arity} , will throw NumberOfAliasesException<br>
+ * 为元组（Tuple）的元素设置别名时，如果设置的别名的数量与元组的元素数量不匹配，将会抛出此异常
  */
-public class AliasDuplicateException extends RuntimeException {
-    private static final long serialVersionUID = 656057265L;
+public class NumberOfAliasesException extends RuntimeException {
+    private static final long serialVersionUID = 656057275L;
 
 
     /**
-     * Constructs an {@code AliasDuplicateException} with {@code null}
+     * Constructs an {@code NumberOfAliasesException} with {@code null}
      * as its error detail message.
      */
-    public AliasDuplicateException() {
+    public NumberOfAliasesException() {
         super();
     }
 
     /**
-     * Constructs an {@code AliasDuplicateException} with the specified detail message.
+     * Constructs an {@code NumberOfAliasesException} with the specified detail message.
      *
      * @param message
      *        The detail message (which is saved for later retrieval
      *        by the {@link #getMessage()} method)
      */
-    public AliasDuplicateException(String message) {
+    public NumberOfAliasesException(String message) {
         super(message);
     }
 
     /**
-     * Constructs an {@code AliasDuplicateException} with the specified detail message
+     * Constructs an {@code NumberOfAliasesException} with the specified detail message
      * and cause.
      *
      * @param message
@@ -55,12 +57,12 @@ public class AliasDuplicateException extends RuntimeException {
      *        {@link #getCause()} method).  (A null value is permitted,
      *        and indicates that the cause is nonexistent or unknown.)
      */
-    public AliasDuplicateException(String message, Throwable cause) {
+    public NumberOfAliasesException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
-     * Constructs an {@code AliasDuplicateException} with the specified cause and a
+     * Constructs an {@code NumberOfAliasesException} with the specified cause and a
      * detail message of {@code (cause==null ? null : cause.toString())}
      * (which typically contains the class and detail message of {@code cause}).
      *
@@ -70,7 +72,7 @@ public class AliasDuplicateException extends RuntimeException {
      *        and indicates that the cause is nonexistent or unknown.)
      *
      */
-    public AliasDuplicateException(Throwable cause) {
+    public NumberOfAliasesException(Throwable cause) {
         super(cause);
     }
 

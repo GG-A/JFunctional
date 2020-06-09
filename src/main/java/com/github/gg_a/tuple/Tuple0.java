@@ -15,6 +15,8 @@
  */
 package com.github.gg_a.tuple;
 
+import com.github.gg_a.exception.AliasNotFoundException;
+
 import java.io.Serializable;
 
 /**
