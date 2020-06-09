@@ -66,7 +66,7 @@ public interface Tuple {
      * @param <R> return type 返回值类型
      * @return (alias, element)
      * @throws AliasNotSetException if call {@link #elementWithAlias} before {@link #alias}.
-     *                              在调用 {@link Tuple#alias} 之前调用 {@link Tuple#elementWithAlias}，将抛出{@code AliasNotSetException}
+     *                              在调用 {@link #alias} 之前调用 {@link #elementWithAlias}，将抛出{@code AliasNotSetException}
      * @throws IndexOutOfBoundsException if the `n` is out of range(n &lt; 0 || n &gt;= arity).
      *              当 n &lt; 0 或者 n &gt;= arity() 时，抛出异常。
      */

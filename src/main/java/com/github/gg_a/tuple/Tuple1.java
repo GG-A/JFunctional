@@ -60,15 +60,24 @@ public class Tuple1<T> implements Tuple, Serializable {
 
     @Override
     public Tuple1<T> alias(String... aliases) {
-        if (aliases.length != arity()) {
-            throw new NumberOfAliasesException("aliases' length is not equals " + arity() + ". 参数aliases的长度不等于" + arity() + "。");
-        }else {
+        if (aliases == null) {
             alias_index.clear();
             aliasList.clear();
 
-            putToMap(aliases[0], 0);
+            putToMap(null, 0);
 
             return this;
+        }else {
+            if (aliases.length != arity()) {
+                throw new NumberOfAliasesException("aliases' length is not equals " + arity() + ". 参数aliases的长度不等于" + arity() + "。");
+            }else {
+                alias_index.clear();
+                aliasList.clear();
+
+                putToMap(aliases[0], 0);
+
+                return this;
+            }
         }
     }
 
