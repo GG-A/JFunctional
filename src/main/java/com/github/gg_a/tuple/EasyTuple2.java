@@ -32,8 +32,8 @@ public class EasyTuple2<T> extends Tuple2<T, T> {
     }
 
     @Override
-    public EasyTuple2<T> alias(String alias1, String alias2) {
-        return (EasyTuple2<T>)super.alias(alias1, alias2);
+    public EasyTuple2<T> alias(String... aliases) {
+        return (EasyTuple2<T>)super.alias(aliases);
     }
 
     @Override
@@ -45,4 +45,5 @@ public class EasyTuple2<T> extends Tuple2<T, T> {
     public Tuple2<String, T> elementWithAlias(int n) {
         return (Tuple2<String, T>)super.elementWithAlias(n);
     }
+
 }

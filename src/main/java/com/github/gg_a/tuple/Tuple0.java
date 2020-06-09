@@ -69,4 +69,5 @@ public class Tuple0 implements Tuple, Serializable {
     public String toString() {
         return "()";
     }
+
 }
