@@ -15,17 +15,11 @@
  */
 package com.github.gg_a.tuple;
 
-import com.github.gg_a.exception.AliasNotFoundException;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * A tuple of no element<br>
  * 一个没有元素的元组
  */
-public class Tuple0 implements Tuple, Serializable {
+public class Tuple0 extends TupleBase {
     private static final long serialVersionUID = 10065918000L;
 
     private static final Tuple0 INSTANCE = new Tuple0();
@@ -51,38 +45,13 @@ public class Tuple0 implements Tuple, Serializable {
 
     @Override
     public Tuple0 alias(String... aliases) {
-        throw new UnsupportedOperationException("`alias` method is unsupported in Tuple0. Because Tuple0 is empty tuple. Tuple0不支持调用alias方法，因为Tuple0是一个空元组。");
-    }
-
-    @Override
-    public List<String> getAliases() {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public <R> R __(String alias){
-        throw new AliasNotFoundException("the alias `" + alias + "` not found. "+" 别名`" + alias + "`没有找到。");
-    }
-
-    @Override
-    public boolean containsAlias(String alias) {
-        return false;
+        return (Tuple0)super.alias(aliases);
     }
 
     @Override
     public <R> R element(int n) {
-        throw new IndexOutOfBoundsException("Index out of range: " + n);
+        throw new IndexOutOfBoundsException("Index out of range: " + n + ", Size: " + arity());
     }
 
-    @Override
-    public <R> Tuple2<String, R> elementWithAlias(int n) {
-        throw new IndexOutOfBoundsException("Index out of range: " + n);
-    }
-
-
-    @Override
-    public String toString() {
-        return "()";
-    }
 
 }

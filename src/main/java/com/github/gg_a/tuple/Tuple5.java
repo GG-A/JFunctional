@@ -15,17 +15,6 @@
  */
 package com.github.gg_a.tuple;
 
-import com.github.gg_a.exception.AliasDuplicateException;
-import com.github.gg_a.exception.AliasNotFoundException;
-import com.github.gg_a.exception.AliasNotSetException;
-import com.github.gg_a.exception.NumberOfAliasesException;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * A tuple of 5 elements<br>
  * 5个元素的元组
@@ -36,18 +25,8 @@ import java.util.Map;
  * @param <T4> type of the 4th element.　第4个元素的类型
  * @param <T5> type of the 5th element.　第5个元素的类型
  */
-public class Tuple5<T1, T2, T3, T4, T5> implements Tuple, Serializable {
+public class Tuple5<T1, T2, T3, T4, T5> extends TupleBase {
     private static final long serialVersionUID = 10065918005L;
-
-    /**
-     * List of aliases.　别名列表。
-     */
-    private List<String> aliasList = new ArrayList<>();
-
-    /**
-     * Map of aliases.　别名与序号键值对
-     */
-    private Map<String, Integer> alias_index = new HashMap<>();
 
     /**
      * The 1st element of this tuple.
@@ -93,44 +72,7 @@ public class Tuple5<T1, T2, T3, T4, T5> implements Tuple, Serializable {
 
     @Override
     public Tuple5<T1, T2, T3, T4, T5> alias(String... aliases) {
-        if (aliases.length != arity()) {
-            throw new NumberOfAliasesException("aliases' length is not equals " + arity() + ". 参数aliases的长度不等于" + arity() + "。");
-        }else {
-            alias_index.clear();
-            aliasList.clear();
-
-            for (int i = 0; i < aliases.length; i++) putToMap(aliases[i], i);
-
-            return this;
-        }
-    }
-
-    @Override
-    public List<String> getAliases() {
-        return new ArrayList<>(aliasList);
-    }
-
-    private void putToMap(String alias, int index) {
-        if (alias_index.containsKey(alias)) {
-            throw new AliasDuplicateException("the alias `" + alias + "` is existed. " + "别名 `" + alias + "` 已经存在。 ");
-        }else {
-            alias_index.put(alias, index);
-            aliasList.add(alias);
-        }
-    }
-
-    @Override
-    public <R> R __(String alias) {
-        if (alias_index.containsKey(alias)) {
-            return element(alias_index.get(alias));
-        }else {
-            throw new AliasNotFoundException("the alias `" + alias + "` not found. "+" 别名`" + alias + "`没有找到。");
-        }
-    }
-
-    @Override
-    public boolean containsAlias(String alias) {
-        return aliasList.contains(alias);
+        return (Tuple5<T1, T2, T3, T4, T5>)super.alias(aliases);
     }
 
     @Override
@@ -147,49 +89,8 @@ public class Tuple5<T1, T2, T3, T4, T5> implements Tuple, Serializable {
             case 4:
                 return (R) _5;
             default:
-                throw new IndexOutOfBoundsException("Index out of range: " + n);
+                throw new IndexOutOfBoundsException("Index out of range: " + n + ", Size: " + arity());
         }
-    }
-
-    @Override
-    public <R> Tuple2<String, R> elementWithAlias(int n) {
-        if (aliasList.isEmpty()) {
-            throw new AliasNotSetException("The aliases not set. Please call `aliases` method first. 别名未设置，请先调用aliases方法设置别名。");
-        }
-        String alias = aliasList.get(n);
-        R element = this.<R>element(n);
-
-        return new Tuple2<String, R>(alias, element);
-    }
-
-    @Override
-    public String toString() {
-        String[] strs = {_nStr(_1), _nStr(_2), _nStr(_3), _nStr(_4), _nStr(_5)};
-
-        if (alias_index.isEmpty()) {
-            return "(" + String.join(", ", strs) + ")";
-        }else {
-            return "(" + concatElement(strs) + ")";
-        }
-    }
-
-    private String concatElement(String[] strArr) {
-        ArrayList<String> strList = new ArrayList<>();
-        for (int i = 0; i < strArr.length; i++) {
-            String alias = aliasList.get(i);
-            alias = (alias == null ? "`null`" : alias);
-            strList.add(alias + ": " + strArr[i]);
-        }
-        return String.join(", ", strList);
-    }
-
-    private <R> String _nStr(R _n) {
-        String nstr = _n == null ? "null" : _n.toString();
-        // 如果 _n == null，那么无论 R 是什么类型，`_n instanceof Object` 都为 false
-        if (_n instanceof String){
-            nstr = "\"" + nstr + "\"";
-        }
-        return nstr;
     }
 
 }
