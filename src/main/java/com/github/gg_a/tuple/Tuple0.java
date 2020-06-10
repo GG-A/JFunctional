@@ -18,6 +18,8 @@ package com.github.gg_a.tuple;
 import com.github.gg_a.exception.AliasNotFoundException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A tuple of no element<br>
@@ -50,6 +52,11 @@ public class Tuple0 implements Tuple, Serializable {
     @Override
     public Tuple0 alias(String... aliases) {
         throw new UnsupportedOperationException("`alias` method is unsupported in Tuple0. Because Tuple0 is empty tuple. Tuple0不支持调用alias方法，因为Tuple0是一个空元组。");
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return new ArrayList<>();
     }
 
     @Override

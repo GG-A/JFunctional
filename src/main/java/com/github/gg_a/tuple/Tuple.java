@@ -19,6 +19,8 @@ import com.github.gg_a.exception.AliasNotFoundException;
 import com.github.gg_a.exception.AliasNotSetException;
 import com.github.gg_a.exception.NumberOfAliasesException;
 
+import java.util.List;
+
 /**
  * Tuple Interface
  */
@@ -36,10 +38,16 @@ public interface Tuple {
      *
      * @param aliases aliases.　别名
      * @return tuple.　元组
-     * @throws NumberOfAliasesException if the `alias` not found. 如果元组不存在该别名，抛出异常
+     * @throws NumberOfAliasesException if the number of aliases is not equal {@link #arity}. 如果设置的别名的数量不等于 {@link #arity}，抛出此异常
      * @throws UnsupportedOperationException if the {@code alias} method is called by Tuple0 {@link Tuple0#alias}.
      */
     Tuple alias(String... aliases);
+
+    /**
+     * Get list of aliases. 获取别名列表。
+     * @return list of aliases
+     */
+    List<String> getAliases();
 
     /**
      * Get tuple element value by alias, it will throw {@code AliasNotFoundException} when alias not found.<br>

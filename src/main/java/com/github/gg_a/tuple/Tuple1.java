@@ -86,6 +86,11 @@ public class Tuple1<T> implements Tuple, Serializable {
         }
     }
 
+    @Override
+    public List<String> getAliases() {
+        return new ArrayList<>(aliasList);
+    }
+
     private void putToMap(String alias, int index) {
         if (alias_index.containsKey(alias)) {
             throw new AliasDuplicateException("the alias `" + alias + "` is existed. " + "别名 `" + alias + "` 已经存在。 ");
