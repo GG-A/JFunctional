@@ -61,6 +61,13 @@ public interface Tuple {
     <R> R __(String alias);
 
     /**
+     * whether contains alias. 该元组中是否包含别名
+     * @param alias alias.　别名
+     * @return return {@code true} if contains alias.　返回true，如果此tuple包含该别名。
+     */
+    boolean containsAlias(String alias);
+
+    /**
      * The nth element of this tuple<br>
      * 从元组中取第n个元素
      * @param n index 序号

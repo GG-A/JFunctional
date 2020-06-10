@@ -65,6 +65,11 @@ public class Tuple0 implements Tuple, Serializable {
     }
 
     @Override
+    public boolean containsAlias(String alias) {
+        return false;
+    }
+
+    @Override
     public <R> R element(int n) {
         throw new IndexOutOfBoundsException("Index out of range: " + n);
     }

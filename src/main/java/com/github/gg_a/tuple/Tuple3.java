@@ -112,6 +112,11 @@ public class Tuple3<T1, T2, T3> implements Tuple, Serializable {
     }
 
     @Override
+    public boolean containsAlias(String alias) {
+        return aliasList.contains(alias);
+    }
+
+    @Override
     public <R> R element(int n) {
         switch (n) {
             case 0:
