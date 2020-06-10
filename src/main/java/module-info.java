@@ -4,4 +4,5 @@
 module gg.functional {
     exports com.github.gg_a.function;
     exports com.github.gg_a.tuple;
+    exports com.github.gg_a.exception;
 }
