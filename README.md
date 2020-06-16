@@ -1,7 +1,7 @@
 # JFunctional
 提供更简单更好用的Java函数式编程接口 (Java Functional Interface that more simpler and easier to use)；  
 提供元组（tuple）类型支持；  
-**兼容Java 8及Java 9+模块化系统**；  
+**兼容Java 8及Java 9+模块化系统**    
 
 
 ## Environment（开发环境）  
