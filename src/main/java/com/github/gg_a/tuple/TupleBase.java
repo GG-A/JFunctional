@@ -29,7 +29,10 @@ import java.util.Map;
 /**
  * Base tuple
  */
-public abstract class TupleBase implements Tuple, Serializable {
+public abstract class TupleBase implements Tuple {
+
+    private static final long serialVersionUID = 10065917090L;
+
     /**
      * List of aliases.　别名列表。
      */
@@ -43,11 +46,15 @@ public abstract class TupleBase implements Tuple, Serializable {
     public Tuple alias(String... aliases) {
         if (arity() == 0) throw new UnsupportedOperationException("`alias` method is unsupported in Tuple0. Because Tuple0 is empty tuple. Tuple0不支持调用alias方法，因为Tuple0是一个空元组。");
 
-        if (arity() == 1 && aliases == null) {
-            alias_index.clear();
-            aliasList.clear();
-            putToMap(null, 0);
-        } else {
+        if (aliases == null) {
+            if (arity() == 1) {
+                alias_index.clear();
+                aliasList.clear();
+                putToMap(null, 0);
+            }else {
+                throw new NumberOfAliasesException("aliases' length is not equals " + arity() + ". 参数aliases的长度不等于" + arity() + "。");
+            }
+        }else {
             if (arity() != aliases.length)  throw new NumberOfAliasesException("aliases' length is not equals " + arity() + ". 参数aliases的长度不等于" + arity() + "。");
             alias_index.clear();
             aliasList.clear();

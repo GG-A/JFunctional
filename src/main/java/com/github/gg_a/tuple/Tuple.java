@@ -19,12 +19,16 @@ import com.github.gg_a.exception.AliasNotFoundException;
 import com.github.gg_a.exception.AliasNotSetException;
 import com.github.gg_a.exception.NumberOfAliasesException;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Tuple Interface
  */
-public interface Tuple {
+public interface Tuple extends Serializable {
+
+    long serialVersionUID = 10065917080L;
+
     /**
      * The size of this Tuple.<br>
      * 元组的元素数量

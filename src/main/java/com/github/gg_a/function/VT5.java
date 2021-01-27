@@ -24,9 +24,9 @@ package com.github.gg_a.function;
  * @param <T3> type of the 3rd param.　第3个参数类型
  * @param <T4> type of the 4th param.　第4个参数类型
  * @param <T5> type of the 5th param.　第5个参数类型
- * @param <E> Exception or subclass of Exception.　Exception类及其子类
+ * @param <E> Throwable or subclass of Throwable.　Throwable类及其子类
  */
 @FunctionalInterface
-public interface VT5<T1, T2, T3, T4, T5, E extends Exception> {
+public interface VT5<T1, T2, T3, T4, T5, E extends Throwable> {
     void $(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5) throws E;
 }

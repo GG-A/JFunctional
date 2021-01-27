@@ -26,9 +26,9 @@ package com.github.gg_a.function;
  * @param <T5> type of the 5th param.　第5个参数类型
  * @param <T6> type of the 6th param.　第6个参数类型
  * @param <R> return type  返回值类型
- * @param <E> Exception or subclass of Exception.　Exception类及其子类
+ * @param <E> Throwable or subclass of Throwable.　Throwable类及其子类
  */
 @FunctionalInterface
-public interface RT6<T1, T2, T3, T4, T5, T6, R, E extends Exception> {
+public interface RT6<T1, T2, T3, T4, T5, T6, R, E extends Throwable> {
     R $(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6) throws E;
 }
