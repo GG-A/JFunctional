@@ -111,7 +111,7 @@ public abstract class TupleBase implements Tuple {
 
     @Override
     public boolean containsAlias(TupleAlias alias) {
-        return containsAlias(alias.toString());
+        return !tupleAliasList.isEmpty() && containsAlias(alias.toString());
     }
 
     @Override
