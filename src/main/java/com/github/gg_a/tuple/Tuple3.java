@@ -22,6 +22,7 @@ package com.github.gg_a.tuple;
  * @param <T1> type of the 1st element.　第1个元素的类型
  * @param <T2> type of the 2nd element.　第2个元素的类型
  * @param <T3> type of the 3rd element.　第3个元素的类型
+ * @since 0.1.0
  */
 public class Tuple3<T1, T2, T3> extends TupleBase {
     private static final long serialVersionUID = 10065918003L;
@@ -54,6 +55,11 @@ public class Tuple3<T1, T2, T3> extends TupleBase {
     @Override
     public int arity() {
         return 3;
+    }
+
+    @Override
+    public Tuple3<T1, T2, T3> alias(TupleAlias... aliases) {
+        return (Tuple3<T1, T2, T3>)super.alias(aliases);
     }
 
     @Override

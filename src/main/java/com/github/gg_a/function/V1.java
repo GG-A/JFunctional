@@ -20,6 +20,7 @@ package com.github.gg_a.function;
  * 表示一个接收 1个参数 不返回任何结果的函数
  *
  * @param <T> type of the 1st param.　第1个参数类型
+ * @since 0.0.1
  */
 @FunctionalInterface
 public interface V1<T> {

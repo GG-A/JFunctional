@@ -20,6 +20,7 @@ package com.github.gg_a.function;
  * 表示一个不接收任何参数，但返回结果的函数
  *
  * @param <R> return type  返回值类型
+ * @since 0.0.1
  */
 @FunctionalInterface
 public interface R0<R> {

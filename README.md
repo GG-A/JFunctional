@@ -198,14 +198,33 @@ System.out.println(t3._3);    // 输出: ("123", "abc")
 
 - 为元组中的元素起别名以及通过别名取元素
 ```java
-// 方式一
+// 方式一（推荐）
+// MyTupleAlias.java
+package mypackage;
+import com.github.gg_a.tuple.TupleAlias;
+
+public enum MyTupleAlias implements TupleAlias {
+    ID, NAME, TEL, AGE, BIRTHDAY, ADDRESS
+}
+
+// Test.java
+package test.xxx;
+import static mypackage.MyTupleAlias.*;
+
+Tuple3<Integer, String, Integer> userInfo = new Tuple3<>(1, "Tom", 20);
+userInfo.alias(ID, NAME, AGE);
+Integer id  = userInfo.__(ID);     // （推荐）使用枚举值取tuple中的元素
+String name = userInfo.__("NAME");   // （不推荐）使用枚举值对应的字符串取tuple中的元素
+System.out.println("ID: " + id + "  name: " + name);    // output：ID: 1  name: Tom
+
+// 方式二
 Tuple2<String, Integer> t2 = new Tuple2<>("abc", 20).alias("name", "age");
 String name = (String)t2.__("name");    // 不使用泛型参数
 Integer age = t2.<Integer>__("age");    // 使用泛型参数
 System.out.println(name);               // 输出: abc
 System.out.println(age);                // 输出: 20
 
-// 方式二
+// 方式三
 Tuple2<Integer, String> t21 = new Tuple2<>(19, "ls");
 t21.alias("id", "name");
 ```
@@ -248,7 +267,7 @@ EasyTuple8<String> et8 = new EasyTuple8<>("abcdefg", "abc", "bcd", null, "29", "
 System.out.println(et8);  // 输出: ("abcdefg", "abc", "bcd", null, "29", "tupel6", "666", "tuple8")
 EasyTuple8<String> alias = et8.alias(null, "", "testTuple", "abc", "5", "第6个", "7", "8");
 System.out.println(alias);  // 输出: (null: "abcdefg", : "abc", testTuple: "bcd", abc: null, 5: "29", 第6个: "tupel6", 7: "666", 8: "tuple8")
-String s = et8.__(null);
+String s = et8.__((String) null);
 System.out.println(s);
 String s1 = et8.__("");
 System.out.println(s1);
@@ -279,13 +298,13 @@ b. 此时，按下 **alt + /**，就会有 **V1 接口**的提示
 <dependency>
   <groupId>com.github.GG-A</groupId>
   <artifactId>JFunctional</artifactId>
-  <version>0.4.2</version>
+  <version>0.5.0</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-implementation 'com.github.GG-A:JFunctional:0.4.2'
+implementation 'com.github.GG-A:JFunctional:0.5.0'
 ```
 
 

@@ -21,6 +21,7 @@ package com.github.gg_a.function;
  *
  * @param <R> return type  返回值类型
  * @param <E> Throwable or subclass of Throwable.　Throwable类及其子类
+ * @since 0.0.4
  */
 @FunctionalInterface
 public interface RT0<R, E extends Throwable> {

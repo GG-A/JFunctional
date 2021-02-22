@@ -29,6 +29,7 @@ package com.github.gg_a.function;
  * @param <T8> type of the 8th param.　第8个参数类型
  * @param <R> return type  返回值类型
  * @param <E> Throwable or subclass of Throwable.　Throwable类及其子类
+ * @since 0.0.4
  */
 @FunctionalInterface
 public interface RT8<T1, T2, T3, T4, T5, T6, T7, T8, R, E extends Throwable> {

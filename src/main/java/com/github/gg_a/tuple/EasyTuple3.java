@@ -18,6 +18,7 @@ package com.github.gg_a.tuple;
 /**
  * A tuple of 3 same type elements<br>
  * 具有相同类型的3个元素的元组
+ * @since 0.1.1
  */
 public class EasyTuple3<T> extends Tuple3<T, T, T> {
     private static final long serialVersionUID = 10065918013L;
@@ -27,8 +28,18 @@ public class EasyTuple3<T> extends Tuple3<T, T, T> {
     }
 
     @Override
+    public T __(TupleAlias alias) {
+        return (T)super.__(alias);
+    }
+
+    @Override
     public T __(String alias) {
         return (T)super.__(alias);
+    }
+
+    @Override
+    public EasyTuple3<T> alias(TupleAlias... aliases) {
+        return (EasyTuple3<T>)super.alias(aliases);
     }
 
     @Override
@@ -39,6 +50,11 @@ public class EasyTuple3<T> extends Tuple3<T, T, T> {
     @Override
     public T element(int n) {
         return (T)super.element(n);
+    }
+
+    @Override
+    public Tuple2<TupleAlias, T> elementWithTupleAlias(int n) {
+        return (Tuple2<TupleAlias, T>)super.elementWithTupleAlias(n);
     }
 
     @Override

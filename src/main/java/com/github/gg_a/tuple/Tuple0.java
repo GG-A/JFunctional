@@ -18,6 +18,7 @@ package com.github.gg_a.tuple;
 /**
  * A tuple of no element<br>
  * 一个没有元素的元组
+ * @since 0.1.0
  */
 public class Tuple0 extends TupleBase {
     private static final long serialVersionUID = 10065918000L;
@@ -41,6 +42,11 @@ public class Tuple0 extends TupleBase {
     @Override
     public int arity() {
         return 0;
+    }
+
+    @Override
+    public Tuple0 alias(TupleAlias... aliases) {
+        return (Tuple0)super.alias(aliases);
     }
 
     @Override

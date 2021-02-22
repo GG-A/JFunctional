@@ -25,6 +25,7 @@ package com.github.gg_a.tuple;
  * @param <T4> type of the 4th element.　第4个元素的类型
  * @param <T5> type of the 5th element.　第5个元素的类型
  * @param <T6> type of the 6th element.　第6个元素的类型
+ * @since 0.1.0
  */
 public class Tuple6<T1, T2, T3, T4, T5, T6> extends TupleBase {
     private static final long serialVersionUID = 10065918006L;
@@ -75,6 +76,11 @@ public class Tuple6<T1, T2, T3, T4, T5, T6> extends TupleBase {
     @Override
     public int arity() {
         return 6;
+    }
+
+    @Override
+    public Tuple6<T1, T2, T3, T4, T5, T6> alias(TupleAlias... aliases) {
+        return (Tuple6<T1, T2, T3, T4, T5, T6>)super.alias(aliases);
     }
 
     @Override

@@ -18,6 +18,7 @@ package com.github.gg_a.tuple;
 /**
  * A tuple of 9 same type elements<br>
  * 具有相同类型的9个元素的元组
+ * @since 0.1.1
  */
 public class EasyTuple9<T> extends Tuple9<T, T, T, T, T, T, T, T, T> {
     private static final long serialVersionUID = 10065918019L;
@@ -27,8 +28,18 @@ public class EasyTuple9<T> extends Tuple9<T, T, T, T, T, T, T, T, T> {
     }
 
     @Override
+    public T __(TupleAlias alias) {
+        return (T)super.__(alias);
+    }
+
+    @Override
     public T __(String alias) {
         return (T)super.__(alias);
+    }
+
+    @Override
+    public EasyTuple9<T> alias(TupleAlias... aliases) {
+        return (EasyTuple9<T>)super.alias(aliases);
     }
 
     @Override
@@ -39,6 +50,11 @@ public class EasyTuple9<T> extends Tuple9<T, T, T, T, T, T, T, T, T> {
     @Override
     public T element(int n) {
         return (T)super.element(n);
+    }
+
+    @Override
+    public Tuple2<TupleAlias, T> elementWithTupleAlias(int n) {
+        return (Tuple2<TupleAlias, T>)super.elementWithTupleAlias(n);
     }
 
     @Override

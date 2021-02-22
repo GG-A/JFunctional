@@ -20,6 +20,7 @@ package com.github.gg_a.tuple;
  * 1个元素的元组
  *
  * @param <T> type of the 1st element.　第1个元素的类型
+ * @since 0.1.0
  */
 public class Tuple1<T> extends TupleBase {
     private static final long serialVersionUID = 10065918001L;
@@ -40,6 +41,11 @@ public class Tuple1<T> extends TupleBase {
     @Override
     public int arity() {
         return 1;
+    }
+
+    @Override
+    public Tuple1<T> alias(TupleAlias... aliases) {
+        return (Tuple1<T>)super.alias(aliases);
     }
 
     @Override

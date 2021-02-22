@@ -30,6 +30,7 @@ package com.github.gg_a.function;
  * @param <T9> type of the 9th param.　第9个参数类型
  * @param <R> return type  返回值类型
  * @param <E> Throwable or subclass of Throwable.　Throwable类及其子类
+ * @since 0.0.4
  */
 @FunctionalInterface
 public interface RT9<T1, T2, T3, T4, T5, T6, T7, T8, T9, R, E extends Throwable> {

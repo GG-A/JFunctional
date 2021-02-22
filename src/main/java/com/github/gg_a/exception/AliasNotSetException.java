@@ -20,6 +20,7 @@ import com.github.gg_a.tuple.Tuple;
 /**
  * Call {@link Tuple#elementWithAlias} before {@link Tuple#alias}, will throw AliasNotSetException.<br>
  * 在调用 {@link Tuple#alias} 之前调用 {@link Tuple#elementWithAlias}，将抛出此异常
+ * @since 0.3.0
  */
 public class AliasNotSetException extends RuntimeException {
     private static final long serialVersionUID = 656057270L;

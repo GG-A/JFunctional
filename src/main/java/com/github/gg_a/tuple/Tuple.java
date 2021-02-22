@@ -24,6 +24,8 @@ import java.util.List;
 
 /**
  * Tuple Interface
+ *
+ * @since 0.1.0
  */
 public interface Tuple extends Serializable {
 
@@ -37,15 +39,55 @@ public interface Tuple extends Serializable {
     int arity();
 
     /**
-     * Setting tuple's aliases. When the number of aliases is not match for tuple's elements {@link #arity} , will throw {@code NumberOfAliasesException}<br>
-     * 为元组（Tuple）的元素设置别名。当设置的别名数量与元组的元素数量不匹配，将会抛出{@code NumberOfAliasesException}
+     * Setting tuple's aliases. When the number of aliases is not match for tuple's elements {@link #arity()} , will throw {@code NumberOfAliasesException}<br>
+     * 为元组（Tuple）的元素设置别名。当设置的别名数量与元组的元素数量不匹配，将会抛出{@code NumberOfAliasesException} <p>
+     * <b>Examples:</b>
+     * <pre>
+     * // MyTupleAlias.java
+     * package mypackage;
+     * public enum MyTupleAlias implements TupleAlias {
+     *     // You can put All aliases in one `enum MyTupleAlias` for all Tuple Type,
+     *     // or create more enum by category: enum UserAliases, enum AddressAliases ...
+     *     // 可以把所有的Tuple要用到的别名全部放在一个枚举类型中，
+     *     // 也可以创建多个枚举类型用于存储不同的Tuple数据。
+     *
+     *     ID, NAME, TEL, AGE, BIRTHDAY, ADDRESS
+     * }
+     *
+     * // TestMain.java
+     * package test.xxx;
+     * import static mypackage.MyTupleAlias.*;    // import MyTupleAlias
+     *
+     * Tuple3&lt;Integer, String, Integer&gt; tuple = new Tuple3&lt;&gt;(1, "Tom", 20);
+     * tuple.alias(ID, NAME, AGE);
+     * </pre>
      *
      * @param aliases aliases.　别名
      * @return tuple.　元组
-     * @throws NumberOfAliasesException if the number of aliases is not equal {@link #arity}. 如果设置的别名的数量不等于 {@link #arity}，抛出此异常
-     * @throws UnsupportedOperationException if the {@code alias} method is called by Tuple0 {@link Tuple0#alias}.
+     * @throws NumberOfAliasesException if the number of aliases is not equal {@link #arity()}. 如果设置的别名的数量不等于 {@link #arity()}，抛出此异常
+     * @throws UnsupportedOperationException if this method is called by Tuple0 {@link Tuple0#alias(TupleAlias...)}.
+     * @since  0.5.0
+     */
+    Tuple alias(TupleAlias... aliases);
+
+    /**
+     * Setting tuple's aliases. Recommend using {@link #alias(TupleAlias...)}
+     * 为元组（Tuple）的元素设置别名。推荐使用 {@link #alias(TupleAlias...)} 这个方法设置别名。
+     *
+     * @see #alias(TupleAlias...)
+     * @param aliases aliases.　别名
+     * @return tuple.　元组
+     * @throws NumberOfAliasesException if the number of aliases is not equal {@link #arity()}. 如果设置的别名的数量不等于 {@link #arity()}，抛出此异常
+     * @throws UnsupportedOperationException if this method is called by Tuple0 {@link Tuple0#alias(String...)}.
      */
     Tuple alias(String... aliases);
+
+    /**
+     * Get list of aliases. 获取别名列表。
+     * @return list of aliases
+     * @since  0.5.0
+     */
+    List<TupleAlias> getTupleAliases();
 
     /**
      * Get list of aliases. 获取别名列表。
@@ -57,12 +99,37 @@ public interface Tuple extends Serializable {
      * Get tuple element value by alias, it will throw {@code AliasNotFoundException} when alias not found.<br>
      * 通过别名获取元组元素的值，如果不存在该别名，将抛出异常 AliasNotFoundException。<br>
      * 注：`_`（下划线） 在 Java 9 中被定义成了关键字，无法单独使用 `_`（下划线） 作为标识符。
+     *
      * @param alias tuple element alias 别名
      * @param <R> return type 返回值类型
      * @return tuple element value
+     * @throws AliasNotSetException if call this method before {@link #alias(TupleAlias...)}.
+     *                              在调用 {@link #alias(TupleAlias...)} 之前调用此方法，将抛出{@code AliasNotSetException}
+     * @throws AliasNotFoundException if the `alias` not found. 如果元组不存在该别名，抛出异常
+     * @since  0.5.0
+     */
+    <R> R __(TupleAlias alias);
+
+    /**
+     * Get tuple element value by alias. Recommend using {@link #__(TupleAlias) }
+     *
+     * @see #__(TupleAlias)
+     * @param alias tuple element alias 别名
+     * @param <R> return type 返回值类型
+     * @return tuple element value
+     * @throws AliasNotSetException if call this method before {@link #alias(String...)}.
+     *                              在调用 {@link #alias(String...)} 之前调用此方法，将抛出{@code AliasNotSetException}
      * @throws AliasNotFoundException if the `alias` not found. 如果元组不存在该别名，抛出异常
      */
     <R> R __(String alias);
+
+    /**
+     * whether contains alias. 该元组中是否包含别名
+     * @param alias alias.　别名
+     * @return return {@code true} if contains alias.　返回true，如果此tuple包含该别名。
+     * @since  0.5.0
+     */
+    boolean containsAlias(TupleAlias alias);
 
     /**
      * whether contains alias. 该元组中是否包含别名
@@ -85,11 +152,27 @@ public interface Tuple extends Serializable {
     /**
      * The nth element with alias of this tuple<br>
      * 从元组中取第n个元素（带别名）
+     *
      * @param n index 序号
      * @param <R> return type 返回值类型
      * @return (alias, element)
-     * @throws AliasNotSetException if call {@link #elementWithAlias} before {@link #alias}.
-     *                              在调用 {@link #alias} 之前调用 {@link #elementWithAlias}，将抛出{@code AliasNotSetException}
+     * @throws AliasNotSetException if call this method before {@link #alias(TupleAlias...)}.
+     *                              在调用 {@link #alias(TupleAlias...)} 之前调用此方法，将抛出{@code AliasNotSetException}
+     * @throws IndexOutOfBoundsException if the `n` is out of range(n &lt; 0 || n &gt;= arity).
+     *              当 n &lt; 0 或者 n &gt;= arity() 时，抛出异常。
+     * @since  0.5.0
+     */
+    <R> Tuple2<TupleAlias, R> elementWithTupleAlias(int n);
+
+    /**
+     * The nth element with alias of this tuple<br>
+     * 从元组中取第n个元素（带别名）
+     *
+     * @param n index 序号
+     * @param <R> return type 返回值类型
+     * @return (alias, element)
+     * @throws AliasNotSetException if call this method before {@link #alias(String...)}.
+     *                              在调用 {@link #alias(String...)} 之前调用此方法，将抛出{@code AliasNotSetException}
      * @throws IndexOutOfBoundsException if the `n` is out of range(n &lt; 0 || n &gt;= arity).
      *              当 n &lt; 0 或者 n &gt;= arity() 时，抛出异常。
      */

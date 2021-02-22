@@ -27,6 +27,7 @@ package com.github.gg_a.function;
  * @param <T6> type of the 6th param.　第6个参数类型
  * @param <T7> type of the 7th param.　第7个参数类型
  * @param <R> return type  返回值类型
+ * @since 0.0.1
  */
 @FunctionalInterface
 public interface R7<T1, T2, T3, T4, T5, T6, T7, R> {

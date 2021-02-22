@@ -18,6 +18,7 @@ package com.github.gg_a.function;
 /**
  * Represents a function that accepts 0 argument and returns no result<br>
  * 表示一个不接收参数也不返回任何结果的函数
+ * @since 0.0.1
  */
 @FunctionalInterface
 public interface V0 {

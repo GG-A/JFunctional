@@ -20,6 +20,7 @@ import com.github.gg_a.tuple.Tuple;
 /**
  * When setting tuple's aliases and the number of aliases is not match for tuple's elements {@link Tuple#arity} , will throw NumberOfAliasesException<br>
  * 为元组（Tuple）的元素设置别名时，如果设置的别名的数量与元组的元素数量不匹配，将会抛出此异常
+ * @since 0.3.0
  */
 public class NumberOfAliasesException extends RuntimeException {
     private static final long serialVersionUID = 656057275L;

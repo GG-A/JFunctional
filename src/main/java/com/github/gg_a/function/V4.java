@@ -23,6 +23,7 @@ package com.github.gg_a.function;
  * @param <T2> type of the 2nd param.　第2个参数类型
  * @param <T3> type of the 3rd param.　第3个参数类型
  * @param <T4> type of the 4th param.　第4个参数类型
+ * @since 0.0.1
  */
 @FunctionalInterface
 public interface V4<T1, T2, T3, T4> {

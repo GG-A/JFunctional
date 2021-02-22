@@ -18,6 +18,7 @@ package com.github.gg_a.exception;
 /**
  * Get element by alias in tuple, when the alias is not found, will throw AliasNotFoundException<br>
  * 通过别名找元组（Tuple）中的元素，别名找不到时将会抛出此异常
+ * @since 0.1.0
  */
 public class AliasNotFoundException extends RuntimeException {
     private static final long serialVersionUID = 656057260L;

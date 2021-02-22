@@ -20,6 +20,7 @@ package com.github.gg_a.function;
  * 表示一个不接收参数也不返回任何结果且抛出异常的函数
  *
  * @param <E> Throwable or subclass of Throwable.　Throwable类及其子类
+ * @since 0.0.4
  */
 @FunctionalInterface
 public interface VT0<E extends Throwable> {

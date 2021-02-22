@@ -18,6 +18,7 @@ package com.github.gg_a.exception;
 /**
  * named for properties of tuple, when the alias is duplication, will throw AliasDuplicateException<br>
  * 为元组（tuple）的属性起别名，别名重复时将会抛出此异常
+ * @since 0.1.0
  */
 public class AliasDuplicateException extends RuntimeException {
     private static final long serialVersionUID = 656057265L;

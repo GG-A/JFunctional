@@ -25,6 +25,7 @@ package com.github.gg_a.function;
  * @param <T4> type of the 4th param.　第4个参数类型
  * @param <T5> type of the 5th param.　第5个参数类型
  * @param <E> Throwable or subclass of Throwable.　Throwable类及其子类
+ * @since 0.0.4
  */
 @FunctionalInterface
 public interface VT5<T1, T2, T3, T4, T5, E extends Throwable> {

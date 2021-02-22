@@ -18,6 +18,7 @@ package com.github.gg_a.tuple;
 /**
  * A tuple of 6 same type elements<br>
  * 具有相同类型的6个元素的元组
+ * @since 0.1.1
  */
 public class EasyTuple6<T> extends Tuple6<T, T, T, T, T, T> {
     private static final long serialVersionUID = 10065918016L;
@@ -27,8 +28,18 @@ public class EasyTuple6<T> extends Tuple6<T, T, T, T, T, T> {
     }
 
     @Override
+    public T __(TupleAlias alias) {
+        return (T)super.__(alias);
+    }
+
+    @Override
     public T __(String alias) {
         return (T)super.__(alias);
+    }
+
+    @Override
+    public EasyTuple6<T> alias(TupleAlias... aliases) {
+        return (EasyTuple6<T>)super.alias(aliases);
     }
 
     @Override
@@ -39,6 +50,11 @@ public class EasyTuple6<T> extends Tuple6<T, T, T, T, T, T> {
     @Override
     public T element(int n) {
         return (T)super.element(n);
+    }
+
+    @Override
+    public Tuple2<TupleAlias, T> elementWithTupleAlias(int n) {
+        return (Tuple2<TupleAlias, T>)super.elementWithTupleAlias(n);
     }
 
     @Override
