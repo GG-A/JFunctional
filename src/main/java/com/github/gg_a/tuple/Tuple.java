@@ -48,10 +48,14 @@ public interface Tuple extends Serializable {
      * public enum MyTupleAlias implements TupleAlias {
      *     // You can put All aliases in one `enum MyTupleAlias` for all Tuple Type,
      *     // or create more enum by category: enum UserAliases, enum AddressAliases ...
-     *     // 可以把所有的Tuple要用到的别名全部放在一个枚举类型中，
+     *     // 可以把所有的Tuple要用到的别名全部放在一个枚举类型中，可以使用一些特殊命名为Alias分类，
+     *     // 如下面的 $USER_ALIAS$, $ORDER_ALIAS$。
      *     // 也可以创建多个枚举类型用于存储不同的Tuple数据。
      *
-     *     ID, NAME, TEL, AGE, BIRTHDAY, ADDRESS
+     *     $USER_ALIAS$,
+     *          ID, NAME, TEL, AGE, BIRTHDAY, PROVINCE, CITY, REGISTERTIME,
+     *     $ORDER_ALIAS$,
+     *          ORDERID, GOODSID, USERID, PRICE, QUANTITY, ORDERTIME, PAYTIME
      * }
      *
      * // TestMain.java

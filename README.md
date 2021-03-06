@@ -204,7 +204,10 @@ package mypackage;
 import com.github.gg_a.tuple.TupleAlias;
 
 public enum MyTupleAlias implements TupleAlias {
-    ID, NAME, TEL, AGE, BIRTHDAY, ADDRESS
+     $USER_ALIAS$,
+          ID, NAME, TEL, AGE, BIRTHDAY, PROVINCE, CITY, REGISTERTIME,
+     $ORDER_ALIAS$,
+          ORDERID, GOODSID, USERID, PRICE, QUANTITY, ORDERTIME, PAYTIME
 }
 
 // Test.java
