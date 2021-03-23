@@ -10,7 +10,34 @@
 + Apache maven 3.6.1
 
 
+## 集成方式（兼容Java 8及Java 9+）
+### Maven
+```xml
+<dependency>
+  <groupId>com.github.GG-A</groupId>
+  <artifactId>JFunctional</artifactId>
+  <version>0.5.0</version>
+</dependency>
+```
+
+### Gradle
+```
+implementation 'com.github.GG-A:JFunctional:0.5.0'
+```
+
+
+## 使用指南（User Guide）
+
+- [JFunctional与函数式接口](#jfunctional与函数式接口)
+  - [Java函数式接口说明](#java函数式接口说明)
+  - [JFunctional函数式接口使用](#jfunctional函数式接口使用)
+- [Tuple（元组）](#tuple元组)
+  - [Tuple（元组）使用](#tuple元组使用)
+  - [EasyTuple 使用](#easytuple-使用)
+
 ## JFunctional与函数式接口
+
+### Java函数式接口说明
 关于**函数式接口**，Java 8标准中也有提供，在`java.util.function`下，总共包含43个接口，这些接口是为了让**Lamdba函数表达式**使用的更加简便。总共包含以下几类接口：
 
 | 接口类型 | 表示 |
@@ -69,7 +96,7 @@
 | **RT9** | 9个参数，有返回值且抛出异常 (accepts 9 arguments and produces a result, and will throw exception) | 
 
 
-## JFunctional中函数式接口使用  
+### JFunctional函数式接口使用  
 - V2接口示例  
 ```java
 public void v2_test(){
@@ -293,22 +320,6 @@ b. 此时，按下 **alt + /**，就会有 **V1 接口**的提示
 
 2. 手动导入`function`下的所有接口（但是对于**只有一个字母的接口名**依然无法智能提示，只是手动输入的时候，可以避免出现 由于没有导包导致的错误）  
 `import com.github.gg_a.function.*;`
-
-
-## 集成方式（兼容Java 8及Java 9+）
-### Maven
-```xml
-<dependency>
-  <groupId>com.github.GG-A</groupId>
-  <artifactId>JFunctional</artifactId>
-  <version>0.5.0</version>
-</dependency>
-```
-
-### Gradle
-```
-implementation 'com.github.GG-A:JFunctional:0.5.0'
-```
 
 
 
