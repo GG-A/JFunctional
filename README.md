@@ -6,7 +6,7 @@
 
 ## Environment（开发环境）  
 + JDK 9.0.4
-+ IntelliJ IDEA 2019.3.4 (Community Edition)
++ IntelliJ IDEA 2021.1 (Community Edition)
 + Apache maven 3.6.1
 
 
@@ -16,13 +16,13 @@
 <dependency>
   <groupId>com.github.GG-A</groupId>
   <artifactId>JFunctional</artifactId>
-  <version>0.5.0</version>
+  <version>0.5.2</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-implementation 'com.github.GG-A:JFunctional:0.5.0'
+implementation 'com.github.GG-A:JFunctional:0.5.2'
 ```
 
 
@@ -99,7 +99,7 @@ implementation 'com.github.GG-A:JFunctional:0.5.0'
 ### JFunctional函数式接口使用  
 - V2接口示例  
 ```java
-public void v2_test(){
+public void testV2(){
     /*
      Java 8之前：使用匿名内部类，调用v2AsParams
      */
@@ -126,7 +126,7 @@ private void v2AsParams(V2<String, String> v2) {
 
 - R1接口示例  
 ```java
-public void r1_test() {
+public void testR1() {
     List<String> ls = Arrays.asList("1", "2", "3", "4");
     /*
      Java 8之前：使用匿名内部类，调用 map
@@ -160,7 +160,7 @@ private <T, R> List<R> map(List<T> ls, R1<T, R> r1) {
 
 - R2接口（不支持抛出异常） 处理异常示例  
 ```java
-public void r2_exception(){
+public void testR2Exception(){
     // 必须在 lambda 表达式中使用 try-catch 块处理，无法将异常继续向外抛出
     R2<String, Integer, String> r2 = (s, i) -> {
         if (i == 5) {
@@ -182,7 +182,7 @@ public void r2_exception(){
 
 - RT2接口（支持抛出异常） 处理异常示例  
 ```java
-public void rt2_exception() throws IOException { 
+public void testRT2Exception() throws IOException { 
     RT2<String, Integer, String, IOException> rt2 = (s, i) -> {
         // 使用 RT2 在lambda 表达式中，不用处理异常，等到调用 $ 函数时再处理
         if (i == 5) throw new IOException("抛出异常");
@@ -254,9 +254,6 @@ Integer age = t2.<Integer>__("age");    // 使用泛型参数
 System.out.println(name);               // 输出: abc
 System.out.println(age);                // 输出: 20
 
-// 方式三
-Tuple2<Integer, String> t21 = new Tuple2<>(19, "ls");
-t21.alias("id", "name");
 ```
 
 - 遍历元组中的元素

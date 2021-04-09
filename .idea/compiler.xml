@@ -7,10 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="JFunctional" />
+        <module name="JFunctional-tests" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="JFunctional" target="9" />
-    </bytecodeTargetLevel>
   </component>
 </project>
