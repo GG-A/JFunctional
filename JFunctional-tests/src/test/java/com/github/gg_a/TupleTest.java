@@ -109,4 +109,17 @@ public class TupleTest {
         System.out.println("testTupleEquals 全部成功！");
     }
 
+    @Test
+    public void testClone() {
+        Tuple2<String, Integer> t2 = new Tuple2<>("zs", 20).alias("NAME", "AGE");
+        Tuple2<String, Integer> clone1 = (Tuple2<String, Integer>) Tuple.clone(t2);
+        Tuple4<Integer, Tuple0, Object, Tuple2<String, Object>> tuple = new Tuple4<>(1, Tuple0.instance(), null, new Tuple2<>("zs", null).alias(A, B));
+        Tuple4<Integer, Tuple0, Object, Tuple2<String, Object>> clone2 = (Tuple4<Integer, Tuple0, Object, Tuple2<String, Object>>)Tuple.clone(tuple);
+        assertFalse(t2 == clone1);
+        assertFalse(tuple == clone2);
+        assertEquals("string", clone1.aliasType());
+        assertEquals("null", clone2.aliasType());
+        assertEquals("(A: \"zs\", B: null)", clone2._4.toString());
+    }
+
 }
