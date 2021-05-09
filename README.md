@@ -16,13 +16,13 @@
 <dependency>
   <groupId>com.github.GG-A</groupId>
   <artifactId>JFunctional</artifactId>
-  <version>0.5.2</version>
+  <version>0.5.3</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-implementation 'com.github.GG-A:JFunctional:0.5.2'
+implementation 'com.github.GG-A:JFunctional:0.5.3'
 ```
 
 

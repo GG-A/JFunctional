@@ -75,7 +75,7 @@ public interface Tuple extends Serializable {
     Tuple alias(TupleAlias... aliases);
 
     /**
-     * Setting tuple's aliases. Recommend using {@link #alias(TupleAlias...)}
+     * Setting tuple's aliases. Recommend using {@link #alias(TupleAlias...)} <br>
      * 为元组（Tuple）的元素设置别名。推荐使用 {@link #alias(TupleAlias...)} 这个方法设置别名。
      *
      * @see #alias(TupleAlias...)
@@ -85,6 +85,35 @@ public interface Tuple extends Serializable {
      * @throws UnsupportedOperationException if this method is called by Tuple0 {@link Tuple0#alias(String...)}.
      */
     Tuple alias(String... aliases);
+
+    /**
+     * Get current alias type: null, tuple, string. <br>
+     * <b>null: </b>not set alias; <br>
+     * <b>tuple: </b>use TupleAlias, when call {@link #alias(TupleAlias...)}; <br>
+     * <b>string: </b>use normal alias, when call {@link #alias(String...)}. <br><br>
+     * 获取当前设置的别名类型（三种）：null, tuple, string. <br>
+     * <b>null: </b>表示未设置别名； <br>
+     * <b>tuple: </b>使用TupleAlias设置别名，在你调用 {@link #alias(TupleAlias...)} 之后； <br>
+     * <b>string: </b>使用普通的字符串设置别名，在你调用 {@link #alias(String...)} 之后。<br>
+     * @return alias type
+     * @since  0.5.3
+     */
+    String aliasType();
+
+    /**
+     * Copy aliases from other tuple. <br>
+     * 从其他tuple中复制别名到当前tuple中
+     * @param tuple other tuple
+     * @return this tuple
+     * @since  0.5.3
+     */
+    Tuple copyAliases(Tuple tuple);
+
+    /**
+     * clear all aliases. 清空所有别名。
+     * @since  0.5.3
+     */
+    void clearAlias();
 
     /**
      * Get list of aliases. 获取别名列表。
@@ -98,6 +127,15 @@ public interface Tuple extends Serializable {
      * @return list of aliases
      */
     List<String> getAliases();
+
+    /**
+     * Indicates whether some other Tuple object's aliases is "equal to" this one. <br>
+     * 比较两个Tuple的别名是否相等。
+     * @param tuple other tuple object
+     * @return return {@code true} if aliases are equal.　返回true，如果两个tuple的所有别名都相等。
+     * @since  0.5.3
+     */
+    boolean aliasesEquals(Tuple tuple);
 
     /**
      * Get tuple element value by alias, it will throw {@code AliasNotFoundException} when alias not found.<br>

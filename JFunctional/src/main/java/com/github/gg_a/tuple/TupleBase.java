@@ -28,31 +28,39 @@ public abstract class TupleBase implements Tuple {
     private static final long serialVersionUID = 10065917090L;
 
     /**
-     * List of aliases.　别名列表。
+     * List of aliases.　普通别名列表。
      */
-    private List<String> aliasList = new ArrayList<>();
+    private final List<String> aliasList = new ArrayList<>();
     /**
-     * List of tuple aliases.　别名列表。
+     * List of tuple aliases.　TupleAlias别名列表。
      */
-    private List<TupleAlias> tupleAliasList = new ArrayList<>();
+    private final List<TupleAlias> tupleAliasList = new ArrayList<>();
     /**
      * Map of aliases.　别名与序号键值对
      */
-    private Map<String, Integer> alias_index = new HashMap<>();
+    private final Map<String, Integer> alias_index = new HashMap<>();
 
     @Override
     public Tuple alias(TupleAlias... aliases) {
-        if (aliases == null) throw new NullPointerException("The `aliases` can't be null. 参数aliases不能为null。");
-        List<TupleAlias> localAliasList = Arrays.asList(aliases);
+        if (arity() == 0) throw new UnsupportedOperationException("`alias` method is unsupported in Tuple0. Because Tuple0 is empty tuple. Tuple0不支持调用alias方法，因为Tuple0是一个空元组。");
 
-        localAliasList.forEach(alias -> {
-            if(alias == null) throw new NullPointerException("The aliases can't be null. 设置的别名不能为null。");
-        });
+        clearAlias();
+        if (aliases == null) {
+            if (arity() == 1) {
+                alias((String[]) null);
+                tupleAliasList.add(null);
+                return this;
+            }
+            throw new NumberOfAliasesException("aliases' length is not equals " + arity() + ". 参数aliases的长度不等于" + arity() + "。");
+        }
 
-        String[] localStrAliases = localAliasList.stream().map(Object::toString).toArray(String[]::new);
+        List<TupleAlias> localAliases = Arrays.asList(aliases);
+        Set<TupleAlias> aliasSet = new HashSet<>(localAliases);
+        if (localAliases.size() != aliasSet.size()) throw new AliasDuplicateException("The aliases can't repeat. 别名不能重复！");
+
+        String[] localStrAliases = localAliases.stream().map( e -> e == null ? null : e.toString()).toArray(String[]::new);
         alias(localStrAliases);
-        tupleAliasList.clear();
-        tupleAliasList.addAll(Arrays.asList(aliases));
+        tupleAliasList.addAll(localAliases);
 
         return this;
     }
@@ -61,22 +69,59 @@ public abstract class TupleBase implements Tuple {
     public Tuple alias(String... aliases) {
         if (arity() == 0) throw new UnsupportedOperationException("`alias` method is unsupported in Tuple0. Because Tuple0 is empty tuple. Tuple0不支持调用alias方法，因为Tuple0是一个空元组。");
 
+        clearAlias();
         if (aliases == null) {
             if (arity() == 1) {
-                alias_index.clear();
-                aliasList.clear();
                 putToMapAndList(null, 0);
-            }else {
-                throw new NumberOfAliasesException("aliases' length is not equals " + arity() + ". 参数aliases的长度不等于" + arity() + "。");
+                return this;
             }
-        }else {
-            if (arity() != aliases.length)  throw new NumberOfAliasesException("aliases' length is not equals " + arity() + ". 参数aliases的长度不等于" + arity() + "。");
-            alias_index.clear();
-            aliasList.clear();
-            for (int i = 0; i < aliases.length; i++) putToMapAndList(aliases[i], i);
+            throw new NumberOfAliasesException("aliases' length is not equals " + arity() + ". 参数aliases的长度不等于" + arity() + "。");
         }
 
+        List<String> localAliases = Arrays.asList(aliases);
+        Set<String> aliasSet = new HashSet<>(localAliases);
+        if (localAliases.size() != aliasSet.size()) throw new AliasDuplicateException("The aliases can't repeat. 别名不能重复！");
+
+        if (arity() != aliases.length)  throw new NumberOfAliasesException("aliases' length is not equals " + arity() + ". 参数aliases的长度不等于" + arity() + "。");
+        for (int i = 0; i < aliases.length; i++) putToMapAndList(aliases[i], i);
+
         return this;
+    }
+
+    private void putToMapAndList(String alias, int index) {
+        alias_index.put(alias, index);
+        aliasList.add(alias);
+    }
+
+    @Override
+    public String aliasType() {
+        return !tupleAliasList.isEmpty() ? "tuple" : !aliasList.isEmpty() ? "string" : "null";
+    }
+
+    @Override
+    public Tuple copyAliases(Tuple tuple) {
+        if (tuple.arity() != arity()) return this;
+
+        List<TupleAlias> tempTupleAliases = tuple.getTupleAliases();
+        List<String> tempAliases = tuple.getAliases();
+        clearAlias();
+        if (tempTupleAliases.isEmpty()) {
+            if (!tempAliases.isEmpty()) {
+                String[] strAliases = tempAliases.toArray(new String[0]);
+                alias(strAliases);
+            }
+        }else {
+            TupleAlias[] tupleAliases = tempTupleAliases.toArray(new TupleAlias[0]);
+            alias(tupleAliases);
+        }
+        return this;
+    }
+
+    @Override
+    public void clearAlias() {
+        aliasList.clear();
+        tupleAliasList.clear();
+        alias_index.clear();
     }
 
     @Override
@@ -90,11 +135,23 @@ public abstract class TupleBase implements Tuple {
     }
 
     @Override
+    public boolean aliasesEquals(Tuple tuple) {
+        if (tuple == null || tuple.arity() != arity() || !tuple.aliasType().equals(aliasType())) return false;
+        if (arity() == 0) return true;
+
+        List<String> aliases1 = getAliases();
+        List<String> aliases2 = tuple.getAliases();
+        // tupleAliasList 不用判断，因为 tupleAliasList 会转成 string 存储在 aliasList 中。
+        if (aliases1.size() != aliases2.size()) return false;
+        if (aliases1.isEmpty()) return true;
+        for (int i = 0; i < aliases1.size(); i++) if (!Objects.equals(aliases1.get(i), aliases2.get(i))) return false;
+
+        return true;
+    }
+
+    @Override
     public <R> R __(TupleAlias alias) {
-        if (tupleAliasList.isEmpty()) {
-            throw new AliasNotSetException("The aliases not set. Please call `alias(TupleAlias...)` method first. 别名未设置，请先调用 alias(TupleAlias...) 方法设置别名。");
-        }
-        return __(alias.toString());
+        return __(alias == null ? null : alias.toString());
     }
 
     @Override
@@ -158,15 +215,6 @@ public abstract class TupleBase implements Tuple {
         }
     }
 
-    private void putToMapAndList(String alias, int index) {
-        if (alias_index.containsKey(alias)) {
-            throw new AliasDuplicateException("the alias `" + alias + "` is existed. " + "别名 `" + alias + "` 已经存在。 ");
-        }else {
-            alias_index.put(alias, index);
-            aliasList.add(alias);
-        }
-    }
-
     private String concatElement(List<String> strList) {
         ArrayList<String> tempStrList = new ArrayList<>();
         for (int i = 0; i < strList.size(); i++) {
@@ -185,4 +233,17 @@ public abstract class TupleBase implements Tuple {
         }
         return nstr;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Tuple){
+            Tuple tuple = (Tuple) obj;
+            if (aliasesEquals(tuple)) {
+                for (int i = 0; i < arity(); i++)  if (!Objects.equals(element(i), tuple.element(i))) return false;
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
