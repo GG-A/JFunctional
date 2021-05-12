@@ -21,12 +21,6 @@ package com.github.gg_a.function;
  */
 public interface LambdaV extends Lambda {
     /**
-     * The number of the Lambda params. <br>
-     * Lambda表达式参数的数量
-     * @return The number of the Lambda params
-     */
-    int arity();
-    /**
      * Indicates whether the Lambda's return value is void
      * @return return {@code true} if the Lambda's return value is void
      */

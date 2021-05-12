@@ -25,10 +25,6 @@ package com.github.gg_a.function;
  * @since 0.0.1
  */
 @FunctionalInterface
-public interface R2<T1, T2, R> extends LambdaRN {
+public interface R2<T1, T2, R> extends LambdaRN<R>, Lambda2<T1, T2> {
     R $(T1 t1, T2 t2);
-
-    default int arity(){
-        return 2;
-    }
 }

@@ -25,10 +25,6 @@ package com.github.gg_a.function;
  * @since 0.0.4
  */
 @FunctionalInterface
-public interface VT2<T1, T2, E extends Throwable> extends LambdaVT {
+public interface VT2<T1, T2, E extends Throwable> extends LambdaVT<E>, Lambda2<T1, T2> {
     void $(T1 t1, T2 t2) throws E;
-
-    default int arity(){
-        return 2;
-    }
 }

@@ -19,5 +19,5 @@ package com.github.gg_a.function;
  * A Lambda returns no result, and will throw exception.
  * @since 0.6.0
  */
-public interface LambdaVT extends LambdaV, LambdaT{
+public interface LambdaVT<E extends Throwable> extends LambdaV, LambdaT<E>{
 }

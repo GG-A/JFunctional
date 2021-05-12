@@ -19,5 +19,5 @@ package com.github.gg_a.function;
  * A Lambda will produce a result, and not throws exception.
  * @since 0.6.0
  */
-public interface LambdaRN extends LambdaR, LambdaN{
+public interface LambdaRN<R> extends LambdaR<R>, LambdaN{
 }

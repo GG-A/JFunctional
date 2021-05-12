@@ -19,14 +19,7 @@ package com.github.gg_a.function;
  * A Lambda will produce a result.
  * @since 0.6.0
  */
-public interface LambdaR extends Lambda{
-    /**
-     * The number of the Lambda params. <br>
-     * Lambda表达式参数的数量
-     * @return The number of the Lambda params
-     */
-    int arity();
-
+public interface LambdaR<R> extends Lambda{
     /**
      * Indicates whether the Lambda's return value is void
      * @return return {@code true} if the Lambda's return value is void

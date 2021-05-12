@@ -16,14 +16,16 @@
 package com.github.gg_a.function;
 
 /**
- * Represents a function that accepts 1 argument and produces a result<br>
- * 表示一个接收 1个参数 并返回结果的函数
- *
- * @param <T> type of the 1st param.　第1个参数类型
- * @param <R> return type  返回值类型
- * @since 0.0.1
+ * A Lambda that accepts 8 arguments
+ * @since 0.6.1
  */
-@FunctionalInterface
-public interface R1<T, R> extends LambdaRN<R>, Lambda1<T> {
-    R $(T t);
+public interface Lambda8<T1, T2, T3, T4, T5, T6, T7, T8> extends Lambda{
+    /**
+     * The number of the Lambda params. <br>
+     * Lambda表达式参数的数量
+     * @return The number of the Lambda params
+     */
+    default int arity(){
+        return 8;
+    }
 }

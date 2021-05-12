@@ -19,7 +19,7 @@ package com.github.gg_a.function;
  * A Lambda will throw exception.
  * @since 0.6.0
  */
-public interface LambdaT extends Lambda {
+public interface LambdaT<E extends Throwable> extends Lambda {
     /**
      * Indicates whether the Lambda will throw exception
      * @return return {@code true} if the Lambda will throw exception
