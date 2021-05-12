@@ -20,6 +20,10 @@ package com.github.gg_a.function;
  * @since 0.6.0
  */
 public interface LambdaN extends Lambda{
+    /**
+     * Indicates whether the Lambda will throw exception
+     * @return return {@code true} if the Lambda will throw exception
+     */
     default boolean hasThrows(){
         return false;
     }

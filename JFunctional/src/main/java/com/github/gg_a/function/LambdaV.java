@@ -26,6 +26,10 @@ public interface LambdaV extends Lambda {
      * @return The number of the Lambda params
      */
     int arity();
+    /**
+     * Indicates whether the Lambda's return value is void
+     * @return return {@code true} if the Lambda's return value is void
+     */
     default boolean isVoid(){
         return true;
     }
