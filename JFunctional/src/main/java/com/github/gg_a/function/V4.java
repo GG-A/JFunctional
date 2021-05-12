@@ -26,6 +26,10 @@ package com.github.gg_a.function;
  * @since 0.0.1
  */
 @FunctionalInterface
-public interface V4<T1, T2, T3, T4> {
+public interface V4<T1, T2, T3, T4> extends LambdaVN {
     void $(T1 t1, T2 t2, T3 t3, T4 t4);
+
+    default int arity(){
+        return 4;
+    }
 }

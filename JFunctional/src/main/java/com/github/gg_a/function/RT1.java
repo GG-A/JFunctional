@@ -25,6 +25,10 @@ package com.github.gg_a.function;
  * @since 0.0.4
  */
 @FunctionalInterface
-public interface RT1<T, R, E extends Throwable> {
+public interface RT1<T, R, E extends Throwable> extends LambdaRT {
     R $(T t) throws E;
+
+    default int arity(){
+        return 1;
+    }
 }

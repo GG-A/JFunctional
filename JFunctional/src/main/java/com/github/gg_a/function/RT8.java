@@ -32,6 +32,10 @@ package com.github.gg_a.function;
  * @since 0.0.4
  */
 @FunctionalInterface
-public interface RT8<T1, T2, T3, T4, T5, T6, T7, T8, R, E extends Throwable> {
+public interface RT8<T1, T2, T3, T4, T5, T6, T7, T8, R, E extends Throwable> extends LambdaRT {
     R $(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8) throws E;
+
+    default int arity(){
+        return 8;
+    }
 }

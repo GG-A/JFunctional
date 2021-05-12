@@ -2,6 +2,10 @@ package com.github.gg_a;
 
 import com.github.gg_a.exception.AliasDuplicateException;
 import com.github.gg_a.exception.NumberOfAliasesException;
+import com.github.gg_a.function.R0;
+import com.github.gg_a.function.RT1;
+import com.github.gg_a.function.V2;
+import com.github.gg_a.function.VT2;
 import com.github.gg_a.tuple.*;
 import org.junit.jupiter.api.Test;
 
@@ -121,5 +125,6 @@ public class TupleTest {
         assertEquals("null", clone2.aliasType());
         assertEquals("(A: \"zs\", B: null)", clone2._4.toString());
     }
+
 
 }

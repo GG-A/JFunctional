@@ -1,9 +1,6 @@
 package com.github.gg_a;
 
-import com.github.gg_a.function.R1;
-import com.github.gg_a.function.R2;
-import com.github.gg_a.function.RT2;
-import com.github.gg_a.function.V2;
+import com.github.gg_a.function.*;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -85,6 +82,38 @@ public class FunctionalTest {
     }
 
 
+    @Test
+    public void testLambdaInterface() {
+        R0<Integer> r0 = () -> 1;
+        RT1<String, Integer, Exception> rt1 = s -> {
+            if (s.equals("1")) {
+                return 1;
+            }else {
+                throw new Exception();
+            }
+        };
+        V2<Integer, Integer> v2 = (i1, i2) -> System.out.println(i1 + i2);
+        VT2<String, Integer, Exception> vt2 = (s, i) -> {
+            if (i == 1) {
+                throw new Exception();
+            } else {
+                System.out.println(s);
+            }
+        };
+
+        assertTrue(r0.arity() == 0);
+        assertFalse(r0.isVoid());
+        assertFalse(r0.hasThrows());
+        assertTrue(rt1.arity() == 1);
+        assertFalse(rt1.isVoid());
+        assertTrue(rt1.hasThrows());
+        assertTrue(v2.arity() == 2);
+        assertTrue(v2.isVoid());
+        assertFalse(v2.hasThrows());
+        assertTrue(vt2.arity() == 2);
+        assertTrue(vt2.isVoid());
+        assertTrue(vt2.hasThrows());
+    }
 
 
     // 当一个函数需要接收一个 `两个参数无返回值的函数接口` 时，可以使用现有的 V2<T1, T2>，而不用重新构造一个接口
