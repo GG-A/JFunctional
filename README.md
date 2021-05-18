@@ -1,16 +1,17 @@
-# JFunctional
+# 📚JFunctional
 提供更简单更好用的Java函数式编程接口 (Java Functional Interface that more simpler and easier to use)；  
+增强版switch（简单的模式匹配）(Enhanced switch or simple pattern matching supported)；  
 提供元组（tuple）类型支持；  
 **兼容Java 8及Java 9+模块化系统**；  
 
 
-## Environment（开发环境）  
+## 🛠️Environment（开发环境）  
 + JDK 9.0.4
 + IntelliJ IDEA 2021.1 (Community Edition)
 + Apache maven 3.6.1
 
 
-## 集成方式（兼容Java 8及Java 9+）
+## 💿集成方式（兼容Java 8及Java 9+）
 ### Maven
 ```xml
 <dependency>
@@ -26,8 +27,11 @@ implementation 'com.github.GG-A:JFunctional:0.7.0'
 ```
 
 
-## 使用指南（User Guide）
-
+## 🗺️使用指南（User Guide）
+- [增强版switch（简单的模式匹配）](#增强版switch简单的模式匹配)
+  - [匹配对象的值](#匹配对象的值)
+  - [按类型匹配（替代instanceof）](#按类型匹配替代instanceof)
+  - [按条件匹配（替代if语句）](#按条件匹配替代if语句)
 - [JFunctional与函数式接口](#jfunctional与函数式接口)
   - [Java函数式接口说明](#java函数式接口说明)
   - [JFunctional函数式接口使用](#jfunctional函数式接口使用)
@@ -35,7 +39,137 @@ implementation 'com.github.GG-A:JFunctional:0.7.0'
   - [Tuple（元组）使用](#tuple元组使用)
   - [EasyTuple 使用](#easytuple-使用)
 
-## JFunctional与函数式接口
+## 📘增强版switch（简单的模式匹配）
+**增强版switch**不仅支持[传统switch语句匹配的类型](https://docs.oracle.com/javase/tutorial/java/nutsandbolts/switch.html)（`byte`, `short`, `char`,  `int`, `enum` and `String`），还支持：
++ 任意类型的匹配
++ 对象类型匹配（替代 instanceof）
++ 条件匹配（替代if语句）
+
+
+### 匹配对象的值
+用于匹配两个值或对象是否相等，注意静态导入（`import static com.github.gg_a.pattern.Pattern.*;`）
+- 带返回值的匹配
+```java
+import static com.github.gg_a.pattern.Pattern.*;
+
+String s = "5";
+// 带返回值
+String result = match(s)
+        .when("1", v -> v + v)
+        .when("2", v -> v + "a")
+        .when(in("3", "4", "5", "6"), v -> v + " - abcd")    // in方法用于一次匹配多个值
+        .orElse(v -> "no match");
+
+/*
+ * it is equivalent to the code below.
+ * 上面代码等同于如下switch代码
+ */
+String switchResult;
+switch (s) {
+    case "1":
+        switchResult = s + s;
+        break;
+    case "2":
+        switchResult = s + "a";
+        break;
+    case "3":
+    case "4":
+    case "5":
+    case "6":
+        switchResult = s + " - abcd";
+        break;
+    default:
+        switchResult = "no match";
+}
+```
+- 不带返回值的匹配
+```java
+import static com.github.gg_a.pattern.Pattern.*;
+
+int i = 10;
+// 返回值为null
+Void nullValue = match(i)
+        .when(1,
+                /*
+                 * if you want to match `when(V matchValue, V1<V> action)` not `when(V matchValue, R1<V, R> action)`,
+                 * you need add `{ }`, see: void-compatible and value-compatible
+                 */
+                v -> { System.out.println("match value：" + v); })  // add {} to void-compatible. 添加 {} 表示lambda无返回值，解决方法调用歧义（Ambiguous）问题
+        .whenNext(10,
+                v -> System.out.println("match value：" + v + " whenNext continue..."))
+        .when(20,
+                v -> System.out.println("match value：" + v))
+        .orElse(
+                v -> System.out.println("--orElse--"));
+/*
+ * output:
+ * match value：10 whenNext continue...
+ * --orElse--
+ */
+```
+🔔️注意：Lambda表达式的[void兼容块与值兼容块](https://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.27.2)。
+
+### 按类型匹配（替代instanceof）
+```java
+import static com.github.gg_a.pattern.Pattern.*;
+
+Object o = Tuple.of("zs", 20);
+Integer result = match(o, TYPE)  // add `TYPE` to match Class<?>
+        .when(Integer.class, v -> v + 10)
+        .when(Tuple2.class,  v -> v.arity())
+        .when(String.class,  v -> v.contains("abc") ? 20 : 30)
+        .orElse(v -> 40);
+        
+
+/*
+ * it is equivalent to the code below.
+ * 上面代码等同于如下instanceof代码
+ */
+Integer ifResult;
+if (o instanceof Integer) {
+    ifResult = (Integer) o + 10;
+} else if (o instanceof Tuple2) {
+    ifResult = ((Tuple2) o).arity();
+} else if (o instanceof String) {
+    ifResult = ((String) o).contains("abc") ? 20 : 30;
+} else {
+    ifResult = 40;
+}
+```
+
+### 按条件匹配（替代if语句）
+```java
+int i = 10;
+String result = match(i)
+        .when(i == 0,
+                v -> "i is zero")
+        .when(i < 5 && i > 0,
+                v -> "i is between 0~5")
+        .when(i > 5,
+                v -> "i is greater than 5")
+        .orElse(v -> "i is equals to: " + v);
+        
+System.out.println("match result：" + result);
+
+
+/*
+ * it is equivalent to the code below
+ * 上面代码等同于如下if代码
+ */
+String ifResult;
+if (i == 0) {
+    ifResult = "i is zero";
+} else if (i < 5 && i > 0) {
+    ifResult = "i is between 0~5";
+} else if (i > 5) {
+    ifResult = "i is greater than 5";
+} else {
+    ifResult = "i is equals to: " + i;
+}
+```
+
+
+## 📘JFunctional与函数式接口
 
 ### Java函数式接口说明
 关于**函数式接口**，Java 8标准中也有提供，在`java.util.function`下，总共包含43个接口，这些接口是为了让**Lamdba函数表达式**使用的更加简便。总共包含以下几类接口：
@@ -207,7 +341,7 @@ public void testRT2Exception() throws IOException {
 
 
 
-## Tuple（元组）
+## 📘Tuple（元组）
 元组（Tuple）是用来表示一组数据的集合。与列表（List）类似，但与列表有着本质的区别：
 1. 元组可以存放不同类型的数据，而列表只能存放相同类型的数据
 2. 元组的值一经初始化，无法修改，只能查看
@@ -307,7 +441,7 @@ for (int i = 0; i < et8.arity(); i++) {
 ```
 
 
-## IntelliJ IDEA 智能提示
+## 💡IntelliJ IDEA 智能提示
 由于接口名过于简单，导致 IntelliJ IDEA 智能提示不是很友好，对于**只有一个字母的接口名**，可能无法智能提示，解决办法：  
 1. 使用智能补全快捷键（设置方法，进入IDEA快捷键设置Keymap：**Main menu > Code > Completion > Basic**），我设置的快捷键是：**alt + /** ，以 **V1** 为例：  
 a. 输入 v1，会发现没有 **V1 接口**的提示  
@@ -320,7 +454,7 @@ b. 此时，按下 **alt + /**，就会有 **V1 接口**的提示
 
 
 
-## 点个赞哟
+## ⭐点个赞哟
 如果你喜欢 JFunctional，感觉 JFunctional 帮助到了你，可以点右上角 **Star** 支持一下哦，感谢感谢！
 
 ## Copyright
