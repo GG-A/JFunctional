@@ -13,15 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.github.gg_a.pattern.mapping;
+
+
 /**
- * @author GG
+ * Matcher Mapping
+ * @since 0.7.0
  */
-module gg.functional {
-    exports com.github.gg_a.function;
-    exports com.github.gg_a.tuple;
-    exports com.github.gg_a.exception;
-    exports com.github.gg_a.pattern;
-    exports com.github.gg_a.pattern.type;
-    exports com.github.gg_a.pattern.mapping;
-    exports com.github.gg_a.pattern.matcher;
+public abstract class MatcherMapping<V> {
+    protected final V value;
+
+    public MatcherMapping(V value) {
+        this.value = value;
+    }
+
 }

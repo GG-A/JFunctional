@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.github.gg_a.pattern.matcher;
+
 /**
- * @author GG
+ * Simple Matcher
+ * @param <V> 待匹配的值的类型 match(value) 中，value的类型
+ * @param <P> 匹配的模式的类型 .when(pattern, action) 中，pattern的类型
+ * @param <L> lambda表达式参数类型
+ * @param <R> 返回值类型
+ * @since 0.7.0
  */
-module gg.functional {
-    exports com.github.gg_a.function;
-    exports com.github.gg_a.tuple;
-    exports com.github.gg_a.exception;
-    exports com.github.gg_a.pattern;
-    exports com.github.gg_a.pattern.type;
-    exports com.github.gg_a.pattern.mapping;
-    exports com.github.gg_a.pattern.matcher;
+public abstract class SimpleMatcher<V, P, L, R> implements Matcher {
+
 }
