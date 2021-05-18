@@ -28,13 +28,15 @@ public class EasyTuple2<T> extends Tuple2<T, T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public T __(TupleAlias alias) {
-        return (T)super.__(alias);
+        return super.__(alias);
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public T __(String alias) {
-        return (T)super.__(alias);
+        return super.__(alias);
     }
 
     @Override
@@ -48,18 +50,21 @@ public class EasyTuple2<T> extends Tuple2<T, T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public T element(int n) {
-        return (T)super.element(n);
+        return super.element(n);
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Tuple2<TupleAlias, T> elementWithTupleAlias(int n) {
-        return (Tuple2<TupleAlias, T>)super.elementWithTupleAlias(n);
+        return super.elementWithTupleAlias(n);
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Tuple2<String, T> elementWithAlias(int n) {
-        return (Tuple2<String, T>)super.elementWithAlias(n);
+        return super.elementWithAlias(n);
     }
 
 }

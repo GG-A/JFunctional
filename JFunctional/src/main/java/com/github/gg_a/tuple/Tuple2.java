@@ -51,16 +51,19 @@ public class Tuple2<T1, T2> extends TupleBase {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Tuple2<T1, T2> alias(TupleAlias... aliases) {
         return (Tuple2<T1, T2>)super.alias(aliases);
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Tuple2<T1, T2> alias(String... aliases) {
         return (Tuple2<T1, T2>)super.alias(aliases);
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <R> R element(int n) {
         switch (n) {
             case 0:

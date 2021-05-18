@@ -114,7 +114,8 @@ Void nullValue = match(i)
 import static com.github.gg_a.pattern.Pattern.*;
 
 Object o = Tuple.of("zs", 20);
-Integer result = match(o, TYPE)  // add `TYPE` to match Class<?>
+// add `TYPE` to match Class<?>. 这里需要加个TYPE，表示按类型匹配。
+Integer result = match(o, TYPE)  
         .when(Integer.class, v -> v + 10)
         .when(Tuple2.class,  v -> v.arity())
         .when(String.class,  v -> v.contains("abc") ? 20 : 30)

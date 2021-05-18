@@ -37,7 +37,6 @@ public class TypeRMatcher<V, R> implements Matcher{
         this(value, false);
     }
 
-
     public <C> TypeRMatcher<V, R> when(Class<C> value, R1<C, R> action) {
         if (!isMatch) {
             Objects.requireNonNull(value);
