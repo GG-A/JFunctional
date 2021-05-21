@@ -36,20 +36,9 @@ public abstract class SimpleRMatcher<V, P, L, R> extends SimpleMatcher<V, P, L, 
         this(value, false);
     }
 
-    public SimpleRMatcher<V, P, L, R> when(P value, R1<L, R> action){
-        Objects.requireNonNull(value);
-        Objects.requireNonNull(action);
-        return this;
-    }
+    public abstract SimpleRMatcher<V, P, L, R> when(P value, R1<L, R> action);
 
-    public SimpleRMatcher<V, P, L, R> whenNext(P value, R1<L, R> action){
-        Objects.requireNonNull(value);
-        Objects.requireNonNull(action);
-        return this;
-    }
+    public abstract SimpleRMatcher<V, P, L, R> whenNext(P value, R1<L, R> action);
 
-    public R orElse(R1<V, R> action){
-        Objects.requireNonNull(action);
-        return returnValue;
-    }
+    public abstract R orElse(R1<V, R> action);
 }

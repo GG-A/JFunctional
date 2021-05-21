@@ -15,10 +15,7 @@
  */
 package com.github.gg_a.pattern;
 
-import com.github.gg_a.pattern.mapping.BooleanMatcherMapping;
-import com.github.gg_a.pattern.mapping.ClassMatcherMapping;
-import com.github.gg_a.pattern.mapping.TypeMatcherMapping;
-import com.github.gg_a.pattern.mapping.ValueMatcherMapping;
+import com.github.gg_a.pattern.mapping.*;
 import com.github.gg_a.pattern.type.PatternBoolean;
 import com.github.gg_a.pattern.type.PatternDefault;
 import com.github.gg_a.pattern.type.PatternType;
@@ -35,35 +32,30 @@ public class Pattern {
     public static PatternBoolean BOOLEAN = PatternBoolean.BOOLEAN;
     public static PatternType TYPE = PatternType.TYPE;
 
-    public static ClassMatcherMapping<Class<?>> match(Class<?> clazz) {
-        Objects.requireNonNull(clazz);
-        return new ClassMatcherMapping<>(clazz);
+    public static ClassValueMatcherMapping<Class<?>> match(Class<?> clazz) {
+        return new ClassValueMatcherMapping<>(clazz);
     }
 
-    public static <V> ValueMatcherMapping<V> match(V value) {
+    public static <V> MixMatcherMapping<V> match(V value) {
         return match(value, DEFAULT);
     }
 
-    public static <V> ValueMatcherMapping<V> match(V value, PatternDefault patternDefault) {
-        Objects.requireNonNull(value);
+    public static <V> MixMatcherMapping<V> match(V value, PatternDefault patternDefault) {
         Objects.requireNonNull(patternDefault);
-        return new ValueMatcherMapping<V>(value);
+        return new MixMatcherMapping<V>(value);
     }
 
     public static <V> ValueMatcherMapping<V> match(V value, PatternValue patternValue) {
-        Objects.requireNonNull(value);
         Objects.requireNonNull(patternValue);
         return new ValueMatcherMapping<V>(value);
     }
 
     public static <V> BooleanMatcherMapping<V> match(V value, PatternBoolean patternBoolean) {
-        Objects.requireNonNull(value);
         Objects.requireNonNull(patternBoolean);
         return new BooleanMatcherMapping<>(value);
     }
 
     public static <V> TypeMatcherMapping<V> match(V value, PatternType patternType) {
-        Objects.requireNonNull(value);
         Objects.requireNonNull(patternType);
         return new TypeMatcherMapping<>(value);
     }

@@ -22,6 +22,7 @@ import java.util.Objects;
 
 /**
  * Value Matcher with void
+ *
  * @since 0.7.0
  */
 public class ValueVMatcher<V> extends SimpleVMatcher<V, V, V> {
@@ -37,11 +38,17 @@ public class ValueVMatcher<V> extends SimpleVMatcher<V, V, V> {
     @Override
     public ValueVMatcher<V> when(V value, V1<V> action) {
         if (!isMatch) {
-            super.when(value, action);
-            if (value.equals(this.value)) {
+            Objects.requireNonNull(action);
+            if (value == null || this.value == null) {
+                if (this.value == value) {
+                    isMatch = true;
+                    action.$(this.value);
+                }
+            } else if (value.equals(this.value)) {
                 isMatch = true;
                 action.$(this.value);
             }
+
         }
         return this;
     }
@@ -49,9 +56,11 @@ public class ValueVMatcher<V> extends SimpleVMatcher<V, V, V> {
     @Override
     public ValueVMatcher<V> whenNext(V value, V1<V> action) {
         if (!isMatch) {
-            super.whenNext(value, action);
-            if (value.equals(this.value)) action.$(this.value);
-
+            Objects.requireNonNull(action);
+            if (value == null || this.value == null) {
+                if (this.value == value)
+                    action.$(this.value);
+            } else if (value.equals(this.value)) action.$(this.value);
         }
 
         return this;
@@ -59,9 +68,18 @@ public class ValueVMatcher<V> extends SimpleVMatcher<V, V, V> {
 
     public ValueVMatcher<V> when(PatternIn<V> values, V1<V> action) {
         if (!isMatch) {
-            Objects.requireNonNull(values);
             Objects.requireNonNull(action);
-            if (values.getVs().contains(this.value)) {
+            if (this.value == null) {
+                if (values == null) {
+                    isMatch = true;
+                    action.$(this.value);
+                }else{
+                    if (values.getVs().contains(this.value)) {
+                        isMatch = true;
+                        action.$(this.value);
+                    }
+                }
+            } else if (values != null && values.getVs().contains(this.value)) {
                 isMatch = true;
                 action.$(this.value);
             }
@@ -71,9 +89,16 @@ public class ValueVMatcher<V> extends SimpleVMatcher<V, V, V> {
 
     public ValueVMatcher<V> whenNext(PatternIn<V> values, V1<V> action) {
         if (!isMatch) {
-            Objects.requireNonNull(values);
             Objects.requireNonNull(action);
-            if (values.getVs().contains(this.value)) action.$(this.value);
+            if (this.value == null) {
+                if (values == null) {
+                    action.$(this.value);
+                }else{
+                    if (values.getVs().contains(this.value)) {
+                        action.$(this.value);
+                    }
+                }
+            } else if (values != null && values.getVs().contains(this.value)) action.$(this.value);
         }
         return this;
     }
@@ -81,7 +106,7 @@ public class ValueVMatcher<V> extends SimpleVMatcher<V, V, V> {
     @Override
     public Void orElse(V1<V> action) {
         if (!isMatch) {
-            super.orElse(action);
+            Objects.requireNonNull(action);
             action.$(this.value);
         }
         return returnValue;

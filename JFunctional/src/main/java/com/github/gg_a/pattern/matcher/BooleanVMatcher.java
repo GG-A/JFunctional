@@ -17,8 +17,11 @@ package com.github.gg_a.pattern.matcher;
 
 import com.github.gg_a.function.V1;
 
+import java.util.Objects;
+
 /**
  * Boolean Matcher with void
+ *
  * @since 0.7.0
  */
 public class BooleanVMatcher<V> extends SimpleVMatcher<V, Boolean, V> {
@@ -34,8 +37,13 @@ public class BooleanVMatcher<V> extends SimpleVMatcher<V, Boolean, V> {
     @Override
     public BooleanVMatcher<V> when(Boolean value, V1<V> action) {
         if (!isMatch) {
-            super.when(value, action);
-            if (value) {
+            Objects.requireNonNull(action);
+            if (value == null || this.value == null) {
+                if (this.value == null && value == null) {
+                    isMatch = true;
+                    action.$(this.value);
+                }
+            } else if (value) {
                 isMatch = true;
                 action.$(this.value);
             }
@@ -46,8 +54,11 @@ public class BooleanVMatcher<V> extends SimpleVMatcher<V, Boolean, V> {
     @Override
     public BooleanVMatcher<V> whenNext(Boolean value, V1<V> action) {
         if (!isMatch) {
-            super.whenNext(value, action);
-            if (value) action.$(this.value);
+            Objects.requireNonNull(action);
+            if (value == null || this.value == null) {
+                if (this.value == null && value == null)
+                    action.$(this.value);
+            } else if (value) action.$(this.value);
         }
         return this;
     }
@@ -55,7 +66,7 @@ public class BooleanVMatcher<V> extends SimpleVMatcher<V, Boolean, V> {
     @Override
     public Void orElse(V1<V> action) {
         if (!isMatch) {
-            super.orElse(action);
+            Objects.requireNonNull(action);
             action.$(this.value);
         }
         return returnValue;

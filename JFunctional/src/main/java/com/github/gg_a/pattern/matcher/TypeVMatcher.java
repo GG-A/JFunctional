@@ -16,13 +16,15 @@
 package com.github.gg_a.pattern.matcher;
 
 import com.github.gg_a.function.V1;
+
 import java.util.Objects;
 
 /**
  * Type Matcher with void
+ *
  * @since 0.7.0
  */
-public class TypeVMatcher<V> implements Matcher{
+public class TypeVMatcher<V> implements Matcher {
 
     protected Void returnValue;
     protected V value;
@@ -39,10 +41,13 @@ public class TypeVMatcher<V> implements Matcher{
 
     public <C> TypeVMatcher<V> when(Class<C> value, V1<C> action) {
         if (!isMatch) {
-            Objects.requireNonNull(value);
             Objects.requireNonNull(action);
-
-            if (this.value.getClass() == value) {
+            if (value == null || this.value == null) {
+                if (this.value == null && value == null) {
+                    isMatch = true;
+                    action.$((C) this.value);
+                }
+            } else if (this.value.getClass() == value) {
                 isMatch = true;
                 action.$((C) this.value);
             }
@@ -52,9 +57,11 @@ public class TypeVMatcher<V> implements Matcher{
 
     public <C> TypeVMatcher<V> whenNext(Class<C> value, V1<C> action) {
         if (!isMatch) {
-            Objects.requireNonNull(value);
             Objects.requireNonNull(action);
-            if (this.value.getClass() == value) action.$((C) this.value);
+            if (value == null || this.value == null) {
+                if (this.value == null && value == null)
+                    action.$((C) this.value);
+            } else if (this.value.getClass() == value) action.$((C) this.value);
         }
         return this;
     }

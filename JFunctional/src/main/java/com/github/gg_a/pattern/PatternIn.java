@@ -49,8 +49,12 @@ public class PatternIn<V> {
      * @return PatternIn
      */
     public static <T> PatternIn<T> in(T... values) {
-        if (values.length == 0) throw new RuntimeException("The params's length must be greater than 0. 参数个数必须大于0");
         PatternIn<T> patternIn = new PatternIn<>();
+        if (values == null) {
+            patternIn.vs = Arrays.asList((T)null);
+            return patternIn;
+        }
+        if (values.length == 0) throw new RuntimeException("The params's length must be greater than 0. 参数个数必须大于0");
         patternIn.vs = Arrays.asList(values);
         return patternIn;
     }

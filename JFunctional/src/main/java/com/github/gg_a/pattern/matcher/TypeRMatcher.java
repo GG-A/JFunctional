@@ -16,13 +16,15 @@
 package com.github.gg_a.pattern.matcher;
 
 import com.github.gg_a.function.R1;
+
 import java.util.Objects;
 
 /**
  * Type Matcher with return value
+ *
  * @since 0.7.0
  */
-public class TypeRMatcher<V, R> implements Matcher{
+public class TypeRMatcher<V, R> implements Matcher {
 
     protected R returnValue;
     protected V value;
@@ -39,9 +41,13 @@ public class TypeRMatcher<V, R> implements Matcher{
 
     public <C> TypeRMatcher<V, R> when(Class<C> value, R1<C, R> action) {
         if (!isMatch) {
-            Objects.requireNonNull(value);
             Objects.requireNonNull(action);
-            if (this.value.getClass() == value) {
+            if (value == null || this.value == null) {
+                if (this.value == null && value == null) {
+                    isMatch = true;
+                    returnValue = action.$((C) this.value);
+                }
+            } else if (this.value.getClass() == value) {
                 isMatch = true;
                 returnValue = action.$((C) this.value);
             }
@@ -51,9 +57,11 @@ public class TypeRMatcher<V, R> implements Matcher{
 
     public <C> TypeRMatcher<V, R> whenNext(Class<C> value, R1<C, R> action) {
         if (!isMatch) {
-            Objects.requireNonNull(value);
             Objects.requireNonNull(action);
-            if (this.value.getClass() == value) returnValue = action.$((C) this.value);
+            if (value == null || this.value == null) {
+                if (this.value == null && value == null)
+                    returnValue = action.$((C) this.value);
+            } else if (this.value.getClass() == value) returnValue = action.$((C) this.value);
         }
         return this;
     }

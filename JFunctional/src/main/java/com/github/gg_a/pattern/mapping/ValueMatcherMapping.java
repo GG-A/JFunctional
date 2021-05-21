@@ -18,8 +18,6 @@ package com.github.gg_a.pattern.mapping;
 import com.github.gg_a.function.R1;
 import com.github.gg_a.function.V1;
 import com.github.gg_a.pattern.PatternIn;
-import com.github.gg_a.pattern.matcher.BooleanRMatcher;
-import com.github.gg_a.pattern.matcher.BooleanVMatcher;
 import com.github.gg_a.pattern.matcher.ValueRMatcher;
 import com.github.gg_a.pattern.matcher.ValueVMatcher;
 
@@ -27,29 +25,9 @@ import com.github.gg_a.pattern.matcher.ValueVMatcher;
  * Value Matcher Mapping
  * @since 0.7.0
  */
-public class ValueMatcherMapping<V> extends MatcherMapping<V> {
-
+public class ValueMatcherMapping<V> extends MatcherMapping<V>{
     public ValueMatcherMapping(V value) {
         super(value);
-    }
-
-    public BooleanVMatcher<V> when(Boolean matchValue, V1<V> action) {
-        BooleanVMatcher<V> booleanVMatcher = new BooleanVMatcher<V>(value);
-        return booleanVMatcher.when(matchValue, action);
-    }
-    public BooleanVMatcher<V> whenNext(Boolean matchValue, V1<V> action) {
-        BooleanVMatcher<V> booleanVMatcher = new BooleanVMatcher<V>(value);
-        return booleanVMatcher.whenNext(matchValue, action);
-    }
-
-    public <R> BooleanRMatcher<V, R> when(Boolean matchValue, R1<V ,R> action) {
-        BooleanRMatcher<V, R> booleanRMatcher = new BooleanRMatcher<>(value);
-        return booleanRMatcher.when(matchValue, action);
-    }
-
-    public <R> BooleanRMatcher<V, R> whenNext(Boolean matchValue, R1<V ,R> action) {
-        BooleanRMatcher<V, R> booleanRMatcher = new BooleanRMatcher<>(value);
-        return booleanRMatcher.whenNext(matchValue, action);
     }
 
     public ValueVMatcher<V> when(V matchValue, V1<V> action) {
@@ -62,16 +40,16 @@ public class ValueMatcherMapping<V> extends MatcherMapping<V> {
         return valueVMatcher.whenNext(matchValue, action);
     }
 
-    public <R> ValueRMatcher<V, R> when(V matchValue, R1<V ,R> action) {
+    public <R> ValueRMatcher<V, R> when(V matchValue, R1<V, R> action) {
         ValueRMatcher<V, R> valueVMatcher = new ValueRMatcher<>(value);
         return valueVMatcher.when(matchValue, action);
     }
 
-    public <R> ValueRMatcher<V, R> whenNext(V matchValue, R1<V ,R> action) {
+    public <R> ValueRMatcher<V, R> whenNext(V matchValue, R1<V, R> action) {
         ValueRMatcher<V, R> valueVMatcher = new ValueRMatcher<>(value);
         return valueVMatcher.whenNext(matchValue, action);
     }
-    
+
     public ValueVMatcher<V> when(PatternIn<V> matchValues, V1<V> action) {
         ValueVMatcher<V> valueVMatcher = new ValueVMatcher<>(value);
         return valueVMatcher.when(matchValues, action);
@@ -82,13 +60,14 @@ public class ValueMatcherMapping<V> extends MatcherMapping<V> {
         return valueVMatcher.whenNext(matchValues, action);
     }
 
-    public <R> ValueRMatcher<V, R> when(PatternIn<V> matchValues, R1<V ,R> action) {
+    public <R> ValueRMatcher<V, R> when(PatternIn<V> matchValues, R1<V, R> action) {
         ValueRMatcher<V, R> valueVMatcher = new ValueRMatcher<>(value);
         return valueVMatcher.when(matchValues, action);
     }
 
-    public <R> ValueRMatcher<V, R> whenNext(PatternIn<V> matchValues, R1<V ,R> action) {
+    public <R> ValueRMatcher<V, R> whenNext(PatternIn<V> matchValues, R1<V, R> action) {
         ValueRMatcher<V, R> valueVMatcher = new ValueRMatcher<>(value);
         return valueVMatcher.whenNext(matchValues, action);
     }
+
 }

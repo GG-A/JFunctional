@@ -36,21 +36,10 @@ public abstract class SimpleVMatcher<V, P, L> extends SimpleMatcher<V, P, L, Voi
         this(value, false);
     }
 
-    public SimpleVMatcher<V, P, L> when(P value, V1<L> action){
-        Objects.requireNonNull(value);
-        Objects.requireNonNull(action);
-        return this;
-    }
+    public abstract SimpleVMatcher<V, P, L> when(P value, V1<L> action);
 
-    public SimpleVMatcher<V, P, L> whenNext(P value, V1<L> action){
-        Objects.requireNonNull(value);
-        Objects.requireNonNull(action);
-        return this;
-    }
+    public abstract SimpleVMatcher<V, P, L> whenNext(P value, V1<L> action);
 
-    public Void orElse(V1<V> action){
-        Objects.requireNonNull(action);
-        return returnValue;
-    }
+    public abstract Void orElse(V1<V> action);
 
 }

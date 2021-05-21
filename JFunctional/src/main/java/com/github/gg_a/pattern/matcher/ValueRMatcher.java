@@ -17,10 +17,12 @@ package com.github.gg_a.pattern.matcher;
 
 import com.github.gg_a.function.R1;
 import com.github.gg_a.pattern.PatternIn;
+
 import java.util.Objects;
 
 /**
  * Value Matcher with return value
+ *
  * @since 0.7.0
  */
 public class ValueRMatcher<V, R> extends SimpleRMatcher<V, V, V, R> {
@@ -36,8 +38,13 @@ public class ValueRMatcher<V, R> extends SimpleRMatcher<V, V, V, R> {
     @Override
     public ValueRMatcher<V, R> when(V value, R1<V, R> action) {
         if (!isMatch) {
-            super.when(value, action);
-            if (value.equals(this.value)) {
+            Objects.requireNonNull(action);
+            if (value == null || this.value == null) {
+                if (this.value == value) {
+                    isMatch = true;
+                    returnValue = action.$(this.value);
+                }
+            } else if (value.equals(this.value)) {
                 isMatch = true;
                 returnValue = action.$(this.value);
             }
@@ -48,17 +55,29 @@ public class ValueRMatcher<V, R> extends SimpleRMatcher<V, V, V, R> {
     @Override
     public ValueRMatcher<V, R> whenNext(V value, R1<V, R> action) {
         if (!isMatch) {
-            super.whenNext(value, action);
-            if (value.equals(this.value)) returnValue = action.$(this.value);
+            Objects.requireNonNull(action);
+            if (value == null || this.value == null) {
+                if (this.value == value)
+                    returnValue = action.$(this.value);
+            } else if (value.equals(this.value)) returnValue = action.$(this.value);
         }
         return this;
     }
 
     public ValueRMatcher<V, R> when(PatternIn<V> values, R1<V, R> action) {
         if (!isMatch) {
-            Objects.requireNonNull(values);
             Objects.requireNonNull(action);
-            if (values.getVs().contains(this.value)) {
+            if (this.value == null) {
+                if (values == null) {
+                    isMatch = true;
+                    returnValue = action.$(this.value);
+                }else{
+                    if (values.getVs().contains(this.value)) {
+                        isMatch = true;
+                        returnValue = action.$(this.value);
+                    }
+                }
+            } else if (values != null && values.getVs().contains(this.value)) {
                 isMatch = true;
                 returnValue = action.$(this.value);
             }
@@ -68,9 +87,16 @@ public class ValueRMatcher<V, R> extends SimpleRMatcher<V, V, V, R> {
 
     public ValueRMatcher<V, R> whenNext(PatternIn<V> values, R1<V, R> action) {
         if (!isMatch) {
-            Objects.requireNonNull(values);
             Objects.requireNonNull(action);
-            if (values.getVs().contains(this.value)) returnValue = action.$(this.value);
+            if (this.value == null) {
+                if (values == null) {
+                    returnValue = action.$(this.value);
+                }else{
+                    if (values.getVs().contains(this.value)) {
+                        returnValue = action.$(this.value);
+                    }
+                }
+            } else if (values != null && values.getVs().contains(this.value)) returnValue = action.$(this.value);
 
         }
 
@@ -80,7 +106,7 @@ public class ValueRMatcher<V, R> extends SimpleRMatcher<V, V, V, R> {
     @Override
     public R orElse(R1<V, R> action) {
         if (!isMatch) {
-            super.orElse(action);
+            Objects.requireNonNull(action);
             returnValue = action.$(this.value);
         }
         return returnValue;

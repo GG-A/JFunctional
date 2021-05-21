@@ -3,6 +3,8 @@ package com.github.gg_a;
 import com.github.gg_a.tuple.Tuple;
 import com.github.gg_a.tuple.Tuple2;
 import org.junit.jupiter.api.Test;
+import java.util.Objects;
+
 import static com.github.gg_a.pattern.Pattern.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author GG
  */
 public class PatternTest {
+
     @Test
     public void testPatternValue1() {
         String s = "5";
@@ -47,6 +50,55 @@ public class PatternTest {
 
     }
 
+    @Test
+    public void testPatternNullValue() {
+        String s = null;
+        String strResult1 = match(s)
+                // Avoid "Ambiguous method call", if you want to match `null` value, you need use `(String) null` or in(null)
+                .when((String) null, v -> "string null value")
+                .when("abcd", v -> "is not null")
+                .orElse(v -> "other value");
+
+        assertEquals("string null value", strResult1);
+
+        String strResult2 = match(s)
+                .when(in(null), v -> "contains null value")
+                .when("abcd", v -> "is not null")
+                .orElse(v -> "other value");
+
+        assertEquals("contains null value", strResult2);
+
+        String strResult3 = match(s)
+                .when(in("a", "b", null, "c"), v -> "contains null value")
+                .when("abcd", v -> "is not null")
+                .orElse(v -> "other value");
+
+        assertEquals("contains null value", strResult3);
+
+
+        String nullStr = null;
+        String result = match(nullStr, BOOLEAN)  // specify a BOOLEAN mode
+                .when(null, v -> "match string null")
+                .when("abc".equals(nullStr), v -> "i less than 1")
+                .orElse(v -> "str value: " + nullStr);
+
+        assertEquals("match string null", result);
+
+
+        Tuple2<String, Integer> t2 = null;
+        String classMatch = match(t2, TYPE)
+                .when(Integer.class, v -> "integer class")
+                .when(null, v -> "value is null: " + v)
+                .when(Tuple2.class, v -> "tuple2 class")
+                .orElse(v -> "other class");
+
+        assertEquals("value is null: " + null, classMatch);
+
+        String res = match(null, VALUE)
+                .when(null, v -> "null value")
+                .orElse(v -> "other value");
+        assertEquals("null value", res);
+    }
 
     @Test
     public void testPatternValue2() {
@@ -130,6 +182,21 @@ public class PatternTest {
             ifResult = "i is equals to: " + i;
         }
         assertEquals("i is greater than 5", ifResult);
+    }
+
+    @Test
+    public void testPatternClassValue() {
+        Class<String> strClass = String.class;
+        Tuple2<String, Integer> t2 = Tuple.of("1", 1);
+
+        match(t2.getClass())
+                .when(Objects.class,
+                        v -> { System.out.println("match objects"); })
+                .when(String.class,
+                        v -> System.out.println("match stringclass"))
+                .when(in(Long.class, Tuple2.class, Integer.class),
+                        v -> System.out.println("match tuple class: " + v))
+                .orElse(v -> System.out.println("not match"));
     }
 
 }
