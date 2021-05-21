@@ -30,6 +30,7 @@ implementation 'com.github.GG-A:JFunctional:0.7.1'
 ## 🗺️使用指南（User Guide）
 - [增强版switch（简单的模式匹配）](#增强版switch简单的模式匹配)
   - [匹配对象的值](#匹配对象的值)
+  - [null值匹配](#null值匹配)
   - [按类型匹配（替代instanceof）](#按类型匹配替代instanceof)
   - [按条件匹配（替代if语句）](#按条件匹配替代if语句)
 - [JFunctional与函数式接口](#jfunctional与函数式接口)
@@ -109,6 +110,62 @@ Void nullValue = match(i)
 ```
 🔔️注意：Lambda表达式的[void兼容块与值兼容块](https://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.27.2)。
 
+
+### null值匹配
+可以匹配`null`值，可以不用使用 `if(xxx == null){...} else {...}`来进行`null`值的判断。   
+🔔️建议将 `null` 值**优先匹配**， 这样如果变量为`null`，则不会再执行后续的分支语句，很大程度避免 `NullPointerException`的异常。
+```java
+import static com.github.gg_a.pattern.Pattern.*;
+
+String s = null;
+String strResult1 = match(s)
+        // Avoid "Ambiguous method call", if you want to match `null` value, you need use `(String) null` or in(null)
+        .when((String) null, v -> "string null value")
+        .when("abcd", v -> "is not null")
+        .orElse(v -> "other value");
+
+assertEquals("string null value", strResult1);
+
+String strResult2 = match(s)
+        .when(in(null), v -> "contains null value")
+        .when("abcd", v -> "is not null")
+        .orElse(v -> "other value");
+
+assertEquals("contains null value", strResult2);
+
+String strResult3 = match(s)
+        .when(in("a", "b", null, "c"), v -> "contains null value")
+        .when("abcd", v -> "is not null")
+        .orElse(v -> "other value");
+
+assertEquals("contains null value", strResult3);
+
+
+String nullStr = null;
+String result = match(nullStr, BOOLEAN)  // specify a BOOLEAN mode
+        .when(null, v -> "match string null")
+        .when("abc".equals(nullStr), v -> "i less than 1")
+        .orElse(v -> "str value: " + nullStr);
+
+assertEquals("match string null", result);
+
+
+Tuple2<String, Integer> t2 = null;
+String classMatch = match(t2, TYPE)
+        .when(Integer.class, v -> "integer class")
+        .when(null, v -> "value is null: " + v)
+        .when(Tuple2.class, v -> "tuple2 class")
+        .orElse(v -> "other class");
+
+assertEquals("value is null: " + null, classMatch);
+
+String res = match(null, VALUE)
+        .when(null, v -> "null value")
+        .orElse(v -> "other value");
+assertEquals("null value", res);
+```
+
+
 ### 按类型匹配（替代instanceof）
 ```java
 import static com.github.gg_a.pattern.Pattern.*;
@@ -140,6 +197,8 @@ if (o instanceof Integer) {
 
 ### 按条件匹配（替代if语句）
 ```java
+import static com.github.gg_a.pattern.Pattern.*;
+
 int i = 10;
 String result = match(i)
         .when(i == 0,
