@@ -16,7 +16,6 @@
 package com.github.gg_a.pattern.matcher;
 
 import com.github.gg_a.function.*;
-import java.util.Objects;
 
 /**
  * Simple Matcher with void

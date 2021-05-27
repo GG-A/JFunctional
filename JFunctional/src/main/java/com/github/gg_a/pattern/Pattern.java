@@ -16,10 +16,7 @@
 package com.github.gg_a.pattern;
 
 import com.github.gg_a.pattern.mapping.*;
-import com.github.gg_a.pattern.type.PatternBoolean;
-import com.github.gg_a.pattern.type.PatternDefault;
-import com.github.gg_a.pattern.type.PatternType;
-import com.github.gg_a.pattern.type.PatternValue;
+import com.github.gg_a.pattern.type.*;
 import java.util.Objects;
 
 /**
@@ -31,10 +28,14 @@ public class Pattern {
     public static PatternValue VALUE = PatternValue.VALUE;
     public static PatternBoolean BOOLEAN = PatternBoolean.BOOLEAN;
     public static PatternType TYPE = PatternType.TYPE;
-
-    public static ClassValueMatcherMapping<Class<?>> match(Class<?> clazz) {
-        return new ClassValueMatcherMapping<>(clazz);
-    }
+    public static PatternString STRING = PatternString.STRING;
+    public static PatternString IGNORECASE = PatternString.IGNORECASE;
+    public static PatternString CONTAIN = PatternString.CONTAIN;
+    public static PatternString PREFIX = PatternString.PREFIX;
+    public static PatternString SUFFIX = PatternString.SUFFIX;
+    public static PatternString ICCONTAIN = PatternString.ICCONTAIN;    // ignore case for contain
+    public static PatternString ICPREFIX = PatternString.ICPREFIX;      // ignore case for prefix
+    public static PatternString ICSUFFIX = PatternString.ICSUFFIX;      // ignore case for suffix
 
     public static <V> MixMatcherMapping<V> match(V value) {
         return match(value, DEFAULT);
@@ -58,6 +59,15 @@ public class Pattern {
     public static <V> TypeMatcherMapping<V> match(V value, PatternType patternType) {
         Objects.requireNonNull(patternType);
         return new TypeMatcherMapping<>(value);
+    }
+
+    public static StringMatcherMapping match(String value, PatternString patternString) {
+        Objects.requireNonNull(patternString);
+        return new StringMatcherMapping(value, patternString);
+    }
+
+    public static ClassValueMatcherMapping<Class<?>> match(Class<?> clazz) {
+        return new ClassValueMatcherMapping<>(clazz);
     }
 
     public static <T> PatternIn<T> in(T... values) {

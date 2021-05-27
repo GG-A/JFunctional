@@ -1,5 +1,6 @@
 package com.github.gg_a;
 
+import com.github.gg_a.pattern.PatternIn;
 import com.github.gg_a.tuple.Tuple;
 import com.github.gg_a.tuple.Tuple2;
 import org.junit.jupiter.api.Test;
@@ -152,6 +153,78 @@ public class PatternTest {
         }
 
         assertEquals(2, ifResult);
+    }
+
+    @Test
+    public void testStringValue1() {
+        String str = "aBcdE123.$fGHIj";
+        // ignore case match
+        String matchRes1 = match(str, IGNORECASE)
+                .when((String) null, v -> "match null")
+                .when("abcd", v -> "match abcd")
+                .when("abcde123.$fGHIj", v -> "ignore case match")
+                .orElse(v -> "no match");
+        assertEquals("ignore case match", matchRes1);
+        // CONTAIN match
+        String matchRes2 = match(str, CONTAIN)
+                .when("abcd", v -> "abcd")
+                .when("E123", v -> "E123")
+                .orElse(v -> "no match");
+        assertEquals("E123", matchRes2);
+        // ignore case for contain
+        String matchRes3 = match(str, ICCONTAIN)
+                .when("abcd1", v -> "abcd1")
+                .when(in(null, "aaa", ".$fghi", "123"), v -> ".$fghi")
+                .orElse(v -> "no match");
+        assertEquals(".$fghi", matchRes3);
+        // PREFIX
+        String matchRes4 = match(str, PREFIX)
+                .when("abcd", v -> "abcd")
+                .when("aBcd", v -> "aBcd")
+                .orElse(v -> "no match");
+        assertEquals("aBcd", matchRes4);
+        // ignore case for suffix
+        String matchRes5 = match(str, ICSUFFIX)
+                .when("fghij", v -> "fGHIj")
+                .when("aBcd", v -> "aBcd")
+                .orElse(v -> "no match");
+        assertEquals("fGHIj", matchRes5);
+    }
+
+    @Test
+    public void testStringValue2() {
+        String str = null;
+        // ignore case match
+        String matchRes1 = match(str, IGNORECASE)
+                .when("abcd", v -> "match abcd")
+                .when((String) null, v -> "match null")
+                .when("abcde123.$fGHIj", v -> "ignore case match")
+                .orElse(v -> "no match");
+        assertEquals("match null", matchRes1);
+        // CONTAIN match
+        String matchRes2 = match(str, CONTAIN)
+                .when("abcd", v -> "abcd")
+                .when(in(null), v -> "null")
+                .orElse(v -> "no match");
+        assertEquals("null", matchRes2);
+        // ignore case for contain
+        String matchRes3 = match(str, ICCONTAIN)
+                .when("abcd1", v -> "abcd1")
+                .when(in(null, "aaa", ".$fghi", "123"), v -> ".$fghi")
+                .orElse(v -> "no match");
+        assertEquals(".$fghi", matchRes3);
+        // PREFIX
+        String matchRes4 = match(str, PREFIX)
+                .when("abcd", v -> "abcd")
+                .when((PatternIn<String>) null, v -> "PatternIn<String>")
+                .orElse(v -> "no match");
+        assertEquals("PatternIn<String>", matchRes4);
+        // ignore case for suffix
+        String matchRes5 = match(str, ICSUFFIX)
+                .when(in(null, null, null), v -> "all null")
+                .when("aBcd", v -> "aBcd")
+                .orElse(v -> "no match");
+        assertEquals("all null", matchRes5);
     }
 
     @Test

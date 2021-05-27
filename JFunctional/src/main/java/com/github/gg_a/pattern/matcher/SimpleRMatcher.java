@@ -15,8 +15,7 @@
  */
 package com.github.gg_a.pattern.matcher;
 
-import com.github.gg_a.function.R1;
-import java.util.Objects;
+import com.github.gg_a.function.*;
 
 /**
  * Simple Matcher with return value

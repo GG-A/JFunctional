@@ -41,13 +41,13 @@ public class ValueMatcherMapping<V> extends MatcherMapping<V>{
     }
 
     public <R> ValueRMatcher<V, R> when(V matchValue, R1<V, R> action) {
-        ValueRMatcher<V, R> valueVMatcher = new ValueRMatcher<>(value);
-        return valueVMatcher.when(matchValue, action);
+        ValueRMatcher<V, R> valueRMatcher = new ValueRMatcher<>(value);
+        return valueRMatcher.when(matchValue, action);
     }
 
     public <R> ValueRMatcher<V, R> whenNext(V matchValue, R1<V, R> action) {
-        ValueRMatcher<V, R> valueVMatcher = new ValueRMatcher<>(value);
-        return valueVMatcher.whenNext(matchValue, action);
+        ValueRMatcher<V, R> valueRMatcher = new ValueRMatcher<>(value);
+        return valueRMatcher.whenNext(matchValue, action);
     }
 
     public ValueVMatcher<V> when(PatternIn<V> matchValues, V1<V> action) {
@@ -61,13 +61,13 @@ public class ValueMatcherMapping<V> extends MatcherMapping<V>{
     }
 
     public <R> ValueRMatcher<V, R> when(PatternIn<V> matchValues, R1<V, R> action) {
-        ValueRMatcher<V, R> valueVMatcher = new ValueRMatcher<>(value);
-        return valueVMatcher.when(matchValues, action);
+        ValueRMatcher<V, R> valueRMatcher = new ValueRMatcher<>(value);
+        return valueRMatcher.when(matchValues, action);
     }
 
     public <R> ValueRMatcher<V, R> whenNext(PatternIn<V> matchValues, R1<V, R> action) {
-        ValueRMatcher<V, R> valueVMatcher = new ValueRMatcher<>(value);
-        return valueVMatcher.whenNext(matchValues, action);
+        ValueRMatcher<V, R> valueRMatcher = new ValueRMatcher<>(value);
+        return valueRMatcher.whenNext(matchValues, action);
     }
 
 }

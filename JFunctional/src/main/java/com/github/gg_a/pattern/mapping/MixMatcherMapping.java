@@ -21,7 +21,8 @@ import com.github.gg_a.pattern.matcher.BooleanRMatcher;
 import com.github.gg_a.pattern.matcher.BooleanVMatcher;
 
 /**
- * Mix Matcher Mapping
+ * Mix Matcher Mapping. Can match any value or match by condition(bool value: true or false).<br>
+ * 混合匹配器。用于匹配任意值，也可按条件匹配，即按bool值匹配
  * @since 0.7.0
  */
 public class MixMatcherMapping<V> extends ValueMatcherMapping<V> {

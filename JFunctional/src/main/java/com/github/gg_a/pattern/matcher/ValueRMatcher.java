@@ -17,7 +17,6 @@ package com.github.gg_a.pattern.matcher;
 
 import com.github.gg_a.function.R1;
 import com.github.gg_a.pattern.PatternIn;
-
 import java.util.Objects;
 
 /**
@@ -68,16 +67,14 @@ public class ValueRMatcher<V, R> extends SimpleRMatcher<V, V, V, R> {
         if (!isMatch) {
             Objects.requireNonNull(action);
             if (this.value == null) {
-                if (values == null) {
+                if (values == null || values.getVs().contains(this.value)) {
                     isMatch = true;
                     returnValue = action.$(this.value);
-                }else{
-                    if (values.getVs().contains(this.value)) {
-                        isMatch = true;
-                        returnValue = action.$(this.value);
-                    }
                 }
-            } else if (values != null && values.getVs().contains(this.value)) {
+                return this;
+            }
+
+            if (values != null && values.getVs().contains(this.value)) {
                 isMatch = true;
                 returnValue = action.$(this.value);
             }
@@ -89,14 +86,14 @@ public class ValueRMatcher<V, R> extends SimpleRMatcher<V, V, V, R> {
         if (!isMatch) {
             Objects.requireNonNull(action);
             if (this.value == null) {
-                if (values == null) {
+                if (values == null || values.getVs().contains(this.value)) {
                     returnValue = action.$(this.value);
-                }else{
-                    if (values.getVs().contains(this.value)) {
-                        returnValue = action.$(this.value);
-                    }
                 }
-            } else if (values != null && values.getVs().contains(this.value)) returnValue = action.$(this.value);
+                return this;
+            }
+
+            if (values != null && values.getVs().contains(this.value))
+                returnValue = action.$(this.value);
 
         }
 
