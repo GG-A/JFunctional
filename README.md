@@ -32,6 +32,7 @@ implementation 'com.github.GG-A:JFunctional:0.7.2'
   - [匹配对象的值](#匹配对象的值)
   - [null值匹配](#null值匹配)
   - [按类型匹配（替代instanceof）](#按类型匹配替代instanceof)
+  - [String匹配](#string匹配)
   - [按条件匹配（替代if语句）](#按条件匹配替代if语句)
 - [JFunctional与函数式接口](#jfunctional与函数式接口)
   - [Java函数式接口说明](#java函数式接口说明)
@@ -193,6 +194,44 @@ if (o instanceof Integer) {
 } else {
     ifResult = 40;
 }
+```
+
+### String匹配
+```java
+import static com.github.gg_a.pattern.Pattern.*;
+
+String str = "aBcdE123.$fGHIj";
+// ignore case match
+String matchRes1 = match(str, IGNORECASE)
+        .when((String) null, v -> "match null")
+        .when("abcd", v -> "match abcd")
+        .when("abcde123.$fGHIj", v -> "ignore case match")
+        .orElse(v -> "no match");
+assertEquals("ignore case match", matchRes1);
+// CONTAIN match
+String matchRes2 = match(str, CONTAIN)
+        .when("abcd", v -> "abcd")
+        .when("E123", v -> "E123")
+        .orElse(v -> "no match");
+assertEquals("E123", matchRes2);
+// ignore case for contain
+String matchRes3 = match(str, ICCONTAIN)
+        .when("abcd1", v -> "abcd1")
+        .when(in(null, "aaa", ".$fghi", "123"), v -> ".$fghi")
+        .orElse(v -> "no match");
+assertEquals(".$fghi", matchRes3);
+// PREFIX
+String matchRes4 = match(str, PREFIX)
+        .when("abcd", v -> "abcd")
+        .when("aBcd", v -> "aBcd")
+        .orElse(v -> "no match");
+assertEquals("aBcd", matchRes4);
+// ignore case for suffix
+String matchRes5 = match(str, ICSUFFIX)
+        .when("fghij", v -> "fGHIj")
+        .when("aBcd", v -> "aBcd")
+        .orElse(v -> "no match");
+assertEquals("fGHIj", matchRes5);
 ```
 
 ### 按条件匹配（替代if语句）
