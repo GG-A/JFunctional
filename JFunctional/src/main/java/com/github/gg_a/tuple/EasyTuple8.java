@@ -15,6 +15,8 @@
  */
 package com.github.gg_a.tuple;
 
+import java.util.Map;
+
 /**
  * A tuple of 8 same type elements<br>
  * 具有相同类型的8个元素的元组
@@ -47,6 +49,12 @@ public class EasyTuple8<T> extends Tuple8<T, T, T, T, T, T, T, T> {
     @Override
     public EasyTuple8<T> alias(String... aliases) {
         return (EasyTuple8<T>)super.alias(aliases);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Map<String, T> toMap() {
+        return super.toMap();
     }
 
     @Override

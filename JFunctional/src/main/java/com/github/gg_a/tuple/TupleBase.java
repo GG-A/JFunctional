@@ -177,6 +177,24 @@ public abstract class TupleBase implements Tuple {
     }
 
     @Override
+    public <R> Map<String, R> toMap() {
+        return map();
+    }
+
+    private <R> Map<String, R> map() {
+        Map<String, R> tupleMap = new HashMap<>();
+        if (arity() == 0) return tupleMap;
+        for (int i = 0; i < arity(); i++) {
+            if (aliasList.isEmpty()) {
+                tupleMap.put("_" + (i + 1), element(i));
+            }else {
+                tupleMap.put(aliasList.get(i), element(i));
+            }
+        }
+        return tupleMap;
+    }
+
+    @Override
     public <R> Tuple2<TupleAlias, R> elementWithTupleAlias(int n) {
         if (n >= arity()) throw new IndexOutOfBoundsException("Index out of range: " + n + ", Size: " + arity());
 

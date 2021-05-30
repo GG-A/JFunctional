@@ -15,6 +15,8 @@
  */
 package com.github.gg_a.tuple;
 
+import java.util.Map;
+
 /**
  * A tuple of 3 same type elements<br>
  * 具有相同类型的3个元素的元组
@@ -47,6 +49,12 @@ public class EasyTuple3<T> extends Tuple3<T, T, T> {
     @Override
     public EasyTuple3<T> alias(String... aliases) {
         return (EasyTuple3<T>)super.alias(aliases);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Map<String, T> toMap() {
+        return super.toMap();
     }
 
     @Override

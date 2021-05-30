@@ -15,6 +15,8 @@
  */
 package com.github.gg_a.tuple;
 
+import java.util.Map;
+
 /**
  * A tuple of 4 same type elements<br>
  * 具有相同类型的4个元素的元组
@@ -47,6 +49,12 @@ public class EasyTuple4<T> extends Tuple4<T, T, T, T> {
     @Override
     public EasyTuple4<T> alias(String... aliases) {
         return (EasyTuple4<T>)super.alias(aliases);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Map<String, T> toMap() {
+        return super.toMap();
     }
 
     @Override

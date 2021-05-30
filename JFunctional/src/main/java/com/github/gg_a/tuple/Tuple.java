@@ -21,6 +21,7 @@ import com.github.gg_a.exception.NumberOfAliasesException;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Tuple Interface
@@ -179,6 +180,15 @@ public interface Tuple extends Serializable {
      * @return return {@code true} if contains alias.　返回true，如果此tuple包含该别名。
      */
     boolean containsAlias(String alias);
+
+    /**
+     * Transform this Tuple to Map. <br>
+     * 将 tuple 转成 map
+     * @param <R> map value type
+     * @return a map -- key is alias, value is tuple's element
+     * @since  0.7.3
+     */
+    <R> Map<String, R> toMap();
 
     /**
      * The nth element of this tuple<br>

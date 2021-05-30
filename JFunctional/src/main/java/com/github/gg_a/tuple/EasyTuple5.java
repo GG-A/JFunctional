@@ -15,6 +15,8 @@
  */
 package com.github.gg_a.tuple;
 
+import java.util.Map;
+
 /**
  * A tuple of 5 same type elements<br>
  * 具有相同类型的5个元素的元组
@@ -47,6 +49,12 @@ public class EasyTuple5<T> extends Tuple5<T, T, T, T, T> {
     @Override
     public EasyTuple5<T> alias(String... aliases) {
         return (EasyTuple5<T>)super.alias(aliases);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Map<String, T> toMap() {
+        return super.toMap();
     }
 
     @Override

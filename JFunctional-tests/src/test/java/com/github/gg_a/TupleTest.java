@@ -9,6 +9,8 @@ import com.github.gg_a.function.VT2;
 import com.github.gg_a.tuple.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static com.github.gg_a.MyTupleAlias.*;
 
@@ -126,5 +128,29 @@ public class TupleTest {
         assertEquals("(A: \"zs\", B: null)", clone2._4.toString());
     }
 
+    @Test
+    public void testTupleToMap() {
+        Tuple2<String, Integer> t2 = new Tuple2<>("zs", 20);
+        Map<String, Object> map = t2.toMap();
+        assertEquals("{_1=zs, _2=20}", map.toString());
+        t2.alias("NAME", "AGE");
+        Map<String, Object> map1 = t2.toMap();
+        assertEquals("{NAME=zs, AGE=20}", map1.toString());
+
+        EasyTuple2<String> et2 = new EasyTuple2<>("zs", "ls");
+        Map<String, String> etMap1 = et2.toMap();
+        assertEquals("{_1=zs, _2=ls}", etMap1.toString());
+        et2.alias("name", "nickName");
+        Map<String, String> etMap2 = et2.toMap();
+        assertEquals("{nickName=ls, name=zs}", etMap2.toString());
+
+        Tuple4<Integer, String, String, Integer> userInfo = new Tuple4<>(1, "Tom", "nullval", 20);
+        userInfo.alias(ID, NAME, null, AGE);
+        Map<String, Object> userMap = userInfo.toMap();
+        assertEquals("{null=nullval, ID=1, NAME=Tom, AGE=20}", userMap.toString());
+        System.out.println(userMap);
+        System.out.println(userMap.get(null));
+
+    }
 
 }
