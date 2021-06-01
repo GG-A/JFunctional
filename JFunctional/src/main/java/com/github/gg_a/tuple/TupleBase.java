@@ -126,12 +126,12 @@ public abstract class TupleBase implements Tuple {
 
     @Override
     public List<TupleAlias> getTupleAliases() {
-        return new ArrayList<>(tupleAliasList);  // 返回新List，避免 tupleAliasList 被外部修改
+        return Collections.unmodifiableList(tupleAliasList);
     }
 
     @Override
     public List<String> getAliases() {
-        return new ArrayList<>(aliasList);  // 返回新List，避免 aliasList 被外部修改
+        return Collections.unmodifiableList(aliasList);
     }
 
     @Override

@@ -33,7 +33,7 @@
                 <version>3.8.1</version>
                 <configuration>
                     <encoding>${project.build.sourceEncoding}</encoding>
-                    <source>${maven.compiler.release}</source>
+                    <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                     <showWarnings>true</showWarnings>
                     <skip>true</skip>
