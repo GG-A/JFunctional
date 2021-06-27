@@ -7,7 +7,6 @@
 
 ## 🛠️Environment（开发环境）  
 + JDK 9.0.4
-+ IntelliJ IDEA 2021.1 (Community Edition)
 + Apache maven 3.6.1
 
 
@@ -34,6 +33,12 @@ implementation 'com.github.GG-A:JFunctional:0.8.0'
   - [按类型匹配（替代instanceof）](#按类型匹配替代instanceof)
   - [String匹配](#string匹配)
   - [按条件匹配（替代if语句）](#按条件匹配替代if语句)
+- [String Interpolator（字符串插值器）](#string-interpolator字符串插值器)
+  - [能做什么](#能做什么)
+  - [字符串插值](#字符串插值)
+  - [default-value（设置默认值）](#default-value设置默认值)
+  - [`${}` metachar（元字符）](#-metachar元字符)
+  - [add-del-set](#add-del-set)
 - [JFunctional与函数式接口](#jfunctional与函数式接口)
   - [Java函数式接口说明](#java函数式接口说明)
   - [JFunctional函数式接口使用](#jfunctional函数式接口使用)
@@ -266,6 +271,89 @@ if (i == 0) {
     ifResult = "i is equals to: " + i;
 }
 ```
+
+## 📘String Interpolator（字符串插值器）  
+### 能做什么 
+取代不够优雅、可读性差的`+`号拼接字符串的方式以及Java内置字符串插值器`MessageFormat.format()`和`String.format()`  
+- **使用Java内置**  
+```java
+int id = 12345;
+String name = "zhangsan";
+float height = 180.5f; 
+
+// 使用 + 号拼接
+String res1 = "id: " + id + "  名字：" + name + "  身高(cm): " + height;
+System.out.println(res1);
+
+// 使用 MessageFormat.format
+String res2 = MessageFormat.format("id: {0}  名字：{1}  身高(cm): {2}", id, name, height);
+System.out.println(res2);
+
+// 使用 String.format
+String res3 = String.format("id: %d  名字：%s  身高(cm): %.1f", id, name, height);
+System.out.println(res3);
+```
+- **使用string interpolator（可读性强）**
+```java
+SI si = Tuple.of(id, name, height).alias("id", "name", "height").toSI();
+String s = si.$("id: ${id}  名字：${name}  身高(cm): ${height}");
+System.out.println(s);
+```
+
+### 字符串插值  
+```java
+SI si = Tuple.of("zs", 20, "tom", 190.5, 123456).alias("name", "age", "nickName", "height", "id").toSI();
+String parse = si.$("${name}--${age}--${nickName}--${id}--${height}");  // result: zs--20--tom--123456--190.5
+```
+
+### default-value（设置默认值）  
+```java
+// use ": " (: + space) set default value
+String source = "${NAME}--${NAME: tom}--${age: 20}--${ID1:}--${ ID1 }--${ID1: }--${id1}--" +
+                "${age::20}--${ID}--${ ID1:  }--${ID: 123456}";
+Tuple t1 = Tuple.of("zs", null).alias("NAME", "ID");
+String parse = SI.of(t1).$(source);
+System.out.println(parse);   // output: zs--zs--20--${ID1:}--${ ID1 }----${id1}--${age::20}--null-- --null
+```
+
+### `${}` metachar（元字符）  
+```java
+SI si = Tuple.of("zs", 123456).alias("NAME", "ID").toSI();
+// ${} will be parsed $
+String parse = si.$("${NAME}--$${ID}--$$$${ID}--${}{ID}--${}");   // output: zs--$123456--$$$123456--${ID}--$
+```
+
+
+### add-del-set  
+```java
+String source = "${NAME}--${age: 18}--${nickName}--${ID}--${height}--${_1}--${_2}";
+
+SI si = Tuple.of().toSI();
+parse = si.$(source);
+assertEquals("${NAME}--18--${nickName}--${ID}--${height}--${_1}--${_2}", parse);
+
+Tuple t2 = Tuple.of(20, "tom").alias("age", "nickName");
+si.add(t2);         // add
+parse = si.$(source);
+assertEquals("${NAME}--20--tom--${ID}--${height}--${_1}--${_2}", parse);
+
+HashMap<String, Object> hashMap = new HashMap<>();
+hashMap.put("height", 175);
+si.add(hashMap);    // add
+parse = si.$(source);
+assertEquals("${NAME}--20--tom--${ID}--175--${_1}--${_2}", parse);
+
+si.del("age", "nickName");  // delete
+parse = si.$(source);
+assertEquals("${NAME}--18--${nickName}--${ID}--175--${_1}--${_2}", parse);
+
+Tuple t3 = Tuple.of(20, "tom").alias("age", "nickName");
+si.set(t3);             // set
+parse = si.$(source);
+assertEquals("${NAME}--20--tom--${ID}--${height}--${_1}--${_2}", parse);
+```
+
+
 
 
 ## 📘JFunctional与函数式接口
