@@ -18,6 +18,7 @@ package com.github.gg_a.tuple;
 import com.github.gg_a.exception.AliasNotFoundException;
 import com.github.gg_a.exception.AliasNotSetException;
 import com.github.gg_a.exception.NumberOfAliasesException;
+import com.github.gg_a.text.SI;
 
 import java.io.Serializable;
 import java.util.List;
@@ -189,6 +190,14 @@ public interface Tuple extends Serializable {
      * @since  0.7.3
      */
     <R> Map<String, R> toMap();
+
+    /**
+     * Transform this Tuple to {@link SI}. <br>
+     * 将 tuple 转成 SI
+     * @return {@link SI} object.
+     * @since  0.8.0
+     */
+    SI toSI();
 
     /**
      * The nth element of this tuple<br>

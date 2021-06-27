@@ -16,6 +16,8 @@
 package com.github.gg_a.tuple;
 
 import com.github.gg_a.exception.*;
+import com.github.gg_a.text.SI;
+
 import java.util.*;
 
 /**
@@ -192,6 +194,11 @@ public abstract class TupleBase implements Tuple {
             }
         }
         return tupleMap;
+    }
+
+    @Override
+    public SI toSI() {
+        return SI.of(this.toMap());
     }
 
     @Override

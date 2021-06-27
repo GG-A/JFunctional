@@ -13,16 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.github.gg_a.text;
+
 /**
- * @author GG
+ * StringType. <br>
+ * 字符串类型
+ * @since 0.8.0
  */
-module gg.functional {
-    exports com.github.gg_a.function;
-    exports com.github.gg_a.tuple;
-    exports com.github.gg_a.exception;
-    exports com.github.gg_a.pattern;
-    exports com.github.gg_a.pattern.type;
-    exports com.github.gg_a.pattern.mapping;
-    exports com.github.gg_a.pattern.matcher;
-    exports com.github.gg_a.text;
+public enum StringType {
+    STRING,     // string literal. 字符串字面量
+    VALUE,      // Interpolator's value. 待解析的值
 }
