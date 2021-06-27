@@ -50,10 +50,10 @@ public class InterpolatorTest {
 
     @Test
     public void testMetaChar() {
-        Tuple t = Tuple.of("zs", 123456).alias("NAME", "ID");
-        SI si = SI.of(t);
-        String source = "${NAME}--$${ID}--$$$${ID}--${}{ID}--${}";  // ${} will be parsed $
-        String parse = si.$(source);
+        SI si = Tuple.of("zs", 123456).alias("NAME", "ID").toSI();
+        // ${} will be parsed $
+        String parse = si.$("${NAME}--$${ID}--$$$${ID}--${}{ID}--${}");
+
         assertEquals("zs--$123456--$$$123456--${ID}--$", parse);
     }
 
