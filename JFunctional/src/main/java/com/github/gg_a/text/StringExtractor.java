@@ -15,10 +15,6 @@
  */
 package com.github.gg_a.text;
 
-import com.github.gg_a.tuple.Tuple;
-import com.github.gg_a.tuple.Tuple2;
-import com.github.gg_a.tuple.Tuple3;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -45,13 +41,13 @@ public class StringExtractor {
     private final static Pattern PATTERN = Pattern.compile("\\$\\{((?![{}]).)*}", Pattern.MULTILINE);
 
     /**
-     * 根据 ${} 分割字符串
+     * Get String Tokens by ${}
      *
      * @param source 待插值的字符串
-     * @return 列表。Tuple3：_1 字符串类型； _2 字符串； _3 原始字符串
+     * @return StringToken列表
      */
-    public static List<Tuple3<StringType, String, String>> split(String source) {
-        List<Tuple3<StringType, String, String>> stringTs = new ArrayList<>();
+    public static List<StringToken> split(String source) {
+        List<StringToken> sts = new ArrayList<>();
         final Matcher matcher = PATTERN.matcher(source);
 
         int startIndex = 0;
@@ -62,11 +58,11 @@ public class StringExtractor {
 
             if ($.equals(matchStr)) {
                 String value = source.substring(startIndex, start + 1);
-                stringTs.add(Tuple.of(StringType.STRING, value, value));
+                sts.add(new StringToken(StringType.STRING, value, value));
             } else {
-                if (start != startIndex) {  // 不相等说明${}前面有一段常量还未添加进列表
+                if (start != startIndex) {  // 不相等说明${}前面有一段字符串常量还未添加进列表
                     String value = source.substring(startIndex, start);
-                    stringTs.add(Tuple.of(StringType.STRING, value, value));
+                    sts.add(new StringToken(StringType.STRING, value, value));
                 }
 
                 String strInBrace = matchStr.substring(2, matchStr.length() - 1);
@@ -75,10 +71,12 @@ public class StringExtractor {
                     String defaultValue = "";
                     if (index + DEFAULT_VALUE_DELIMITER.length() < strInBrace.length()) {
                         defaultValue = strInBrace.substring(index + DEFAULT_VALUE_DELIMITER.length());
-                        stringTs.add(Tuple.of(StringType.VALUE, strInBrace.substring(0, index), defaultValue));
+
+                        String value = strInBrace.substring(0, index);
+                        sts.add(new StringToken(StringType.VALUE, value, defaultValue));
                     }
                 }else {
-                    stringTs.add(Tuple.of(StringType.VALUE, strInBrace, matchStr));
+                    sts.add(new StringToken(StringType.VALUE, strInBrace, matchStr));
                 }
             }
             startIndex = end;
@@ -86,9 +84,9 @@ public class StringExtractor {
 
         if (startIndex < source.length()) {
             String value = source.substring(startIndex);
-            stringTs.add(Tuple.of(StringType.STRING, value, value));
+            sts.add(new StringToken(StringType.STRING, value, value));
         }
 
-        return stringTs;
+        return sts;
     }
 }

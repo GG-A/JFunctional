@@ -16,16 +16,21 @@
 package com.github.gg_a.text;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.github.gg_a.tuple.Tuple;
 import com.github.gg_a.tuple.Tuple3;
 
 /**
- * String Interpolation. <br>
+ * String Interpolator. <br>
  * 字符串插值器
  * @since 0.8.0
  */
 public class SI {
+
+    private final static Map<String, List<StringToken>> templateCache=new ConcurrentHashMap<>();
+
+    private final static int cacheSize = 1000;
 
     private final Map<String, Object> valueMap = new HashMap<>();
 
@@ -97,21 +102,35 @@ public class SI {
      * @since 0.8.0
      */
     public String $(String source) {
-        List<Tuple3<StringType, String, String>> splits = StringExtractor.split(source);
+        if (source == null) return null;
+
+        List<StringToken> tokens = getTokens(source);
         StringBuilder parsed = new StringBuilder();
-        for (Tuple3<StringType, String, String> split : splits) {
-            if (split._1 == StringType.STRING) {
-                parsed.append(split._2);
+        tokens.forEach(token -> {
+            String value = token.getValue();
+            if (token.getType() == StringType.STRING) {
+                parsed.append(value);
             }else {
-                if (valueMap.containsKey(split._2)) {
-                    parsed.append(valueMap.get(split._2));
+                if (valueMap.containsKey(value)) {
+                    parsed.append(valueMap.get(value));
                 }else {
-                    parsed.append(split._3);
+                    parsed.append(token.getOriginValue());
                 }
             }
-        }
+        });
 
         return parsed.toString();
+    }
+
+    private List<StringToken> getTokens(String source) {
+        List<StringToken> tokens;
+        if (templateCache.containsKey(source)) {
+            tokens = templateCache.get(source);
+        }else {
+            tokens = StringExtractor.split(source);
+            if (templateCache.size() < cacheSize) templateCache.put(source, tokens);
+        }
+        return tokens;
     }
 
     /**
@@ -129,6 +148,7 @@ public class SI {
         return Collections.unmodifiableMap(valueMap);
     }
 
+    @Override
     public String toString() {
         return getClass().getName() + "@" + Integer.toHexString(hashCode());
     }
