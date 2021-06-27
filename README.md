@@ -1,6 +1,7 @@
 # 📚JFunctional
 提供更简单更好用的Java函数式编程接口 (Java Functional Interface that more simpler and easier to use)；  
 增强版switch（简单的模式匹配）(Enhanced switch or simple pattern matching supported)；  
+字符串插值(String Interpolation)；  
 提供元组（tuple）类型支持；  
 **兼容Java 8及Java 9+模块化系统**；  
 
