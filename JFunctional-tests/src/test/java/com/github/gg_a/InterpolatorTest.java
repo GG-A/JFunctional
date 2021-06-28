@@ -1,5 +1,6 @@
 package com.github.gg_a;
 
+import com.github.gg_a.exception.UnexpectedParameterException;
 import com.github.gg_a.text.SI;
 import com.github.gg_a.text.StringExtractor;
 import com.github.gg_a.text.StringToken;
@@ -9,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author GG
@@ -40,8 +41,8 @@ public class InterpolatorTest {
     public void testDefaultValue() {
         // use ": " set default value
         String source = "${NAME}--${NAME: tom}--${age: 20}--${ID1:}" +
-                        "--${ ID1 }--${ID1: }--${id1}--${age::20}--${ID}" +
-                        "--${ ID1:  }--${ID: 123456}";
+                "--${ ID1 }--${ID1: }--${id1}--${age::20}--${ID}" +
+                "--${ ID1:  }--${ID: 123456}";
         Tuple t1 = Tuple.of("zs", null).alias("NAME", "ID");
         SI si = SI.of(t1, null, Tuple.empty());
         String parse = si.$(source);
@@ -143,6 +144,91 @@ public class InterpolatorTest {
     }
 
     @Test
+    public void testFill() {
+        String infoTemplate = "ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}";
+
+        SI s1 = SI.fill("         ip ->", "127.0.0.1",
+                        "         db ->", "testdb",
+                        "       port ->", 3306,
+                        "     dbType ->", "mysql",
+                        " other_info ->", Tuple.of("isCluster", true),
+                        "description ->", new Object());
+
+        String dbInfo = s1.$(infoTemplate);
+        assertEquals("ip: 127.0.0.1---port: 3306---db: testdb---otherInfo: (\"isCluster\", true)", dbInfo);
+
+        SI s2 = SI.fill("ip          ->", "127.0.0.1",
+                        "db          ->", "testdb",
+                        "port        ->", 3306,
+                        "dbType      ->", "mysql",
+                        "other_info  ->", Tuple.of("isCluster", true),
+                        "description ->", new Object());
+        dbInfo = s2.$(infoTemplate);
+        assertEquals("ip: 127.0.0.1---port: 3306---db: testdb---otherInfo: (\"isCluster\", true)", dbInfo);
+    }
+
+    @Test
+    public void testLoad() {
+        SI si = SI.load("ip ->", "127.0.0.1",
+                        "port ->", 3306,
+                        "db ->", "testdb",
+                        "dbType ->", "mysql",
+                        "other_info ->", Tuple.of("isCluster", true),
+                        "description ->", new Object());
+
+        String dbInfo = si.$("ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}");
+        assertEquals("ip: 127.0.0.1---port: 3306---db: testdb---otherInfo: (\"isCluster\", true)", dbInfo);
+    }
+
+    @Test
+    public void testFillTime() {
+        System.out.println("---start calculate---");
+        long startTime = System.currentTimeMillis();
+
+        String dbInfo = null;
+        for (int i = 0; i < 1000; i++) {
+            SI si = SI.fill(
+                            "          ip ->", "127.0.0.1",
+                            "          db ->", "testdb",
+                            "        port ->", 3306,
+                            "      dbType ->", "mysql",
+                            "  other_info ->", Tuple.of("isCluster", true),
+                            " description ->", new Object(),
+                            "         ip1 ->", "127.0.0.1",
+                            "         db1 ->", "testdb",
+                            "       port1 ->", 3306,
+                            "     dbType1 ->", "mysql",
+                            " other_info1 ->", Tuple.of("isCluster", true),
+                            "description1 ->", new Object());
+
+            si.add("dbName", "this is dbName!");
+
+            String infoTemplate =
+                    "ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}---" +
+                    "ip: ${ip1}---port: ${port1}---db: ${db1}---description: ${description1}---" +
+                    "ip: ${ip}---port: ${port}---dbName: ${dbName}---otherInfo: ${==${other_info}==}";
+            dbInfo = si.$(infoTemplate);
+        }
+        System.out.println("dbInfo >>> " + dbInfo);
+        long timeDiff = System.currentTimeMillis() - startTime;
+        System.out.println("cost time: " + timeDiff);
+        //1000次花费时间(ms)： 136, 97, 97, 164, 115, 127
+    }
+
+    @Test
+    public void testOfPairs() {
+        SI si = SI.of("ip", "127.0.0.1",
+                      "port", 3306,
+                      "db", "testdb",
+                      "dbType", "mysql",
+                      "other_info", Tuple.of("isCluster", true),
+                      "description", new Object());
+
+        String dbInfo = si.$("ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}");
+        assertEquals("ip: 127.0.0.1---port: 3306---db: testdb---otherInfo: (\"isCluster\", true)", dbInfo);
+    }
+
+    @Test
     public void testCalculate() {
         System.out.println("---start calculate---");
         long startTime = System.currentTimeMillis();
@@ -192,6 +278,16 @@ public class InterpolatorTest {
         SI si = new SI(null, Tuple.empty());
         SI si1 = new SI((Tuple) null);
         SI si2 = Tuple.of(null).toSI();
+        SI.of();
+        SI.load();
+        SI.load(null);
+        SI.fill();
+        SI.fill(null);
+        assertThrows(NullPointerException.class, () -> SI.fill(null, null));
+        assertThrows(ClassCastException.class, () -> SI.fill(new Object(), null));
+        assertThrows(RuntimeException.class, () -> SI.fill(null, null, null));
+        assertThrows(UnexpectedParameterException.class, () -> SI.fill("", null));
+
     }
 
     @Test

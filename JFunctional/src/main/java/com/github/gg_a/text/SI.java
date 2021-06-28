@@ -18,8 +18,8 @@ package com.github.gg_a.text;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.github.gg_a.exception.UnexpectedParameterException;
 import com.github.gg_a.tuple.Tuple;
-import com.github.gg_a.tuple.Tuple3;
 
 /**
  * String Interpolator. <br>
@@ -54,17 +54,77 @@ public class SI {
         return new SI(map);
     }
 
+    /**
+     * Instantiate an SI object by key-value pairs.
+     * @param kvs key-value pairs
+     * @return SI object
+     * @since 0.8.2
+     */
+    public static SI of(Object... kvs) {
+        Map<String, Object> kvMap = toMap(false, false, kvs);
+        return of(kvMap);
+    }
+
+    /**
+     * Instantiate an SI object by key-value pairs, and key must be end with " -&gt;",
+     * and key will be removed leading and trailing whitespace. <br>
+     * <b>Examples:</b>
+     * <pre>
+     * String infoTemplate = "ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}";
+     *
+     * SI si = SI.fill("         ip -&gt;", "127.0.0.1",
+     *                 "         db -&gt;", "testdb",
+     *                 "       port -&gt;", 3306,
+     *                 "     dbType -&gt;", "mysql",
+     *                 " other_info -&gt;", Tuple.of("isCluster", true),
+     *                 "description -&gt;", new Object());
+     *
+     * String dbInfo = si.$(infoTemplate);
+     * </pre>
+     * @param kvs key-value pairs
+     * @return SI object
+     * @since 0.8.2
+     */
+    public static SI fill(Object... kvs) {
+        Map<String, Object> kvMap = toMap(true, true, kvs);
+        return of(kvMap);
+    }
+
+    /**
+     * Instantiate an SI object by key-value pairs, and key must be end with " -&gt;". <br>
+     * <b>Examples:</b>
+     * <pre>
+     * SI si = SI.load("ip -&gt;", "127.0.0.1",
+     *                 "port -&gt;", 3306,
+     *                 "db -&gt;", "testdb",
+     *                 "dbType -&gt;", "mysql",
+     *                 "other_info -&gt;", Tuple.of("isCluster", true),
+     *                 "description -&gt;", new Object());
+     *
+     *  String dbInfo = si.$("ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}");
+     * </pre>
+     * @param kvs key-value pairs
+     * @return SI object
+     * @since 0.8.2
+     */
+    public static SI load(Object... kvs) {
+        Map<String, Object> kvMap = toMap(true, false, kvs);
+        return of(kvMap);
+    }
+
     public SI add(Tuple... tuples) {
         tuplesPutToMap(tuples);
         return this;
     }
 
     public SI add(Map<String, Object> valueMap) {
-        if (valueMap != null) {
-            this.valueMap.putAll(valueMap);
-        }
-
+        if (valueMap != null) this.valueMap.putAll(valueMap);
         return this;
+    }
+
+    public SI add(Object... kvs) {
+        Map<String, Object> kvMap = toMap(false, false, kvs);
+        return this.add(kvMap);
     }
 
     public SI set(Tuple... tuples) {
@@ -146,6 +206,47 @@ public class SI {
 
     public Map<String, Object> getValueMap() {
         return Collections.unmodifiableMap(valueMap);
+    }
+
+    private static Map<String, Object> toMap(boolean withSuffix, boolean needTrim, Object... kvs) {
+        Map<String, Object> kvMap = new HashMap<>();
+        if (kvs == null || kvs.length == 0) return kvMap;
+        verifyPairWithStringKey(kvs);
+        for (int i = 0; i < kvs.length; i++) {
+            if (i % 2 == 0) {
+                String k = (String) kvs[i];
+                if (withSuffix) {
+                    if (k.endsWith(" ->")) {
+                        String realKey = k.substring(0, k.length() - 3);
+                        realKey = needTrim ? realKey.trim() : realKey;
+                        kvMap.put(realKey, kvs[i + 1]);
+                    }else {
+                        throw new UnexpectedParameterException("Index: " + i + ". This parameter is a key, the key must be end with \" ->\". ");
+                    }
+                }else {
+                    kvMap.put(k, kvs[i + 1]);
+                }
+
+            }
+        }
+        return kvMap;
+    }
+
+    private static void verifyPairWithStringKey(Object... kvs) {
+        if (kvs != null) {
+            if (kvs.length % 2 != 0)
+                throw new RuntimeException("The parameters length must be even. 参数个数必须为偶数。");
+            for (int i = 0; i < kvs.length; i++) {
+                if (i % 2 == 0) {
+                    if (kvs[i] == null) throw new NullPointerException("Index: " + i + ". This parameter is a key, the key must be not null. ");
+                    try {
+                        String k = (String) kvs[i];
+                    } catch (ClassCastException castException) {
+                        throw new ClassCastException("Index: " + i + ". This parameter is a key, the key must be `String` type. ");
+                    }
+                }
+            }
+        }
     }
 
     @Override
