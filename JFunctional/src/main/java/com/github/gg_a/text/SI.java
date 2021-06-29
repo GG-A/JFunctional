@@ -28,9 +28,11 @@ import com.github.gg_a.tuple.Tuple;
  */
 public class SI {
 
-    private final static Map<String, List<StringToken>> templateCache=new ConcurrentHashMap<>();
+    private final static Map<String, List<StringToken>> TEMPLATE_CACHE =new ConcurrentHashMap<>();
+    private final static Map<String, String> KEY_CACHE =new ConcurrentHashMap<>();
 
-    private final static int cacheSize = 1000;
+    private final static int CACHE_SIZE = 1000;
+    private final static int KEY_CACHE_SIZE = 2000;
 
     private final Map<String, Object> valueMap = new HashMap<>();
 
@@ -184,11 +186,11 @@ public class SI {
 
     private List<StringToken> getTokens(String source) {
         List<StringToken> tokens;
-        if (templateCache.containsKey(source)) {
-            tokens = templateCache.get(source);
+        if (TEMPLATE_CACHE.containsKey(source)) {
+            tokens = TEMPLATE_CACHE.get(source);
         }else {
             tokens = StringExtractor.split(source);
-            if (templateCache.size() < cacheSize) templateCache.put(source, tokens);
+            if (TEMPLATE_CACHE.size() < CACHE_SIZE) TEMPLATE_CACHE.put(source, tokens);
         }
         return tokens;
     }
@@ -216,17 +218,27 @@ public class SI {
             if (i % 2 == 0) {
                 String k = (String) kvs[i];
                 if (withSuffix) {
-                    if (needTrim) k = k.replaceAll("[\\s　]+$", "");  // 删除尾部的空白字符，包括中文空格
-                    boolean isEndThreeGT = k.endsWith(" >>>");
-                    if (k.endsWith(" ->") || isEndThreeGT || k.endsWith(" >>")) {
-                        // 删除后缀符
-                        String realKey = k.substring(0, k.length() - (isEndThreeGT ? 4 : 3));
-                        realKey = needTrim ? realKey.trim() : realKey;
-                        kvMap.put(realKey, kvs[i + 1]);
+                    String cacheKey = "load ->" + k;
+                    if (needTrim) cacheKey = "fill ->" + k;
+
+                    if (KEY_CACHE.containsKey(cacheKey)) {
+                        kvMap.put(KEY_CACHE.get(cacheKey), kvs[i + 1]);
                     }else {
-                        throw new UnexpectedParameterException(
-                                "Index: " + i + ". This parameter is a key, " +
-                                        "the key must be end with \" ->\" or \" >>>\" or \" >>\". ");
+                        String tempKey = k;
+                        if (needTrim) tempKey = k.replaceAll("[\\s　]+$", "");  // 删除尾部的空白字符，包括中文空格
+                        boolean isEndThreeGT = tempKey.endsWith(" >>>");
+                        if (tempKey.endsWith(" ->") || isEndThreeGT || tempKey.endsWith(" >>")) {
+                            // 删除后缀符
+                            String realKey = tempKey.substring(0, tempKey.length() - (isEndThreeGT ? 4 : 3));
+                            realKey = needTrim ? realKey.trim() : realKey;
+
+                            if (KEY_CACHE.size() < KEY_CACHE_SIZE) KEY_CACHE.put(cacheKey, realKey);
+                            kvMap.put(realKey, kvs[i + 1]);
+                        }else {
+                            throw new UnexpectedParameterException(
+                                    "Index: " + i + ". This parameter is a key, " +
+                                            "the key must be end with \" ->\" or \" >>>\" or \" >>\". ");
+                        }
                     }
                 }else {
                     kvMap.put(k, kvs[i + 1]);

@@ -232,24 +232,30 @@ public class InterpolatorTest {
 
     @Test
     public void testFillTime() {
+
+//        for (int i = 0; i < 800; i++) {
+//            SI.KEY_CACHE.put("aldkfslj" + i, "aldkfslj" + i);
+//        }
+//        System.out.println("size: " + SI.KEY_CACHE.size());
+
         System.out.println("---start calculate---");
         long startTime = System.currentTimeMillis();
 
         String dbInfo = null;
         for (int i = 0; i < 1000; i++) {
             SI si = SI.fill(
-                            "          ip ->", "127.0.0.1",
-                            "          db ->", "testdb",
-                            "        port ->", 3306,
-                            "      dbType ->", "mysql",
-                            "  other_info ->", Tuple.of("isCluster", true),
-                            " description ->", new Object(),
-                            "         ip1 ->", "127.0.0.1",
-                            "         db1 ->", "testdb",
-                            "       port1 ->", 3306,
-                            "     dbType1 ->", "mysql",
-                            " other_info1 ->", Tuple.of("isCluster", true),
-                            "description1 ->", new Object());
+                            "          ip -> ", "127.0.0.1",
+                            "          db -> ", "testdb",
+                            "        port -> ", 3306,
+                            "      dbType -> ", "mysql",
+                            "  other_info -> ", Tuple.of("isCluster", true),
+                            " description -> ", new Object(),
+                            "         ip1 -> ", "127.0.0.1",
+                            "         db1 -> ", "testdb",
+                            "       port1 -> ", 3306,
+                            "     dbType1 -> ", "mysql",
+                            " other_info1 -> ", Tuple.of("isCluster", true),
+                            "description1 -> ", new Object());
 
             si.add("dbName", "this is dbName!");
 
@@ -263,7 +269,42 @@ public class InterpolatorTest {
         long timeDiff = System.currentTimeMillis() - startTime;
         System.out.println("cost time: " + timeDiff);
         //1000次花费时间(ms)： 136, 97, 97, 164, 115, 127
-        // 加了两种后缀符：298，338，338，349，425，405
+        // 加了两种后缀符(ms)：298，338，338，349，425，405, 273, 294, 298, 300
+        // 加了缓存(ms)：114, 105, 83, 92, 124, 77, 112, 149, 109, 100
+    }
+
+    @Test
+    public void testFillAndLoad() {
+        System.out.println("---start calculate---");
+        long startTime = System.currentTimeMillis();
+
+        for (int i = 0; i < 500; i++) {
+            String infoTemplate = "ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}";
+
+            SI s1 = SI.fill("         ip -> ", "127.0.0.1",
+                            "         db -> ", "testdb",
+                            "       port -> ", 3306,
+                            "     dbType -> ", "mysql",
+                            " other_info -> ", Tuple.of("isCluster", true),
+                            "description -> ", new Object());
+
+            String dbInfo = s1.$(infoTemplate);
+            assertEquals("ip: 127.0.0.1---port: 3306---db: testdb---otherInfo: (\"isCluster\", true)", dbInfo);
+
+            SI s2 = SI.load("ip ->", "127.0.0.1",
+                    "port ->", 3306,
+                    "db ->", "testdb",
+                    "dbType ->", "mysql",
+                    "other_info ->", Tuple.of("isCluster", true),
+                    "description ->", new Object());
+
+            dbInfo = s2.$("ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}");
+            assertEquals("ip: 127.0.0.1---port: 3306---db: testdb---otherInfo: (\"isCluster\", true)", dbInfo);
+        }
+
+        long timeDiff = System.currentTimeMillis() - startTime;
+        System.out.println("cost time: " + timeDiff);
+
     }
 
     @Test
