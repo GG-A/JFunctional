@@ -17,9 +17,8 @@ package com.github.gg_a.text;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-
-import com.github.gg_a.exception.UnexpectedParameterException;
 import com.github.gg_a.tuple.Tuple;
+import com.github.gg_a.exception.UnexpectedParameterException;
 
 /**
  * String Interpolator. <br>
@@ -60,6 +59,10 @@ public class SI {
      * Instantiate an SI object by key-value pairs.
      * @param kvs key-value pairs
      * @return SI object
+     * @throws RuntimeException if the <b>kvs</b> length not be even.
+     * @throws NullPointerException if the <b>key</b> is null.
+     * @throws ClassCastException if the <b>key</b> is not String.
+     * @throws UnexpectedParameterException if the <b>key</b> is not end with " -&gt;" or " &gt;&gt;&gt;" or " &gt;&gt;".
      * @since 0.8.2
      */
     public static SI of(Object... kvs) {
@@ -74,7 +77,7 @@ public class SI {
      * <pre>
      * String infoTemplate = "ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}";
      *
-     * SI si = SI.fill("         ip -&gt;", "127.0.0.1",
+     * SI si = SI.init("         ip -&gt;", "127.0.0.1",
      *                 "         db -&gt;", "testdb",
      *                 "       port -&gt;", 3306,
      *                 "     dbType -&gt;", "mysql",
@@ -85,9 +88,13 @@ public class SI {
      * </pre>
      * @param kvs key-value pairs
      * @return SI object
+     * @throws RuntimeException if the <b>kvs</b> length not be even.
+     * @throws NullPointerException if the <b>key</b> is null.
+     * @throws ClassCastException if the <b>key</b> is not String.
+     * @throws UnexpectedParameterException if the <b>key</b> is not end with " -&gt;" or " &gt;&gt;&gt;" or " &gt;&gt;".
      * @since 0.8.2
      */
-    public static SI fill(Object... kvs) {
+    public static SI init(Object... kvs) {
         Map<String, Object> kvMap = toMap(true, true, kvs);
         return of(kvMap);
     }
@@ -107,6 +114,10 @@ public class SI {
      * </pre>
      * @param kvs key-value pairs
      * @return SI object
+     * @throws RuntimeException if the <b>kvs</b> length not be even.
+     * @throws NullPointerException if the <b>key</b> is null.
+     * @throws ClassCastException if the <b>key</b> is not String.
+     * @throws UnexpectedParameterException if the <b>key</b> is not end with " -&gt;" or " &gt;&gt;&gt;" or " &gt;&gt;".
      * @since 0.8.2
      */
     public static SI load(Object... kvs) {
@@ -124,8 +135,33 @@ public class SI {
         return this;
     }
 
+    /**
+     * Add key-value pairs to this SI object.
+     * @param kvs key-value pairs
+     * @return this SI object
+     * @throws RuntimeException if the <b>kvs</b> length not be even.
+     * @throws NullPointerException if the <b>key</b> is null.
+     * @throws ClassCastException if the <b>key</b> is not String.
+     * @since 0.8.2
+     */
     public SI add(Object... kvs) {
         Map<String, Object> kvMap = toMap(false, false, kvs);
+        return this.add(kvMap);
+    }
+
+    /**
+     * Fill key-value pairs to this SI object. And key must be end with " -&gt;" or " &gt;&gt;&gt;" or " &gt;&gt;",
+     * and key will be removed leading and trailing whitespace. <br>
+     * @param kvs key-value pairs
+     * @return this SI object
+     * @throws RuntimeException if the <b>kvs</b> length not be even.
+     * @throws NullPointerException if the <b>key</b> is null.
+     * @throws ClassCastException if the <b>key</b> is not String.
+     * @throws UnexpectedParameterException if the <b>key</b> is not end with " -&gt;" or " &gt;&gt;&gt;" or " &gt;&gt;".
+     * @since 0.8.5
+     */
+    public SI fill(Object... kvs) {
+        Map<String, Object> kvMap = toMap(true, true, kvs);
         return this.add(kvMap);
     }
 
@@ -218,8 +254,7 @@ public class SI {
             if (i % 2 == 0) {
                 String k = (String) kvs[i];
                 if (withSuffix) {
-                    String cacheKey = "load ->" + k;
-                    if (needTrim) cacheKey = "fill ->" + k;
+                    String cacheKey = (needTrim ? "init -> " : "load -> ") + k;
 
                     if (KEY_CACHE.containsKey(cacheKey)) {
                         kvMap.put(KEY_CACHE.get(cacheKey), kvs[i + 1]);

@@ -144,10 +144,10 @@ public class InterpolatorTest {
     }
 
     @Test
-    public void testFill() {
+    public void testInit() {
         String infoTemplate = "ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}";
 
-        SI s1 = SI.fill("         ip ->", "127.0.0.1",
+        SI s1 = SI.init("         ip ->", "127.0.0.1",
                         "         db ->", "testdb",
                         "       port ->", 3306,
                         "     dbType ->", "mysql",
@@ -157,7 +157,7 @@ public class InterpolatorTest {
         String dbInfo = s1.$(infoTemplate);
         assertEquals("ip: 127.0.0.1---port: 3306---db: testdb---otherInfo: (\"isCluster\", true)", dbInfo);
 
-        SI s2 = SI.fill("ip          ->", "127.0.0.1",
+        SI s2 = SI.init("ip          ->", "127.0.0.1",
                         "db          ->", "testdb",
                         "port        ->", 3306,
                         "dbType      ->", "mysql",
@@ -166,7 +166,7 @@ public class InterpolatorTest {
         dbInfo = s2.$(infoTemplate);
         assertEquals("ip: 127.0.0.1---port: 3306---db: testdb---otherInfo: (\"isCluster\", true)", dbInfo);
 
-        SI s3 = SI.fill("ip          ->　", "127.0.0.1",
+        SI s3 = SI.init("ip          ->　", "127.0.0.1",
                         "db          ->　", "testdb",
                         "port        ->　", 3306,
                         "dbType      ->　", "mysql",
@@ -176,7 +176,7 @@ public class InterpolatorTest {
         dbInfo = s3.$(infoTemplate);
         assertEquals("ip: 127.0.0.1---port: 3306---db: testdb---otherInfo: (\"isCluster\", true)", dbInfo);
 
-        SI s4 = SI.fill("ip          >>> \n　", "127.0.0.1",
+        SI s4 = SI.init("ip          >>> \n　", "127.0.0.1",
                         "db          >>> \n　", "testdb",
                         "port        >>> \n　", 3306,
                         "dbType      >>> \n　", "mysql",
@@ -186,7 +186,7 @@ public class InterpolatorTest {
         dbInfo = s4.$(infoTemplate);
         assertEquals("ip: 127.0.0.1---port: 3306---db: testdb---otherInfo: (\"isCluster\", true)", dbInfo);
 
-        SI s5 = SI.fill("ip          >>　", "127.0.0.1",
+        SI s5 = SI.init("ip          >>　", "127.0.0.1",
                         "db          >>　", "testdb",
                         "port        >>　", 3306,
                         "dbType      >>　", "mysql",
@@ -196,13 +196,15 @@ public class InterpolatorTest {
         dbInfo = s5.$(infoTemplate);
         assertEquals("ip: 127.0.0.1---port: 3306---db: testdb---otherInfo: (\"isCluster\", true)", dbInfo);
 
-        SI s6 = SI.fill("         ip >>> ", "127.0.0.1",
+        SI s6 = SI.init("         ip >>> ", "127.0.0.1",
                         "         db >>> ", "testdb",
                         "       port >>> ", 3306,
-                        "     dbType >>> ", "mysql",
-                        " other_info >>> ", Tuple.of("isCluster", true),
                         "            >>> ", null,
                         "description >>> ", new Object());
+
+        s6.fill("     dbType >>> ", "mysql",
+                " other_info >>> ", Tuple.of("isCluster", true));
+
         dbInfo = s6.$(infoTemplate);
         assertEquals("ip: 127.0.0.1---port: 3306---db: testdb---otherInfo: (\"isCluster\", true)", dbInfo);
     }
@@ -231,7 +233,7 @@ public class InterpolatorTest {
     }
 
     @Test
-    public void testFillTime() {
+    public void testInitTime() {
 
 //        for (int i = 0; i < 800; i++) {
 //            SI.KEY_CACHE.put("aldkfslj" + i, "aldkfslj" + i);
@@ -243,7 +245,7 @@ public class InterpolatorTest {
 
         String dbInfo = null;
         for (int i = 0; i < 1000; i++) {
-            SI si = SI.fill(
+            SI si = SI.init(
                             "          ip -> ", "127.0.0.1",
                             "          db -> ", "testdb",
                             "        port -> ", 3306,
@@ -251,18 +253,19 @@ public class InterpolatorTest {
                             "  other_info -> ", Tuple.of("isCluster", true),
                             " description -> ", new Object(),
                             "         ip1 -> ", "127.0.0.1",
-                            "         db1 -> ", "testdb",
                             "       port1 -> ", 3306,
-                            "     dbType1 -> ", "mysql",
-                            " other_info1 -> ", Tuple.of("isCluster", true),
-                            "description1 -> ", new Object());
+                            "     dbType1 -> ", "mysql");
+
+            si.fill("         db1 -> ", "testdb",
+                    " other_info1 -> ", Tuple.of("isCluster1", true),
+                    "description1 -> ", new Object());
 
             si.add("dbName", "this is dbName!");
 
             String infoTemplate =
                     "${}---ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}---" +
-                    "ip: ${ip1}---port: ${port1}---db: ${db1}---description: ${description1}---" +
-                    "ip: ${ip}---port: ${port}---dbName: ${dbName}---otherInfo: ${==${other_info}==}";
+                    "ip1: ${ip1}---port: ${port1}---db1: ${db1}---description1: ${description1}---" +
+                    "ip: ${ip}---port: ${port}---dbName: ${dbName}---otherInfo1: ${==${other_info1}==}";
             dbInfo = si.$(infoTemplate);
         }
         System.out.println("dbInfo >>> " + dbInfo);
@@ -274,14 +277,14 @@ public class InterpolatorTest {
     }
 
     @Test
-    public void testFillAndLoad() {
+    public void testInitAndLoad() {
         System.out.println("---start calculate---");
         long startTime = System.currentTimeMillis();
 
         for (int i = 0; i < 500; i++) {
             String infoTemplate = "ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}";
 
-            SI s1 = SI.fill("         ip -> ", "127.0.0.1",
+            SI s1 = SI.init("         ip -> ", "127.0.0.1",
                             "         db -> ", "testdb",
                             "       port -> ", 3306,
                             "     dbType -> ", "mysql",
@@ -373,21 +376,21 @@ public class InterpolatorTest {
         SI.of();
         SI.load();
         SI.load(null);
-        SI.fill();
-        SI.fill(null);
-        SI.fill(" ->", null);
-        SI.fill("   ->   ", null);
-        SI.fill("   >>>   ", null);
-        SI.fill("   >>   ", null);
+        SI.init();
+        SI.init(null);
+        SI.init(" ->", null);
+        SI.init("   ->   ", null);
+        SI.init("   >>>   ", null);
+        SI.init("   >>   ", null);
         SI.load(" ->", null);
         SI.load(" >>>", null);
         SI.load(" >>", null);
-        assertThrows(NullPointerException.class, () -> SI.fill(null, null));
-        assertThrows(ClassCastException.class, () -> SI.fill(new Object(), null));
-        assertThrows(RuntimeException.class, () -> SI.fill(null, null, null));
-        assertThrows(UnexpectedParameterException.class, () -> SI.fill("", null));
-        assertThrows(UnexpectedParameterException.class, () -> SI.fill("->", null));
-        assertThrows(UnexpectedParameterException.class, () -> SI.fill(" >>>>", null));
+        assertThrows(NullPointerException.class, () -> SI.init(null, null));
+        assertThrows(ClassCastException.class, () -> SI.init(new Object(), null));
+        assertThrows(RuntimeException.class, () -> SI.init(null, null, null));
+        assertThrows(UnexpectedParameterException.class, () -> SI.init("", null));
+        assertThrows(UnexpectedParameterException.class, () -> SI.init("->", null));
+        assertThrows(UnexpectedParameterException.class, () -> SI.init(" >>>>", null));
         assertThrows(UnexpectedParameterException.class, () -> SI.load("->", null));
         assertThrows(UnexpectedParameterException.class, () -> SI.load(" -> ", null));
         assertThrows(UnexpectedParameterException.class, () -> SI.load(" >>> ", null));
