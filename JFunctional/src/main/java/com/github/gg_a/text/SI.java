@@ -66,7 +66,7 @@ public class SI {
     }
 
     /**
-     * Instantiate an SI object by key-value pairs, and key must be end with " -&gt;",
+     * Instantiate an SI object by key-value pairs, and key must be end with " -&gt;" or " &gt;&gt;&gt;" or " &gt;&gt;",
      * and key will be removed leading and trailing whitespace. <br>
      * <b>Examples:</b>
      * <pre>
@@ -91,7 +91,7 @@ public class SI {
     }
 
     /**
-     * Instantiate an SI object by key-value pairs, and key must be end with " -&gt;". <br>
+     * Instantiate an SI object by key-value pairs, and key must be end with " -&gt;" or " &gt;&gt;&gt;" or " &gt;&gt;". <br>
      * <b>Examples:</b>
      * <pre>
      * SI si = SI.load("ip -&gt;", "127.0.0.1",
@@ -216,12 +216,17 @@ public class SI {
             if (i % 2 == 0) {
                 String k = (String) kvs[i];
                 if (withSuffix) {
-                    if (k.endsWith(" ->")) {
-                        String realKey = k.substring(0, k.length() - 3);
+                    if (needTrim) k = k.replaceAll("[\\s　]+$", "");  // 删除尾部的空白字符，包括中文空格
+                    boolean isEndThreeGT = k.endsWith(" >>>");
+                    if (k.endsWith(" ->") || isEndThreeGT || k.endsWith(" >>")) {
+                        // 删除后缀符
+                        String realKey = k.substring(0, k.length() - (isEndThreeGT ? 4 : 3));
                         realKey = needTrim ? realKey.trim() : realKey;
                         kvMap.put(realKey, kvs[i + 1]);
                     }else {
-                        throw new UnexpectedParameterException("Index: " + i + ". This parameter is a key, the key must be end with \" ->\". ");
+                        throw new UnexpectedParameterException(
+                                "Index: " + i + ". This parameter is a key, " +
+                                        "the key must be end with \" ->\" or \" >>>\" or \" >>\". ");
                     }
                 }else {
                     kvMap.put(k, kvs[i + 1]);
