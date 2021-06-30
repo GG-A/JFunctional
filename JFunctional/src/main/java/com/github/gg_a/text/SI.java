@@ -44,7 +44,7 @@ public class SI {
     }
 
     public SI(final Map<String, Object> valueMap) {
-        this.valueMap.putAll(valueMap);
+        if (valueMap != null) this.valueMap.putAll(valueMap);
     }
 
     public static SI of(final Tuple... tuples) {
@@ -152,6 +152,19 @@ public class SI {
     /**
      * Fill key-value pairs to this SI object. And key must be end with " -&gt;" or " &gt;&gt;&gt;" or " &gt;&gt;",
      * and key will be removed leading and trailing whitespace. <br>
+     * <b>Examples:</b>
+     * <pre>
+     * String infoTemplate = "ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}";
+     * SI si = SI.of();
+     * si.fill("         ip -&gt;", "127.0.0.1",
+     *         "         db -&gt;", "testdb",
+     *         "       port -&gt;", 3306,
+     *         "     dbType -&gt;", "mysql",
+     *         " other_info -&gt;", Tuple.of("isCluster", true),
+     *         "description -&gt;", new Object());
+     *
+     * String dbInfo = si.$(infoTemplate);
+     * </pre>
      * @param kvs key-value pairs
      * @return this SI object
      * @throws RuntimeException if the <b>kvs</b> length not be even.
@@ -167,14 +180,27 @@ public class SI {
 
     public SI set(Tuple... tuples) {
         valueMap.clear();
-        tuplesPutToMap(tuples);
-        return this;
+        return this.add(tuples);
     }
 
     public SI set(Map<String, Object> valueMap) {
         this.valueMap.clear();
-        if (valueMap != null)  this.valueMap.putAll(valueMap);
-        return this;
+        return this.add(valueMap);
+    }
+
+    /**
+     * Reset this SI object with key-value pairs.
+     * @param kvs key-value pairs
+     * @return this SI object
+     * @throws RuntimeException if the <b>kvs</b> length not be even.
+     * @throws NullPointerException if the <b>key</b> is null.
+     * @throws ClassCastException if the <b>key</b> is not String.
+     * @since 0.8.6
+     */
+    public SI set(Object... kvs) {
+        valueMap.clear();
+        Map<String, Object> kvMap = toMap(false, false, kvs);
+        return this.add(kvMap);
     }
 
     public SI del(String... keys) {

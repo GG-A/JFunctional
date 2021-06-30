@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -373,7 +374,11 @@ public class InterpolatorTest {
         SI si = new SI(null, Tuple.empty());
         SI si1 = new SI((Tuple) null);
         SI si2 = Tuple.of(null).toSI();
+        Map<String, Object> nullMap = null;
         SI.of();
+        SI.of((Tuple[]) null);
+        SI.of((Map<String, Object>) null);
+        SI.of(nullMap);
         SI.load();
         SI.load(null);
         SI.init();
