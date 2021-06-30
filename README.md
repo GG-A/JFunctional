@@ -37,6 +37,7 @@ implementation 'com.github.GG-A:JFunctional:0.8.5'
 - [String Interpolator（字符串插值器）](#string-interpolator字符串插值器)
   - [能做什么](#能做什么)
   - [字符串插值](#字符串插值)
+  - [字符串插值（参数较多时推荐）](#字符串插值参数较多时推荐)
   - [default-value（设置默认值）](#default-value设置默认值)
   - [`${}` metachar（元字符）](#-metachar元字符)
   - [add-del-set](#add-del-set)
@@ -305,6 +306,18 @@ System.out.println(s);
 ```java
 SI si = Tuple.of("zs", 20, "tom", 190.5, 123456).alias("name", "age", "nickName", "height", "id").toSI();
 String parse = si.$("${name}--${age}--${nickName}--${id}--${height}");  // result: zs--20--tom--123456--190.5
+```
+
+### 字符串插值（参数较多时推荐）  
+```java
+SI si = SI.init("         ip -> ", "127.0.0.1",
+                "         db -> ", "testdb",
+                "       port -> ", 3306,
+                "     dbType -> ", "mysql",
+                " other_info -> ", Tuple.of("isCluster", true),
+                "description -> ", new Object());
+
+String dbInfo = si.$("ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}");
 ```
 
 ### default-value（设置默认值）  
