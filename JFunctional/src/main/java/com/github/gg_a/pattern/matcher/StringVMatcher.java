@@ -18,7 +18,6 @@ package com.github.gg_a.pattern.matcher;
 import com.github.gg_a.function.V1;
 import com.github.gg_a.pattern.PatternIn;
 import com.github.gg_a.pattern.type.*;
-import com.github.gg_a.pattern.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,9 +30,22 @@ public class StringVMatcher extends SimpleVMatcher<String, String, String> {
 
     private PatternString patternString;
 
+    private String ucValue;     // Upper Case Value
+    private boolean ignoreCase = false;
+
     public StringVMatcher(String value, boolean isMatch, PatternString patternString) {
         this(value, isMatch);
         this.patternString = patternString;
+
+        ucValue = value;
+        if (value != null){
+            if (patternString == PatternString.ICCONTAIN
+                    || patternString == PatternString.ICPREFIX
+                    || patternString == PatternString.ICSUFFIX){
+                ucValue = value.toUpperCase();
+                ignoreCase = true;
+            }
+        }
     }
 
     public StringVMatcher(String value, boolean isMatch) {
@@ -57,63 +69,42 @@ public class StringVMatcher extends SimpleVMatcher<String, String, String> {
                 return this;
             }
 
-            Pattern.match(patternString)
-                    .when(PatternString.IGNORECASE,
-                            v -> {
-                                if (value.equalsIgnoreCase(this.value)) {
-                                    isMatch = true;
-                                    action.$(this.value);
-                                }
-                            })
-                    .when(PatternString.CONTAIN,
-                            v -> {
-                                if (this.value.contains(value)) {
-                                    isMatch = true;
-                                    action.$(this.value);
-                                }
-                            })
-                    .when(PatternString.PREFIX,
-                            v -> {
-                                if (this.value.startsWith(value)) {
-                                    isMatch = true;
-                                    action.$(this.value);
-                                }
-                            })
-                    .when(PatternString.SUFFIX,
-                            v -> {
-                                if (this.value.endsWith(value)) {
-                                    isMatch = true;
-                                    action.$(this.value);
-                                }
-                            })
-                    .when(PatternString.ICCONTAIN,
-                            v -> {
-                                if (this.value.toUpperCase().contains(value.toUpperCase())) {
-                                    isMatch = true;
-                                    action.$(this.value);
-                                }
-                            })
-                    .when(PatternString.ICPREFIX,
-                            v -> {
-                                if (this.value.toUpperCase().startsWith(value.toUpperCase())) {
-                                    isMatch = true;
-                                    action.$(this.value);
-                                }
-                            })
-                    .when(PatternString.ICSUFFIX,
-                            v -> {
-                                if (this.value.toUpperCase().endsWith(value.toUpperCase())) {
-                                    isMatch = true;
-                                    action.$(this.value);
-                                }
-                            })
-                    .orElse(
-                            v -> {
-                                if (this.value.equals(value)) {
-                                    isMatch = true;
-                                    action.$(this.value);
-                                }
-                            });
+            String ucValue = ignoreCase ? value.toUpperCase() : value;
+
+            switch (patternString) {
+                case IGNORECASE:
+                    if (ucValue.equalsIgnoreCase(this.ucValue)) {
+                        isMatch = true;
+                        action.$(this.value);
+                    }
+                    break;
+                case CONTAIN:
+                case ICCONTAIN:
+                    if (this.ucValue.contains(ucValue)) {
+                        isMatch = true;
+                        action.$(this.value);
+                    }
+                    break;
+                case PREFIX:
+                case ICPREFIX:
+                    if (this.ucValue.startsWith(ucValue)) {
+                        isMatch = true;
+                        action.$(this.value);
+                    }
+                    break;
+                case SUFFIX:
+                case ICSUFFIX:
+                    if (this.ucValue.endsWith(ucValue)) {
+                        isMatch = true;
+                        action.$(this.value);
+                    }
+                    break;
+                default:
+                    if (this.ucValue.equals(ucValue)) {
+                        isMatch = true;
+                        action.$(this.value);
+                    }
+            }
         }
 
         return this;
@@ -131,47 +122,27 @@ public class StringVMatcher extends SimpleVMatcher<String, String, String> {
                 return this;
             }
 
-            Pattern.match(patternString)
-                    .when(PatternString.IGNORECASE,
-                            v -> {
-                                if (value.equalsIgnoreCase(this.value))
-                                    action.$(this.value);
-                            })
-                    .when(PatternString.CONTAIN,
-                            v -> {
-                                if (this.value.contains(value)) action.$(this.value);
-                            })
-                    .when(PatternString.PREFIX,
-                            v -> {
-                                if (this.value.startsWith(value))
-                                    action.$(this.value);
-                            })
-                    .when(PatternString.SUFFIX,
-                            v -> {
-                                if (this.value.endsWith(value)) action.$(this.value);
-                            })
-                    .when(PatternString.ICCONTAIN,
-                            v -> {
-                                if (this.value.toUpperCase().contains(value.toUpperCase())) {
-                                    action.$(this.value);
-                                }
-                            })
-                    .when(PatternString.ICPREFIX,
-                            v -> {
-                                if (this.value.toUpperCase().startsWith(value.toUpperCase())) {
-                                    action.$(this.value);
-                                }
-                            })
-                    .when(PatternString.ICSUFFIX,
-                            v -> {
-                                if (this.value.toUpperCase().endsWith(value.toUpperCase())) {
-                                    action.$(this.value);
-                                }
-                            })
-                    .orElse(
-                            v -> {
-                                if (this.value.equals(value)) action.$(this.value);
-                            });
+            String ucValue = ignoreCase ? value.toUpperCase() : value;
+
+            switch (patternString) {
+                case IGNORECASE:
+                    if (ucValue.equalsIgnoreCase(this.ucValue)) action.$(this.value);
+                    break;
+                case CONTAIN:
+                case ICCONTAIN:
+                    if (this.ucValue.contains(ucValue)) action.$(this.value);
+                    break;
+                case PREFIX:
+                case ICPREFIX:
+                    if (this.ucValue.startsWith(ucValue)) action.$(this.value);
+                    break;
+                case SUFFIX:
+                case ICSUFFIX:
+                    if (this.ucValue.endsWith(ucValue)) action.$(this.value);
+                    break;
+                default:
+                    if (this.ucValue.equals(ucValue)) action.$(this.value);
+            }
         }
 
         return this;

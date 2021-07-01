@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.github.gg_a.base;
+
 /**
- * @author GG
+ * None
+ * @since 0.8.6
  */
-module gg.functional {
-    exports com.github.gg_a.function;
-    exports com.github.gg_a.base;
-    exports com.github.gg_a.tuple;
-    exports com.github.gg_a.exception;
-    exports com.github.gg_a.pattern;
-    exports com.github.gg_a.pattern.type;
-    exports com.github.gg_a.pattern.mapping;
-    exports com.github.gg_a.pattern.matcher;
-    exports com.github.gg_a.text;
+public final class None {
+    public static final None NONE = new None();
+
+    private None() {
+    }
 }

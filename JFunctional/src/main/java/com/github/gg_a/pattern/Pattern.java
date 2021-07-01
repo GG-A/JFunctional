@@ -15,8 +15,11 @@
  */
 package com.github.gg_a.pattern;
 
+import com.github.gg_a.base.G;
+import com.github.gg_a.base.None;
 import com.github.gg_a.pattern.mapping.*;
 import com.github.gg_a.pattern.type.*;
+
 import java.util.Objects;
 
 /**
@@ -24,19 +27,39 @@ import java.util.Objects;
  * @since 0.7.0
  */
 public class Pattern {
-    public static PatternDefault DEFAULT = PatternDefault.DEFAULT;
-    public static PatternValue VALUE = PatternValue.VALUE;
-    public static PatternBoolean BOOLEAN = PatternBoolean.BOOLEAN;
-    public static PatternType TYPE = PatternType.TYPE;
-    public static PatternString STRING = PatternString.STRING;
-    public static PatternString IGNORECASE = PatternString.IGNORECASE;
-    public static PatternString CONTAIN = PatternString.CONTAIN;
-    public static PatternString PREFIX = PatternString.PREFIX;
-    public static PatternString SUFFIX = PatternString.SUFFIX;
+    public static PatternDefault DEFAULT = PatternDefault.DEFAULT;      // DEFAULT can match by value or boolean
+    public static PatternValue VALUE = PatternValue.VALUE;              // match by value
+    public static PatternBoolean BOOLEAN = PatternBoolean.BOOLEAN;      // match by boolean
+    public static PatternType TYPE = PatternType.TYPE;                  // match by value type(Class)
+    public static PatternString STRING = PatternString.STRING;          // match by String value
+    public static PatternString IGNORECASE = PatternString.IGNORECASE;  // match by String value ignore case
+    public static PatternString CONTAIN = PatternString.CONTAIN;        // match by String value using String.contains
+    public static PatternString PREFIX = PatternString.PREFIX;          // match by String value using String.startsWith
+    public static PatternString SUFFIX = PatternString.SUFFIX;          // match by String value using String.endsWith
     public static PatternString ICCONTAIN = PatternString.ICCONTAIN;    // ignore case for contain
     public static PatternString ICPREFIX = PatternString.ICPREFIX;      // ignore case for prefix
     public static PatternString ICSUFFIX = PatternString.ICSUFFIX;      // ignore case for suffix
 
+    public static None NONE = None.NONE;
+
+    /**
+     * {@code match} can instead of {@code switch} statement or {@code if} statement. <br>
+     * 使用 match 来替代 switch 和 if 语句 <br>
+     * <b>Examples:</b>
+     * <pre>
+     * String s = "5";
+     * String result = match(s)
+     *         .when("1", v -&gt; v + v)
+     *         .when("2", v -&gt; v + "a")
+     *         .when(in("3", "4", "5", "6"), v -&gt; v + " - abcd")
+     *         .orElse(v -&gt; "no match");
+     *
+     * System.out.println("match result: " + result);
+     * </pre>
+     * @param value value
+     * @param <V> value type
+     * @return MixMatcherMapping
+     */
     public static <V> MixMatcherMapping<V> match(V value) {
         return match(value, DEFAULT);
     }
@@ -49,6 +72,34 @@ public class Pattern {
     public static <V> ValueMatcherMapping<V> match(V value, PatternValue patternValue) {
         Objects.requireNonNull(patternValue);
         return new ValueMatcherMapping<V>(value);
+    }
+
+    /**
+     * There is multiple {@code if} statements, but they're not related,
+     * use {@code match()} without value. <br>
+     * 当你有多条if语句，但是彼此并不相关时，可以使用不带value的match。<br>
+     * <b>Examples:</b>
+     * <pre>
+     * int i = 10;
+     * String s = "abc";
+     * Object o = new Object();
+     *
+     * String res = match()
+     *              .when(i == 5,           v -&gt; "i == 5")
+     *              .when(s.equals("abc"),  v -&gt; "abc")
+     *              .when(o == null,        v -&gt; "object is null")
+     *              .orElse(v -&gt; null);
+     * </pre>
+     * @return BooleanMatcherMapping
+     * @see #match(None)
+     * @since 0.8.6
+     */
+    public static BooleanMatcherMapping<None> match() {
+        return new BooleanMatcherMapping<>(NONE);
+    }
+
+    public static BooleanMatcherMapping<None> match(None value) {
+        return new BooleanMatcherMapping<>(NONE);
     }
 
     public static <V> BooleanMatcherMapping<V> match(V value, PatternBoolean patternBoolean) {
@@ -70,8 +121,75 @@ public class Pattern {
         return new ClassValueMatcherMapping<>(clazz);
     }
 
+    /**
+     * Match multi-values in one time. <br>
+     * 判断 待匹配的值是否在集合中，也可用于一次匹配多个值：<br>
+     * <b>Examples:</b>
+     * <pre>
+     *      .when(in(0, 1, 2), v -&gt; {System.out.println("match!");})
+     *
+     *      // it is equivalent to the code below
+     *      int i = 1;
+     *      switch (i) {
+     *          case 0:
+     *          case 1:
+     *          case 2:
+     *              System.out.println("match!");
+     *              break;
+     *          default:
+     *              ...
+     *      }
+     * </pre>
+     * @param values multi-values
+     * @param <T> values type
+     * @return PatternIn
+     */
     public static <T> PatternIn<T> in(T... values) {
         return PatternIn.in(values);
+    }
+
+    /**
+     * Whether object array contains {@code null} value. <br>
+     * 数组中是否包含{@code null}值
+     * @param objects object array
+     * @return {@code true} if objects contains {@code null} value
+     * @since 0.8.6
+     */
+    public static boolean hasNull(Object... objects) {
+        return G.hasNull(objects);
+    }
+
+    /**
+     * Whether string array contains {@code null} value or {@code ""} empty value. <br>
+     * 数组中包含{@code null}值或者空字符串{@code ""}，则返回true
+     * @param strs string array
+     * @return {@code true} if strings contains {@code null} value or {@code ""} empty value
+     * @since 0.8.6
+     */
+    public static boolean hasEmpty(String... strs) {
+        return G.hasEmpty(strs);
+    }
+
+    /**
+     * {@code true} if all array values are {@code null}. <br>
+     * 数组中所有的值都是{@code null}，则返回{@code true}
+     * @param objects object array
+     * @return {@code true} if all array values are {@code null}
+     * @since 0.8.6
+     */
+    public static boolean allNull(Object... objects) {
+        return G.allNull(objects);
+    }
+
+    /**
+     * {@code true} if all array values are {@code null} or {@code ""} empty value. <br>
+     * 数组中所有的值都是{@code null}或者空字符串{@code ""}，则返回{@code true}
+     * @param strs string array
+     * @return {@code true} if all array values are null or {@code ""} empty value
+     * @since 0.8.6
+     */
+    public static boolean allEmpty(String... strs) {
+        return G.allEmpty(strs);
     }
 
 }

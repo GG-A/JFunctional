@@ -28,7 +28,8 @@ public class PatternIn<V> {
 
     /**
      * Match multi-values in one time. <br>
-     * 判断 待匹配的值是否在集合中，也可用于一次匹配多个值：
+     * 判断 待匹配的值是否在集合中，也可用于一次匹配多个值：<br>
+     * <b>Examples:</b>
      * <pre>
      *      .when(in(0, 1, 2), v -&gt; {System.out.println("match!");})
      *

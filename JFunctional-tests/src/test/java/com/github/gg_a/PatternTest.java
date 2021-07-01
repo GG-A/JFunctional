@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Objects;
 
 import static com.github.gg_a.pattern.Pattern.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author GG
@@ -225,6 +225,54 @@ public class PatternTest {
                 .when("aBcd", v -> "aBcd")
                 .orElse(v -> "no match");
         assertEquals("all null", matchRes5);
+    }
+
+    @Test
+    public void testNone() {
+        int i = 10;
+        String s = "abc";
+        Object o = new Object();
+        String res = match()
+                .when(null, v -> "is null")
+                .when(i == 5, v -> "i == 5")
+                .when(s.equals("abc"), v -> "abc")
+                .when(o == null, v -> "object is null")
+                .orElse(v -> "orElse");
+
+        String res1 = match(NONE)
+                .when(null, v -> "is null")
+                .when(i == 10, v -> "i == 10")
+                .when(s.equals("abc"), v -> "abc")
+                .when(o == null, v -> "object is null")
+                .orElse(v -> null);
+
+        assertEquals("abc", res);
+        assertEquals("i == 10", res1);
+
+    }
+
+    @Test
+    public void testGlobalMethods() {
+        int i = 10;
+        String s1 = "";
+        String s2 = "abcd";
+        String s5 = "abcd1";
+        String s3 = null;
+        Object o1 = new Object();
+        Object o2 = null;
+        Integer i1 = null;
+        String s4 = "";
+
+        assertFalse(hasNull(i, o1, s1, s2));
+        assertTrue(hasNull(i, o1, s1, s3));
+        assertFalse(hasEmpty(s2, s5));
+        assertTrue(hasEmpty(s2, s5, s3));
+        assertTrue(hasEmpty(s2, s5, s1));
+        assertFalse(allNull(i, s1, s3, i1));
+        assertTrue(allNull(s3, o2, i1));
+        assertFalse(allEmpty(s1, s2, s3));
+        assertTrue(allEmpty(s1, s3, s4));
+
     }
 
     @Test
