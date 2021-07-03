@@ -15,8 +15,9 @@
  */
 package com.github.gg_a.pattern;
 
-import com.github.gg_a.base.G;
+import com.github.gg_a.util.G;
 import com.github.gg_a.base.None;
+import com.github.gg_a.function.R1;
 import com.github.gg_a.pattern.mapping.*;
 import com.github.gg_a.pattern.type.*;
 
@@ -59,6 +60,7 @@ public class Pattern {
      * @param value value
      * @param <V> value type
      * @return MixMatcherMapping
+     * @since 0.7.0
      */
     public static <V> MixMatcherMapping<V> match(V value) {
         return match(value, DEFAULT);
@@ -122,23 +124,59 @@ public class Pattern {
     }
 
     /**
+     * The values in {@code .when(value)} are preprocessed by {@code preAction} and then {@code match}. <br>
+     * 对 when 中的值进行预处理以后再进行模式匹配 <br>
+     * <b>Examples:</b>
+     * <pre>
+     * String str = "123abc";
+     *
+     * R1&lt;String, String&gt; preAction = s -&gt; "123" + (s == null ? null : s.toLowerCase());
+     * String res1 = match(str, preAction, String.class)
+     *         .when("123", v -&gt; "1 " + v + "-- 123")
+     *         .when("123ABC", v -&gt; "2 " + v + "-- 123ABC")
+     *         .when("ABC", v -&gt; "4 " + v + "-- ABC")           // will be matched
+     *         .orElse(v -&gt; "orElse " + v);
+     * System.out.println(res1);   // output: 4 123abc-- ABC
+     * </pre>
+     * @param value value
+     * @param preAction Preprocess for value in {@code .when(value)}
+     * @param <V> value type
+     * @return ActionValueMatcherMapping
+     * @since 0.8.6
+     */
+    public static <V> ActionValueMatcherMapping<V, V> match(V value, R1<V, V> preAction) {
+        Objects.requireNonNull(preAction);
+        return new ActionValueMatcherMapping<>(value, preAction);
+    }
+
+    public static <V, T> ActionValueMatcherMapping<V, T> match(V value, R1<T, V> preAction, Class<T> clazz) {
+        Objects.requireNonNull(preAction);
+        return new ActionValueMatcherMapping<>(value, preAction);
+    }
+
+    public static <T> ActionNoneMatcherMapping<T> match(R1<T, Boolean> preAction, Class<T> clazz) {
+        Objects.requireNonNull(preAction);
+        return new ActionNoneMatcherMapping<>(NONE, preAction);
+    }
+
+    /**
      * Match multi-values in one time. <br>
      * 判断 待匹配的值是否在集合中，也可用于一次匹配多个值：<br>
      * <b>Examples:</b>
      * <pre>
-     *      .when(in(0, 1, 2), v -&gt; {System.out.println("match!");})
+     * .when(in(0, 1, 2), v -&gt; {System.out.println("match!");})
      *
-     *      // it is equivalent to the code below
-     *      int i = 1;
-     *      switch (i) {
-     *          case 0:
-     *          case 1:
-     *          case 2:
-     *              System.out.println("match!");
-     *              break;
-     *          default:
-     *              ...
-     *      }
+     * // it is equivalent to the code below
+     * int i = 1;
+     * switch (i) {
+     *     case 0:
+     *     case 1:
+     *     case 2:
+     *         System.out.println("match!");
+     *         break;
+     *     default:
+     *         ...
+     * }
      * </pre>
      * @param values multi-values
      * @param <T> values type
@@ -192,4 +230,7 @@ public class Pattern {
         return G.allEmpty(strs);
     }
 
+    public static boolean isEmpty(String str) {
+        return G.isEmpty(str);
+    }
 }

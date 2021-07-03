@@ -31,13 +31,13 @@ public class BooleanVMatcher<V> extends SimpleVMatcher<V, Boolean, V> {
     }
 
     public BooleanVMatcher(V value) {
-        super(value);
+        this(value, false);
     }
 
     @Override
     public BooleanVMatcher<V> when(Boolean value, V1<V> action) {
+        Objects.requireNonNull(action);
         if (!isMatch) {
-            Objects.requireNonNull(action);
             if (value == null || this.value == null) {
                 if (this.value == null && value == null) {
                     isMatch = true;
@@ -53,8 +53,8 @@ public class BooleanVMatcher<V> extends SimpleVMatcher<V, Boolean, V> {
 
     @Override
     public BooleanVMatcher<V> whenNext(Boolean value, V1<V> action) {
+        Objects.requireNonNull(action);
         if (!isMatch) {
-            Objects.requireNonNull(action);
             if (value == null || this.value == null) {
                 if (this.value == null && value == null)
                     action.$(this.value);
@@ -65,8 +65,8 @@ public class BooleanVMatcher<V> extends SimpleVMatcher<V, Boolean, V> {
 
     @Override
     public Void orElse(V1<V> action) {
+        Objects.requireNonNull(action);
         if (!isMatch) {
-            Objects.requireNonNull(action);
             action.$(this.value);
         }
         return returnValue;

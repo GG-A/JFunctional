@@ -31,6 +31,7 @@ public class StringRMatcher<R> extends SimpleRMatcher<String, String, String, R>
     private PatternString patternString;
     private String ucValue;     // Upper Case Value
     private boolean ignoreCase = false;
+    private boolean isMatchForNext = false;
 
     public StringRMatcher(String value, boolean isMatch, PatternString patternString) {
         this(value, isMatch);
@@ -52,14 +53,13 @@ public class StringRMatcher<R> extends SimpleRMatcher<String, String, String, R>
     }
 
     public StringRMatcher(String value) {
-        super(value);
+        this(value, false);
     }
 
     @Override
     public StringRMatcher<R> when(String value, R1<String, R> action) {
+        Objects.requireNonNull(action);
         if (!isMatch) {
-            Objects.requireNonNull(action);
-
             if (value == null || this.value == null) {
                 if (this.value == value) {
                     isMatch = true;
@@ -111,9 +111,8 @@ public class StringRMatcher<R> extends SimpleRMatcher<String, String, String, R>
 
     @Override
     public StringRMatcher<R> whenNext(String value, R1<String, R> action) {
+        Objects.requireNonNull(action);
         if (!isMatch) {
-            Objects.requireNonNull(action);
-
             if (value == null || this.value == null) {
                 if (this.value == value) {
                     returnValue = action.$(this.value);
@@ -125,22 +124,37 @@ public class StringRMatcher<R> extends SimpleRMatcher<String, String, String, R>
 
             switch (patternString) {
                 case IGNORECASE:
-                    if (ucValue.equalsIgnoreCase(this.ucValue)) returnValue = action.$(this.value);
+                    if (ucValue.equalsIgnoreCase(this.ucValue)) {
+                        isMatchForNext = true;
+                        returnValue = action.$(this.value);
+                    }
                     break;
                 case CONTAIN:
                 case ICCONTAIN:
-                    if (this.ucValue.contains(ucValue)) returnValue = action.$(this.value);
+                    if (this.ucValue.contains(ucValue)) {
+                        isMatchForNext = true;
+                        returnValue = action.$(this.value);
+                    }
                     break;
                 case PREFIX:
                 case ICPREFIX:
-                    if (this.ucValue.startsWith(ucValue)) returnValue = action.$(this.value);
+                    if (this.ucValue.startsWith(ucValue)) {
+                        isMatchForNext = true;
+                        returnValue = action.$(this.value);
+                    }
                     break;
                 case SUFFIX:
                 case ICSUFFIX:
-                    if (this.ucValue.endsWith(ucValue)) returnValue = action.$(this.value);
+                    if (this.ucValue.endsWith(ucValue)) {
+                        isMatchForNext = true;
+                        returnValue = action.$(this.value);
+                    }
                     break;
                 default:
-                    if (this.ucValue.equals(ucValue)) returnValue = action.$(this.value);
+                    if (this.ucValue.equals(ucValue)) {
+                        isMatchForNext = true;
+                        returnValue = action.$(this.value);
+                    }
             }
         }
 
@@ -148,8 +162,8 @@ public class StringRMatcher<R> extends SimpleRMatcher<String, String, String, R>
     }
 
     public StringRMatcher<R> when(PatternIn<String> values, R1<String, R> action) {
+        Objects.requireNonNull(action);
         if (!isMatch) {
-            Objects.requireNonNull(action);
             if (this.value == null) {
                 if (values == null || values.getVs().contains(this.value)) {
                     isMatch = true;
@@ -160,9 +174,9 @@ public class StringRMatcher<R> extends SimpleRMatcher<String, String, String, R>
 
             if (values != null) {
                 List<String> vs = values.getVs();
-                for (String e : vs) {
-                    if (e != null) {
-                        when(e, action);
+                for (String v : vs) {
+                    if (v != null) {
+                        when(v, action);
                         if (isMatch) break;
                     }
                 }
@@ -172,21 +186,21 @@ public class StringRMatcher<R> extends SimpleRMatcher<String, String, String, R>
     }
 
     public StringRMatcher<R> whenNext(PatternIn<String> values, R1<String, R> action) {
+        Objects.requireNonNull(action);
         if (!isMatch) {
-            Objects.requireNonNull(action);
             if (this.value == null) {
                 if (values == null || values.getVs().contains(this.value)) {
                     returnValue = action.$(this.value);
                 }
                 return this;
-            }
-
-            if (values != null) {
-                List<String> vs = values.getVs();
-                for (String e : vs) {
-                    if (e != null) {
-                        whenNext(e, action);
-                        if (isMatch) break;
+            }else {
+                if (values != null) {
+                    List<String> vs = values.getVs();
+                    for (String v : vs) {
+                        if (v != null) {
+                            whenNext(v, action);
+                            if (isMatchForNext) break;
+                        }
                     }
                 }
             }
@@ -197,8 +211,8 @@ public class StringRMatcher<R> extends SimpleRMatcher<String, String, String, R>
 
     @Override
     public R orElse(R1<String, R> action) {
+        Objects.requireNonNull(action);
         if (!isMatch) {
-            Objects.requireNonNull(action);
             returnValue = action.$(this.value);
         }
         return returnValue;

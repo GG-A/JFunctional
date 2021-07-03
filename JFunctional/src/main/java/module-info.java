@@ -26,4 +26,5 @@ module gg.functional {
     exports com.github.gg_a.pattern.mapping;
     exports com.github.gg_a.pattern.matcher;
     exports com.github.gg_a.text;
+    exports com.github.gg_a.util;
 }

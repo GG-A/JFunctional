@@ -1,5 +1,6 @@
 package com.github.gg_a;
 
+import com.github.gg_a.function.R1;
 import com.github.gg_a.pattern.PatternIn;
 import com.github.gg_a.tuple.Tuple;
 import com.github.gg_a.tuple.Tuple2;
@@ -8,6 +9,11 @@ import java.util.Objects;
 
 import static com.github.gg_a.pattern.Pattern.*;
 import static org.junit.jupiter.api.Assertions.*;
+
+enum Season {
+    SPRING, SUMMER, AUTUMN, WINTER
+}
+
 
 /**
  * @author GG
@@ -49,6 +55,15 @@ public class PatternTest {
 
         assertEquals("5 - abcd", switchResult);
 
+
+        Season season = Season.AUTUMN;
+        String sRes = match(season)
+                .when(Season.SPRING, v -> "it is " + v)
+                .when(Season.SUMMER, v -> "it is " + v)
+                .when(Season.AUTUMN, v -> "it is " + v)
+                .orElse(v -> "it is " + v);
+        System.out.println("season: " + sRes);
+        assertEquals("it is AUTUMN", sRes);
     }
 
     @Test
@@ -122,6 +137,17 @@ public class PatternTest {
          * match value：10 whenNext continue...
          * --orElse--
          */
+
+        match(i)
+                .when(1,
+                        v -> { System.out.println("match value：" + v); })  // add {} to void-compatible
+                .whenNext(10,
+                        v -> System.out.println("match value：" + v + " whenNext continue..."))
+                .when(20,
+                        v -> System.out.println("match value：" + v))
+                .orElse(
+                        v -> { });        // Lambda 空执行
+
     }
 
 
@@ -248,6 +274,55 @@ public class PatternTest {
 
         assertEquals("abc", res);
         assertEquals("i == 10", res1);
+
+    }
+
+    @Test
+    public void testPreAction() {
+        String str = "123abc";
+
+        R1<String, String> preAction = s -> "123" + (s == null ? null : s.toLowerCase());
+        String res1 = match(str, preAction, String.class)
+                .when("123", v -> "1 " + v + "-- 123")
+                .when("123ABC", v -> "2 " + v + "-- 123ABC")
+                .when((PatternIn<String>) null, v -> "3 " + v + "-- null")
+                .when("ABC", v -> "4 " + v + "-- ABC")
+                .orElse(v -> "orElse " + v);
+        System.out.println(res1);
+        assertEquals("4 123abc-- ABC", res1);
+
+
+        String ip = "127.0.0.1";
+        String dbName = "";
+        String dbType = null;
+        String userName = "user1";
+
+        String msg = match(s -> s == null || s.isEmpty(), String.class)
+                .when(ip, v -> "ip is empty")
+                .when(dbName, v -> "dbName is null or empty")
+                .when(dbType, v -> "dbType is null or empty")
+                .orElse(v -> null);
+
+        System.out.println(msg);
+        assertEquals("dbName is null or empty", msg);
+
+        String msg1 = match(s -> s == null || s.isEmpty(), String.class)
+                .when(ip, v -> "ip is empty")
+                .when(in(userName, dbName), v -> "userName or dbName is null or empty")
+                .when(dbType, v -> "dbType is null or empty")
+                .orElse(v -> null);
+
+        System.out.println(msg1);
+        assertEquals("userName or dbName is null or empty", msg1);
+
+        String msg2 = match(Objects::isNull, String.class)
+                .when(ip, v -> "ip is null")
+                .when(dbName, v -> "dbName is null")
+                .when(dbType, v -> "dbType is null")
+                .orElse(v -> null);
+
+        System.out.println(msg2);
+        assertEquals("dbType is null", msg2);
 
     }
 

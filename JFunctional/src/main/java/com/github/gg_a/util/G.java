@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.gg_a.base;
+package com.github.gg_a.util;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 /**
  * Global Variables And Methods
+ *
  * @since 0.8.6
  */
 public class G {
@@ -28,7 +29,7 @@ public class G {
         if (objects.length == 0) return false;
         boolean hasNull = false;
         for (Object obj : objects) {
-            if (obj == null){
+            if (obj == null) {
                 hasNull = true;
                 break;
             }
@@ -41,7 +42,7 @@ public class G {
         if (strs.length == 0) return false;
         boolean hasEmpty = false;
         for (String str : strs) {
-            if (str == null || str.equals("")){
+            if (isEmpty(str)) {
                 hasEmpty = true;
                 break;
             }
@@ -58,6 +59,10 @@ public class G {
     public static boolean allEmpty(String... strs) {
         if (strs == null) return true;
         if (strs.length == 0) return false;
-        return Arrays.stream(strs).allMatch(s -> s == null || s.equals(""));
+        return Arrays.stream(strs).allMatch(G::isEmpty);
+    }
+
+    public static boolean isEmpty(String str) {
+        return str == null || str.isEmpty();
     }
 }

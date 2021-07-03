@@ -38,12 +38,12 @@ public class BooleanMatcherMapping<V> extends MatcherMapping<V> {
         return booleanVMatcher.whenNext(matchValue, action);
     }
 
-    public <R> BooleanRMatcher<V, R> when(Boolean matchValue, R1<V ,R> action) {
+    public <R> BooleanRMatcher<V, R> when(Boolean matchValue, R1<V, R> action) {
         BooleanRMatcher<V, R> booleanRMatcher = new BooleanRMatcher<>(value);
         return booleanRMatcher.when(matchValue, action);
     }
 
-    public <R> BooleanRMatcher<V, R> whenNext(Boolean matchValue, R1<V ,R> action) {
+    public <R> BooleanRMatcher<V, R> whenNext(Boolean matchValue, R1<V, R> action) {
         BooleanRMatcher<V, R> booleanRMatcher = new BooleanRMatcher<>(value);
         return booleanRMatcher.whenNext(matchValue, action);
     }

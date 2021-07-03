@@ -40,8 +40,8 @@ public class TypeRMatcher<V, R> implements Matcher {
     }
 
     public <C> TypeRMatcher<V, R> when(Class<C> value, R1<C, R> action) {
+        Objects.requireNonNull(action);
         if (!isMatch) {
-            Objects.requireNonNull(action);
             if (value == null || this.value == null) {
                 if (this.value == null && value == null) {
                     isMatch = true;
@@ -56,8 +56,8 @@ public class TypeRMatcher<V, R> implements Matcher {
     }
 
     public <C> TypeRMatcher<V, R> whenNext(Class<C> value, R1<C, R> action) {
+        Objects.requireNonNull(action);
         if (!isMatch) {
-            Objects.requireNonNull(action);
             if (value == null || this.value == null) {
                 if (this.value == null && value == null)
                     returnValue = action.$((C) this.value);
@@ -67,8 +67,8 @@ public class TypeRMatcher<V, R> implements Matcher {
     }
 
     public R orElse(R1<V, R> action) {
+        Objects.requireNonNull(action);
         if (!isMatch) {
-            Objects.requireNonNull(action);
             returnValue = action.$(this.value);
         }
         return returnValue;

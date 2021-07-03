@@ -30,13 +30,13 @@ public class BooleanRMatcher<V, R> extends SimpleRMatcher<V, Boolean, V, R> {
     }
 
     public BooleanRMatcher(V value) {
-        super(value);
+        this(value, false);
     }
 
     @Override
     public BooleanRMatcher<V, R> when(Boolean value, R1<V, R> action) {
+        Objects.requireNonNull(action);
         if (!isMatch) {
-            Objects.requireNonNull(action);
             if (value == null || this.value == null) {
                 if (this.value == null && value == null) {
                     isMatch = true;
@@ -52,8 +52,8 @@ public class BooleanRMatcher<V, R> extends SimpleRMatcher<V, Boolean, V, R> {
 
     @Override
     public BooleanRMatcher<V, R> whenNext(Boolean value, R1<V, R> action) {
+        Objects.requireNonNull(action);
         if (!isMatch) {
-            Objects.requireNonNull(action);
             if (value == null || this.value == null) {
                 if (this.value == null && value == null)
                     returnValue = action.$(this.value);
@@ -64,8 +64,8 @@ public class BooleanRMatcher<V, R> extends SimpleRMatcher<V, Boolean, V, R> {
 
     @Override
     public R orElse(R1<V, R> action) {
+        Objects.requireNonNull(action);
         if (!isMatch) {
-            Objects.requireNonNull(action);
             returnValue = action.$(this.value);
         }
         return returnValue;
