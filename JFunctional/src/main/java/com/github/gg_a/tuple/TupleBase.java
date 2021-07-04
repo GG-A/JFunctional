@@ -42,9 +42,21 @@ public abstract class TupleBase implements Tuple {
      */
     private final Map<String, Integer> alias_index = new HashMap<>();
 
+    private final static String MSG_FOR_TUPLE0_UNSUPPORTED =
+                    "`alias` method is unsupported in Tuple0. Because Tuple0 is empty tuple. " +
+                    "Tuple0不支持调用alias方法，因为Tuple0是一个空元组。";
+
+    private final static String MSG_FOR_STRING_ALIASES =
+                    "The aliases not set. Please call `alias(String...)` or `alias(TupleAlias...)` method first. " +
+                    "别名未设置，请先调用 alias(String...) 或 alias(TupleAlias...) 方法设置别名。";
+
+    private final static String MSG_FOR_TUPLE_ALIASES =
+                    "The aliases not set. Please call `alias(TupleAlias...)` method first. " +
+                    "别名未设置，请先调用 alias(TupleAlias...) 方法设置别名。";
+
     @Override
     public Tuple alias(TupleAlias... aliases) {
-        if (arity() == 0) throw new UnsupportedOperationException("`alias` method is unsupported in Tuple0. Because Tuple0 is empty tuple. Tuple0不支持调用alias方法，因为Tuple0是一个空元组。");
+        if (arity() == 0) throw new UnsupportedOperationException(MSG_FOR_TUPLE0_UNSUPPORTED);
 
         clearAlias();
         if (aliases == null) {
@@ -69,7 +81,7 @@ public abstract class TupleBase implements Tuple {
 
     @Override
     public Tuple alias(String... aliases) {
-        if (arity() == 0) throw new UnsupportedOperationException("`alias` method is unsupported in Tuple0. Because Tuple0 is empty tuple. Tuple0不支持调用alias方法，因为Tuple0是一个空元组。");
+        if (arity() == 0) throw new UnsupportedOperationException(MSG_FOR_TUPLE0_UNSUPPORTED);
 
         clearAlias();
         if (aliases == null) {
@@ -84,7 +96,8 @@ public abstract class TupleBase implements Tuple {
         Set<String> aliasSet = new HashSet<>(localAliases);
         if (localAliases.size() != aliasSet.size()) throw new AliasDuplicateException("The aliases can't repeat. 别名不能重复！");
 
-        if (arity() != aliases.length)  throw new NumberOfAliasesException("aliases' length is not equals " + arity() + ". 参数aliases的长度不等于" + arity() + "。");
+        if (arity() != aliases.length)
+            throw new NumberOfAliasesException("aliases' length is not equals " + arity() + ". 参数aliases的长度不等于" + arity() + "。");
         for (int i = 0; i < aliases.length; i++) putToMapAndList(aliases[i], i);
 
         return this;
@@ -153,13 +166,15 @@ public abstract class TupleBase implements Tuple {
 
     @Override
     public <R> R __(TupleAlias alias) {
+        // 这里TupleAlias没有设置不用抛异常，需要再检查字符串别名是否有设置
+        // if (tupleAliasList.isEmpty()) throw new AliasNotSetException(MSG_FOR_TUPLE_ALIASES);
         return __(alias == null ? null : alias.toString());
     }
 
     @Override
     public <R> R __(String alias) {
         if (aliasList.isEmpty()) {
-            throw new AliasNotSetException("The aliases not set. Please call `alias(String...)` method first. 别名未设置，请先调用 alias(String...) 方法设置别名。");
+            throw new AliasNotSetException(MSG_FOR_STRING_ALIASES);
         }
         if (alias_index.containsKey(alias)) {
             return element(alias_index.get(alias));
@@ -206,7 +221,7 @@ public abstract class TupleBase implements Tuple {
         if (n >= arity()) throw new IndexOutOfBoundsException("Index out of range: " + n + ", Size: " + arity());
 
         if (tupleAliasList.isEmpty()) {
-            throw new AliasNotSetException("The aliases not set. Please call `alias(TupleAlias...)` method first. 别名未设置，请先调用 alias(TupleAlias...) 方法设置别名。");
+            throw new AliasNotSetException(MSG_FOR_TUPLE_ALIASES);
         }
         TupleAlias alias = tupleAliasList.get(n);
         R element = this.<R>element(n);
@@ -219,7 +234,7 @@ public abstract class TupleBase implements Tuple {
         if (n >= arity()) throw new IndexOutOfBoundsException("Index out of range: " + n + ", Size: " + arity());
 
         if (aliasList.isEmpty()) {
-            throw new AliasNotSetException("The aliases not set. Please call `alias(String...)` method first. 别名未设置，请先调用 alias(String...) 方法设置别名。");
+            throw new AliasNotSetException(MSG_FOR_STRING_ALIASES);
         }
         String alias = aliasList.get(n);
         R element = this.<R>element(n);

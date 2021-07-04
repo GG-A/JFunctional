@@ -35,6 +35,8 @@ public class SI {
 
     private final Map<String, Object> valueMap = new HashMap<>();
 
+    private final static String MSG_UNEXPECTED_PARAM = "This parameter is a key, the key must be end with \" ->\" or \" >>>\" or \" >>\". ";
+
     public SI() {
 
     }
@@ -296,9 +298,7 @@ public class SI {
                             if (KEY_CACHE.size() < KEY_CACHE_SIZE) KEY_CACHE.put(cacheKey, realKey);
                             kvMap.put(realKey, kvs[i + 1]);
                         }else {
-                            throw new UnexpectedParameterException(
-                                    "Index: " + i + ". This parameter is a key, " +
-                                            "the key must be end with \" ->\" or \" >>>\" or \" >>\". ");
+                            throw new UnexpectedParameterException("Index: " + i + ". " + MSG_UNEXPECTED_PARAM);
                         }
                     }
                 }else {
@@ -316,7 +316,8 @@ public class SI {
                 throw new RuntimeException("The parameters length must be even. 参数个数必须为偶数。");
             for (int i = 0; i < kvs.length; i++) {
                 if (i % 2 == 0) {
-                    if (kvs[i] == null) throw new NullPointerException("Index: " + i + ". This parameter is a key, the key must be not null. ");
+                    if (kvs[i] == null)
+                        throw new NullPointerException("Index: " + i + ". This parameter is a key, the key must be not null. ");
                     try {
                         String k = (String) kvs[i];
                     } catch (ClassCastException castException) {

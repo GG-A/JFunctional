@@ -21,6 +21,8 @@ import com.github.gg_a.function.R1;
 import com.github.gg_a.pattern.mapping.*;
 import com.github.gg_a.pattern.type.*;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -159,73 +161,32 @@ public class Pattern {
         return new ActionNoneMatcherMapping<>(NONE, preAction);
     }
 
-    /**
-     * Match multi-values in one time. <br>
-     * 判断 待匹配的值是否在集合中，也可用于一次匹配多个值：<br>
-     * <b>Examples:</b>
-     * <pre>
-     * .when(in(0, 1, 2), v -&gt; {System.out.println("match!");})
-     *
-     * // it is equivalent to the code below
-     * int i = 1;
-     * switch (i) {
-     *     case 0:
-     *     case 1:
-     *     case 2:
-     *         System.out.println("match!");
-     *         break;
-     *     default:
-     *         ...
-     * }
-     * </pre>
-     * @param values multi-values
-     * @param <T> values type
-     * @return PatternIn
-     */
+
+    /*###################################################################################
+     ************************************************************************************
+     ------------------------------------------------------------------------------------
+     *********************   Referencing methods of other classes   *********************
+     *********************        引用其他类中的方法，方便静态导入        *********************
+     ------------------------------------------------------------------------------------
+     ************************************************************************************
+     ###################################################################################*/
+
     public static <T> PatternIn<T> in(T... values) {
         return PatternIn.in(values);
     }
 
-    /**
-     * Whether object array contains {@code null} value. <br>
-     * 数组中是否包含{@code null}值
-     * @param objects object array
-     * @return {@code true} if objects contains {@code null} value
-     * @since 0.8.6
-     */
     public static boolean hasNull(Object... objects) {
         return G.hasNull(objects);
     }
 
-    /**
-     * Whether string array contains {@code null} value or {@code ""} empty value. <br>
-     * 数组中包含{@code null}值或者空字符串{@code ""}，则返回true
-     * @param strs string array
-     * @return {@code true} if strings contains {@code null} value or {@code ""} empty value
-     * @since 0.8.6
-     */
     public static boolean hasEmpty(String... strs) {
         return G.hasEmpty(strs);
     }
 
-    /**
-     * {@code true} if all array values are {@code null}. <br>
-     * 数组中所有的值都是{@code null}，则返回{@code true}
-     * @param objects object array
-     * @return {@code true} if all array values are {@code null}
-     * @since 0.8.6
-     */
     public static boolean allNull(Object... objects) {
         return G.allNull(objects);
     }
 
-    /**
-     * {@code true} if all array values are {@code null} or {@code ""} empty value. <br>
-     * 数组中所有的值都是{@code null}或者空字符串{@code ""}，则返回{@code true}
-     * @param strs string array
-     * @return {@code true} if all array values are null or {@code ""} empty value
-     * @since 0.8.6
-     */
     public static boolean allEmpty(String... strs) {
         return G.allEmpty(strs);
     }
@@ -233,4 +194,17 @@ public class Pattern {
     public static boolean isEmpty(String str) {
         return G.isEmpty(str);
     }
+
+    public static <T> boolean isEmpty(Collection<T> collection) {
+        return G.isEmpty(collection);
+    }
+
+    public static <K, V> boolean isEmpty(Map<K, V> map) {
+        return G.isEmpty(map);
+    }
+
+    public static <T> boolean isEmpty(T[] arr) {
+        return G.isEmpty(arr);
+    }
+
 }
