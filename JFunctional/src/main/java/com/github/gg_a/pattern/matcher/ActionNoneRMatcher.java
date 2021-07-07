@@ -58,6 +58,23 @@ public class ActionNoneRMatcher<P, R> extends SimpleRMatcher<None, P, P, R> {
         return this;
     }
 
+    public ActionNoneRMatcher<P, R> when(boolean value, R1<P, R> action) {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            isMatch = true;
+            returnValue = action.$(null);
+        }
+        return this;
+    }
+
+    public ActionNoneRMatcher<P, R> whenNext(boolean value, R1<P, R> action) {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            returnValue = action.$(null);
+        }
+        return this;
+    }
+
     public ActionNoneRMatcher<P, R> when(PatternIn<P> values, R1<P, R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {

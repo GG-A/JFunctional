@@ -75,4 +75,24 @@ public class ActionNoneMatcherMapping<T> extends MatcherMapping<None>{
         return ActionNoneRMatcher.whenNext(matchValues, action);
     }
 
+    public ActionNoneVMatcher<T> when(boolean matchValue, V1<T> action) {
+        ActionNoneVMatcher<T> ActionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
+        return ActionNoneVMatcher.when(matchValue, action);
+    }
+
+    public ActionNoneVMatcher<T> whenNext(boolean matchValue, V1<T> action) {
+        ActionNoneVMatcher<T> ActionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
+        return ActionNoneVMatcher.whenNext(matchValue, action);
+    }
+
+    public <R> ActionNoneRMatcher<T, R> when(boolean matchValue, R1<T, R> action) {
+        ActionNoneRMatcher<T, R> ActionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
+        return ActionNoneRMatcher.when(matchValue, action);
+    }
+
+    public <R> ActionNoneRMatcher<T, R> whenNext(boolean matchValue, R1<T, R> action) {
+        ActionNoneRMatcher<T, R> ActionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
+        return ActionNoneRMatcher.whenNext(matchValue, action);
+    }
+
 }

@@ -4,6 +4,7 @@ import com.github.gg_a.function.R1;
 import com.github.gg_a.pattern.PatternIn;
 import com.github.gg_a.tuple.Tuple;
 import com.github.gg_a.tuple.Tuple2;
+import com.github.gg_a.util.G;
 import org.junit.jupiter.api.Test;
 import java.util.Objects;
 
@@ -327,27 +328,60 @@ public class PatternTest {
     }
 
     @Test
-    public void testGlobalMethods() {
-        int i = 10;
-        String s1 = "";
-        String s2 = "abcd";
-        String s5 = "abcd1";
-        String s3 = null;
-        Object o1 = new Object();
-        Object o2 = null;
-        Integer i1 = null;
-        String s4 = "";
+    public void testPreAction1() {
+        String msg = getMsg1("127.0.0.1", "", null);
+        System.out.println(msg);
+        assertEquals("ip is 127.0.0.1", msg);
 
-        assertFalse(hasNull(i, o1, s1, s2));
-        assertTrue(hasNull(i, o1, s1, s3));
-        assertFalse(hasEmpty(s2, s5));
-        assertTrue(hasEmpty(s2, s5, s3));
-        assertTrue(hasEmpty(s2, s5, s1));
-        assertFalse(allNull(i, s1, s3, i1));
-        assertTrue(allNull(s3, o2, i1));
-        assertFalse(allEmpty(s1, s2, s3));
-        assertTrue(allEmpty(s1, s3, s4));
+        String msg1 = getMsg2("127.0.0.1", "db", null);
+        System.out.println(msg1);
+        assertEquals("dbType is null", msg1);
 
+        String msg2 = getMsg1("127.0.0.2", "", null);
+        System.out.println(msg2);
+        assertEquals("dbName is null or empty", msg2);
+
+        String msg3 = getMsg3("", "", null);
+        System.out.println(msg3);
+        assertEquals("dbType is null", msg3);
+
+        String msg4 = getMsg3("", "", "mysql");
+        System.out.println(msg4);
+        assertEquals("null orelse", msg4);
+    }
+
+    private String getMsg1(String ip, String dbName, String dbType) {
+        String msg = match(G::isEmpty, String.class)
+                .when(ip.equals("127.0.0.1"), v -> "ip is 127.0.0.1")
+                .when(dbName, v -> "dbName is null or empty")
+                .when(dbType, v -> "dbType is null or empty")
+                .orElse(v -> null);
+        return msg;
+    }
+
+    private String getMsg2(String ip, String dbName, String dbType) {
+        String msg = match(G::isEmpty, String.class)
+                .when(ip, v -> "ip is empty")
+                .when(dbName, v -> "dbName is null or empty")
+                .when(dbType == null, v -> "dbType is null")
+                .orElse(v -> null);
+        return msg;
+    }
+
+    private String getMsg3(String ip, String dbName, String dbType) {
+        System.out.println("----getMsg3----");
+        String msg = match(G::isEmpty, String.class)
+                .whenNext(ip, v -> {
+                    System.out.println("ip: " + ip + " continue...");
+                    return "ip is empty";
+                })
+                .whenNext(dbName, v -> {
+                    System.out.println("dbName: " + dbName + " continue...");
+                    return "dbName is null or empty";
+                })
+                .when(dbType == null, v -> "dbType is null")
+                .orElse(v -> "null orelse");
+        return msg;
     }
 
     @Test

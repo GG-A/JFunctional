@@ -15,14 +15,10 @@
  */
 package com.github.gg_a.pattern;
 
-import com.github.gg_a.util.G;
 import com.github.gg_a.base.None;
 import com.github.gg_a.function.R1;
 import com.github.gg_a.pattern.mapping.*;
 import com.github.gg_a.pattern.type.*;
-
-import java.util.Collection;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -173,38 +169,6 @@ public class Pattern {
 
     public static <T> PatternIn<T> in(T... values) {
         return PatternIn.in(values);
-    }
-
-    public static boolean hasNull(Object... objects) {
-        return G.hasNull(objects);
-    }
-
-    public static boolean hasEmpty(String... strs) {
-        return G.hasEmpty(strs);
-    }
-
-    public static boolean allNull(Object... objects) {
-        return G.allNull(objects);
-    }
-
-    public static boolean allEmpty(String... strs) {
-        return G.allEmpty(strs);
-    }
-
-    public static boolean isEmpty(String str) {
-        return G.isEmpty(str);
-    }
-
-    public static <T> boolean isEmpty(Collection<T> collection) {
-        return G.isEmpty(collection);
-    }
-
-    public static <K, V> boolean isEmpty(Map<K, V> map) {
-        return G.isEmpty(map);
-    }
-
-    public static <T> boolean isEmpty(T[] arr) {
-        return G.isEmpty(arr);
     }
 
 }

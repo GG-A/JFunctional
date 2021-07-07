@@ -59,6 +59,23 @@ public class ActionNoneVMatcher<P> extends SimpleVMatcher<None, P, P> {
         return this;
     }
 
+    public ActionNoneVMatcher<P> when(boolean value, V1<P> action) {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            isMatch = true;
+            action.$(null);
+        }
+        return this;
+    }
+
+    public ActionNoneVMatcher<P> whenNext(boolean value, V1<P> action) {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            action.$(null);
+        }
+        return this;
+    }
+
     public ActionNoneVMatcher<P> when(PatternIn<P> values, V1<P> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
