@@ -4,6 +4,7 @@
 字符串插值(String Interpolation)；  
 提供元组（tuple）类型支持；  
 **兼容Java 8及Java 9+模块化系统**；  
+此项目已经迁移至：[https://github.com/io-fairy/functional](https://github.com/io-fairy/functional)   
 
 
 ## 🛠️Environment（开发环境）  
@@ -11,7 +12,23 @@
 + Apache maven 3.6.1
 
 
-## 💿集成方式（兼容Java 8及Java 9+）
+## 💿新集成方式（兼容Java 8及Java 9+）
+### Maven
+```xml
+<dependency>
+  <groupId>com.iofairy</groupId>
+  <artifactId>functional</artifactId>
+  <version>0.0.1</version>
+</dependency>
+```
+
+### Gradle
+```
+implementation 'com.iofairy:functional:0.0.1'
+```
+
+
+## 💿旧集成方式（兼容Java 8及Java 9+）
 ### Maven
 ```xml
 <dependency>
