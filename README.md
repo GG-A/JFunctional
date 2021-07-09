@@ -4,7 +4,13 @@
 字符串插值(String Interpolation)；  
 提供元组（tuple）类型支持；  
 **兼容Java 8及Java 9+模块化系统**；  
-此项目已经迁移至：[https://github.com/io-fairy/functional](https://github.com/io-fairy/functional)   
+🎉  
+🎉  
+🎉   
+**此项目已经迁移至(New Project)：**[https://github.com/io-fairy/functional](https://github.com/io-fairy/functional)    
+🎉  
+🎉  
+🎉  
 
 
 ## 🛠️Environment（开发环境）  
